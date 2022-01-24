@@ -1,3 +1,4 @@
+import APIURL from '../../helpers/environment'
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faEnvelope, faExclamationTriangle, faLock } from '@fortawesome/free-solid-svg-icons'
@@ -15,7 +16,9 @@ type RegisterValues = {
     passwordCheck: string,
     passwordCheckIsValid: boolean,
     passwordCheckStarted: boolean,
-    passwordCheckError: string
+    passwordCheckError: string,
+    notification: string,
+    notificationSuccess: boolean
 }
 
 const emailRegex =
@@ -38,7 +41,9 @@ class Register extends React.Component<{}, RegisterValues> {
             passwordCheck: '',
             passwordCheckIsValid: false,
             passwordCheckStarted: false,
-            passwordCheckError: ''
+            passwordCheckError: '',
+            notification: '',
+            notificationSuccess: false
         }
     }
 
@@ -77,6 +82,26 @@ class Register extends React.Component<{}, RegisterValues> {
                 else
                     this.setState({ passwordCheckIsValid: false, passwordCheckError: 'Passwords must match' })
             })
+    }
+
+    registerSubmit = async (event: React.MouseEvent<HTMLElement>) => {
+        await fetch(`${APIURL}/account/register`, {
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify({
+                account: {
+                    email: this.state.email,
+                    password: this.state.password
+                }
+            }),
+            headers: new Headers({
+                "Content-Type": "application/json"
+            }),
+        }).then((result) => {
+            result.status === 201 ? this.setState({ notificationSuccess: true }) : this.setState({ notificationSuccess: false })
+            return result
+        }).then(result => result.json())
+            .then(result => this.setState({ notification: result.message }))
     }
 
     render() {
@@ -129,6 +154,12 @@ class Register extends React.Component<{}, RegisterValues> {
                         </div>
                         <p className={`help is-danger ${this.state.passwordCheckStarted ? '' : 'is-hidden'}`}>{this.state.passwordCheckError}</p>
                     </div>
+                    <div className="field is-grouped is-grouped-centered">
+                        <div className="control">
+                            <button onClick={this.registerSubmit} disabled={this.state.emailIsValid && this.state.passwordCheckIsValid && this.state.passwordIsValid ? false : true} className={`button is-link `}>Submit</button>
+                        </div>
+                    </div>
+                    <div className={`notification ${this.state.notification ? this.state.notificationSuccess ? 'is-success' : 'is-danger' : 'is-hidden'}`}>{this.state.notification}</div>
                 </div>
             </div>
 
