@@ -1,9 +1,13 @@
 import APIURL from '../../helpers/environment'
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck, faEnvelope, faExclamationTriangle, faLock } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom';
-// <FontAwesomeIcon icon={faCheck} />
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
+import Alert from '@mui/material/Alert'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
+import Container from '@mui/material/Container'
 
 type LoginState = {
     email: string,
@@ -38,7 +42,7 @@ class Login extends React.Component<LoginProps, LoginState> {
     passwordChange = (event: React.ChangeEvent<HTMLInputElement>) => this.setState({ password: event.target.value })
 
     loginSubmit = async (event: React.MouseEvent<HTMLElement>) => {
-        await fetch(`${APIURL}/account/login`, {
+        await fetch(`${APIURL}/account/register`, {
             method: 'POST',
             mode: 'cors',
             body: JSON.stringify({
@@ -55,6 +59,7 @@ class Login extends React.Component<LoginProps, LoginState> {
             return result
         }).then(result => result.json())
             .then(result => {
+                console.log(result)
                 this.setState({ notification: result.message });
                 this.props.updateToken(result.sessionToken)
             })
@@ -62,55 +67,45 @@ class Login extends React.Component<LoginProps, LoginState> {
 
     render() {
         return (
-            <div className='columns'>
-                <div className='
-                    column 
-                    is-10-mobile
-                    is-offset-1-mobile
-                    is-8-tablet
-                    is-offset-2-tablet
-                    is-4-desktop
-                    is-offset-4-desktop
-                    is-one-third-fullhd
-                    is-offset-one-third-fullhd
-                '>
-                    <div className='block'></div>
-                    <div className='box'>
-                        <h1 className='title'>Sign Up</h1>
+            <Grid spacing={0} justifyContent='center' alignItems='center' container>
+                <Grid item xs={11} md={8} lg={4} xl={3}>
+                    <Container sx={{ mt: 4, p: 4, boxShadow: '0 0 10px #d2d2d2', borderRadius: '20px' }}>
+                        <Typography sx={{ mb: 3 }} variant='h3'>Log In</Typography>
+                        <TextField
+                            value={this.state.email}
+                            onChange={this.emailChange}
+                            fullWidth
+                            label="email"
+                            variant="outlined"
+                            sx={{ mb: 1.3 }}
+                        />
 
-                        {/* EMAIL */}
-                        <div className='field'>
-                            <label className='label' htmlFor='email'>Email</label>
-                            <div className='control has-icons-left has-icons-right'>
-                                <input className='input' type='text' id='email' name='email' value={this.state.email} onChange={this.emailChange} />
-                                <span className="icon is-small is-left">
-                                    <i className='fas'><FontAwesomeIcon icon={faEnvelope} /></i>
-                                </span>
-                            </div>
-                        </div>
+                        <TextField
+                            type='password'
+                            value={this.state.password}
+                            onChange={this.passwordChange}
+                            margin='normal'
+                            fullWidth
+                            label="password"
+                            variant="outlined"
+                            sx={{ mb: 1 }}
+                        />
 
-                        {/* PASSWORD */}
-                        <div className='field'>
-                            <label className='label' htmlFor='password'>Password</label>
-                            <div className='control has-icons-left has-icons-right'>
-                                <input className='input' type='password' id='password' name='password' value={this.state.password} onChange={this.passwordChange} />
-                                <span className="icon is-small is-left">
-                                    <i className='fas'><FontAwesomeIcon icon={faLock} /></i>
-                                </span>
-                            </div>
-                        </div>
+                        <Box sx={{ textAlign: 'center', mb: 2 }}>
+                            <Button
+                                variant="contained"
+                                onClick={this.loginSubmit}
+                                disabled={!this.state.email || !this.state.password}
+                            >
+                                Submit
+                            </Button>
+                        </Box>
+                        {this.state.notification && <Alert severity={this.state.notificationSuccess ? 'success' : 'warning'}>{this.state.notification}</Alert>}
 
-                        <div className="field is-grouped is-grouped-centered">
-                            <div className="control">
-                                <button onClick={this.loginSubmit} disabled={this.state.email && this.state.password ? false : true} className={`button is-link `}>Submit</button>
-                            </div>
-                        </div>
-                        <div className={`notification ${this.state.notification ? this.state.notificationSuccess ? 'is-success' : 'is-danger' : 'is-hidden'}`}>{this.state.notification}</div>
-                        <div className='block'></div>
-                        <Link to='login' className='has-text-centered is-block mx-auto is-size-7'>already have an account?</Link>
-                    </div>
-                </div>
-            </div>
+                        <Link to='/register' className='has-text-centered is-block mx-auto is-size-7'>don't have an account?</Link>
+                    </Container>
+                </Grid>
+            </Grid>
 
         )
     }

@@ -1,9 +1,13 @@
 import APIURL from '../../helpers/environment'
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck, faEnvelope, faExclamationTriangle, faLock } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom';
-// <FontAwesomeIcon icon={faCheck} />
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
+import Alert from '@mui/material/Alert'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
+import Container from '@mui/material/Container'
 
 type RegisterState = {
     email: string,
@@ -119,83 +123,61 @@ class Register extends React.Component<RegisterProps, RegisterState> {
 
     render() {
         return (
-            <div className='columns'>
-                <div className='
-                    column 
-                    is-10-mobile
-                    is-offset-1-mobile
-                    is-8-tablet
-                    is-offset-2-tablet
-                    is-4-desktop
-                    is-offset-4-desktop
-                    is-one-third-fullhd
-                    is-offset-one-third-fullhd
-                '>
-                    <div className='block'></div>
-                    <div className='box'>
-                        <h1 className='title'>Sign Up</h1>
+            <Grid justifyContent='center' alignItems='center' container spacing={2}>
+                <Grid item xs={10} md={8} lg={4} xl={3}>
+                    <Container sx={{ m: 2, p: 4, boxShadow: '0 0 10px #d2d2d2', borderRadius: '20px' }}>
+                        <Typography sx={{ mb: 3 }} variant='h3'>Sign Up</Typography>
+                        <TextField
+                            value={this.state.email}
+                            onChange={this.emailChange}
+                            fullWidth
+                            label="email"
+                            variant="outlined"
+                            error={this.state.emailStarted && !this.state.emailIsValid}
+                            helperText={this.state.emailError}
+                            sx={{ mb: 1.3 }}
+                        />
 
-                        {/* EMAIL */}
-                        <div className='field'>
-                            <label className='label' htmlFor='email'>Email</label>
-                            <div className='control has-icons-left has-icons-right'>
-                                <input className={`input ${this.state.emailIsValid && this.state.emailStarted ? 'is-success' : !this.state.emailStarted ? '' : 'is-danger'}`} type='text' id='email' name='email' value={this.state.email} onChange={this.emailChange} />
-                                <span className="icon is-small is-left">
-                                    <i className='fas'><FontAwesomeIcon icon={faEnvelope} /></i>
-                                </span>
-                                <span className="icon is-small is-right">
-                                    <i className={`fas ${this.state.emailStarted ? '' : 'is-hidden'}`}>
-                                        {this.state.emailIsValid ? <FontAwesomeIcon icon={faCheck} /> : <FontAwesomeIcon icon={faExclamationTriangle} />}
-                                    </i>
-                                </span>
-                            </div>
-                            <p className={`help is-danger ${this.state.emailStarted ? '' : 'is-hidden'}`}>{this.state.emailError}</p>
-                        </div>
+                        <TextField
+                            type='password'
+                            value={this.state.password}
+                            onChange={this.passwordChange}
+                            margin='normal'
+                            fullWidth
+                            label="password"
+                            variant="outlined"
+                            error={this.state.passwordStarted && !this.state.passwordIsValid}
+                            helperText={this.state.passwordError}
+                            sx={{ mb: 1 }}
+                        />
 
-                        {/* PASSWORD */}
-                        <div className='field'>
-                            <label className='label' htmlFor='password'>Password</label>
-                            <div className='control has-icons-left has-icons-right'>
-                                <input className={`input ${this.state.passwordIsValid && this.state.passwordStarted ? 'is-success' : !this.state.passwordStarted ? '' : 'is-danger'}`} type='password' id='password' name='password' value={this.state.password} onChange={this.passwordChange} />
-                                <span className="icon is-small is-left">
-                                    <i className='fas'><FontAwesomeIcon icon={faLock} /></i>
-                                </span>
-                                <span className="icon is-small is-right">
-                                    <i className={`fas ${this.state.passwordStarted ? '' : 'is-hidden'}`}>
-                                        {this.state.passwordIsValid ? <FontAwesomeIcon icon={faCheck} /> : <FontAwesomeIcon icon={faExclamationTriangle} />}
-                                    </i>
-                                </span>
-                            </div>
-                            <p className={`help is-danger ${this.state.passwordStarted ? '' : 'is-hidden'}`}>{this.state.passwordError}</p>
-                        </div>
+                        <TextField
+                            type='password'
+                            value={this.state.passwordCheck}
+                            onChange={this.passwordCheckChange}
+                            margin='normal'
+                            fullWidth
+                            label="re-type password"
+                            variant="outlined"
+                            error={this.state.passwordCheckStarted && !this.state.passwordCheckIsValid}
+                            helperText={this.state.passwordCheckError}
+                            sx={{ mb: 3 }}
+                        />
+                        <Box sx={{ textAlign: 'center', mb: 2 }}>
+                            <Button
+                                variant="contained"
+                                onClick={this.registerSubmit}
+                                disabled={this.state.emailIsValid && this.state.passwordCheckIsValid && this.state.passwordIsValid ? false : true}
+                            >
+                                Submit
+                            </Button>
+                        </Box>
+                        {this.state.notification && <Alert severity={this.state.notificationSuccess ? 'success' : 'warning'}>{this.state.notification}</Alert>}
 
-                        {/* PASSWORD CHECK */}
-                        <div className='field'>
-                            <label className='label' htmlFor='passwordCheck'>Re-type Password</label>
-                            <div className='control has-icons-left has-icons-right'>
-                                <input className={`input ${this.state.passwordCheckIsValid && this.state.passwordCheckStarted ? 'is-success' : !this.state.passwordCheckStarted ? '' : 'is-danger'}`} type='password' id='passwordCheck' name='passwordCheck' value={this.state.passwordCheck} onChange={this.passwordCheckChange} />
-                                <span className="icon is-small is-left">
-                                    <i className='fas'><FontAwesomeIcon icon={faLock} /></i>
-                                </span>
-                                <span className="icon is-small is-right">
-                                    <i className={`fas ${this.state.passwordCheckStarted ? '' : 'is-hidden'}`}>
-                                        {this.state.passwordCheckIsValid ? <FontAwesomeIcon icon={faCheck} /> : <FontAwesomeIcon icon={faExclamationTriangle} />}
-                                    </i>
-                                </span>
-                            </div>
-                            <p className={`help is-danger ${this.state.passwordCheckStarted ? '' : 'is-hidden'}`}>{this.state.passwordCheckError}</p>
-                        </div>
-                        <div className="field is-grouped is-grouped-centered">
-                            <div className="control">
-                                <button onClick={this.registerSubmit} disabled={this.state.emailIsValid && this.state.passwordCheckIsValid && this.state.passwordIsValid ? false : true} className={`button is-link `}>Submit</button>
-                            </div>
-                        </div>
-                        <div className={`notification ${this.state.notification ? this.state.notificationSuccess ? 'is-success' : 'is-danger' : 'is-hidden'}`}>{this.state.notification}</div>
-                        <div className='block'></div>
-                        <Link to='login' className='has-text-centered is-block mx-auto is-size-7'>already have an account?</Link>
-                    </div>
-                </div>
-            </div>
+                        <Link to='/login' className='has-text-centered is-block mx-auto is-size-7'>already have an account?</Link>
+                    </Container>
+                </Grid>
+            </Grid>
 
         )
     }
