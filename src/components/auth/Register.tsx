@@ -1,7 +1,7 @@
 import APIURL from '../../helpers/environment'
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck, faEnvelope, faExclamationTriangle, faLock } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faEnvelope, faExclamationTriangle, faLock, faUser } from '@fortawesome/free-solid-svg-icons'
 // <FontAwesomeIcon icon={faCheck} />
 
 type RegisterValues = {
@@ -9,6 +9,10 @@ type RegisterValues = {
     emailIsValid: boolean,
     emailStarted: boolean,
     emailError: string,
+    alias: string,
+    aliasIsValid: boolean,
+    aliasStarted: boolean,
+    aliasError: string,
     password: string,
     passwordIsValid: boolean,
     passwordStarted: boolean,
@@ -26,6 +30,8 @@ const emailRegex =
 
 const passwordRegex = /^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!#$%&?"_]).*$/
 
+const aliasRegex = /^[a-zA-Z0-9]*$/;
+
 class Register extends React.Component<{}, RegisterValues> {
     constructor(props: any) {
         super(props)
@@ -34,14 +40,22 @@ class Register extends React.Component<{}, RegisterValues> {
             emailIsValid: false,
             emailStarted: false,
             emailError: '',
+
+            alias: '',
+            aliasIsValid: false,
+            aliasStarted: false,
+            aliasError: '',
+
             password: '',
             passwordIsValid: false,
             passwordStarted: false,
             passwordError: '',
+
             passwordCheck: '',
             passwordCheckIsValid: false,
             passwordCheckStarted: false,
             passwordCheckError: '',
+
             notification: '',
             notificationSuccess: false
         }
@@ -56,6 +70,19 @@ class Register extends React.Component<{}, RegisterValues> {
                     this.setState({ emailIsValid: true, emailError: '' })
                 else
                     this.setState({ emailIsValid: false, emailError: 'Invalid email address' })
+            })
+
+    }
+
+    aliasChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (!this.state.aliasStarted)
+            this.setState({ aliasStarted: true })
+        this.setState({ alias: event.target.value },
+            () => {
+                if (this.state.alias.match(aliasRegex) && this.state.alias.length > 2)
+                    this.setState({ aliasIsValid: true, aliasError: '' })
+                else
+                    this.setState({ aliasIsValid: false, aliasError: 'Alias must consist only of letters and numbers and be at least 3 characters long' })
             })
 
     }
@@ -109,6 +136,8 @@ class Register extends React.Component<{}, RegisterValues> {
             <div className='columns'>
                 <div className='column is-2 is-offset-5'>
                     <h1 className='title'>Sign Up</h1>
+
+                    {/* EMAIL */}
                     <div className='field'>
                         <label className='label' htmlFor='email'>Email</label>
                         <div className='control has-icons-left has-icons-right'>
@@ -124,6 +153,25 @@ class Register extends React.Component<{}, RegisterValues> {
                         </div>
                         <p className={`help is-danger ${this.state.emailStarted ? '' : 'is-hidden'}`}>{this.state.emailError}</p>
                     </div>
+
+                    {/* ALIAS */}
+                    <div className='field'>
+                        <label className='label' htmlFor='alias'>Alias <span className="tag is-white">(you can change this later)</span></label>
+                        <div className='control has-icons-left has-icons-right'>
+                            <input className={`input ${this.state.aliasIsValid && this.state.aliasStarted ? 'is-success' : !this.state.aliasStarted ? '' : 'is-danger'}`} type='text' id='alias' name='alias' value={this.state.alias} onChange={this.aliasChange} />
+                            <span className="icon is-small is-left">
+                                <i className='fas'><FontAwesomeIcon icon={faUser} /></i>
+                            </span>
+                            <span className="icon is-small is-right">
+                                <i className={`fas ${this.state.aliasStarted ? '' : 'is-hidden'}`}>
+                                    {this.state.aliasIsValid ? <FontAwesomeIcon icon={faCheck} /> : <FontAwesomeIcon icon={faExclamationTriangle} />}
+                                </i>
+                            </span>
+                        </div>
+                        <p className={`help is-danger ${this.state.aliasStarted ? '' : 'is-hidden'}`}>{this.state.aliasError}</p>
+                    </div>
+
+                    {/* PASSWORD */}
                     <div className='field'>
                         <label className='label' htmlFor='password'>Password</label>
                         <div className='control has-icons-left has-icons-right'>
@@ -139,6 +187,8 @@ class Register extends React.Component<{}, RegisterValues> {
                         </div>
                         <p className={`help is-danger ${this.state.passwordStarted ? '' : 'is-hidden'}`}>{this.state.passwordError}</p>
                     </div>
+
+                    {/* PASSWORD CHECK */}
                     <div className='field'>
                         <label className='label' htmlFor='passwordCheck'>Re-type Password</label>
                         <div className='control has-icons-left has-icons-right'>
