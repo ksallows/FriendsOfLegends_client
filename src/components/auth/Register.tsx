@@ -1,13 +1,7 @@
 import APIURL from '../../helpers/environment'
 import React from 'react';
 import { Link } from 'react-router-dom';
-import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
-import Box from '@mui/material/Box'
-import Alert from '@mui/material/Alert'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
-import Container from '@mui/material/Container'
+import { TextInput, Button, Container, Alert, Center, Grid, Space, Title } from '@mantine/core';
 
 type RegisterState = {
     email: string,
@@ -65,7 +59,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
             this.setState({ emailStarted: true })
         this.setState({ email: event.target.value },
             () => {
-                if (this.state.email.match(emailRegex))
+                if (emailRegex.test(this.state.email))
                     this.setState({ emailIsValid: true, emailError: '' })
                 else
                     this.setState({ emailIsValid: false, emailError: 'Invalid email address' })
@@ -78,7 +72,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
             this.setState({ passwordStarted: true })
         this.setState({ password: event.target.value },
             () => {
-                if (this.state.password.match(passwordRegex))
+                if (passwordRegex.test(this.state.password))
                     this.setState({ passwordIsValid: true, passwordError: '' })
                 else
                     this.setState({ passwordIsValid: false, passwordError: 'Password must be at least 8 characters and include at least 1 letter and 1 number, and 1 symbol (!#$%&?"_)' })
@@ -123,61 +117,48 @@ class Register extends React.Component<RegisterProps, RegisterState> {
 
     render() {
         return (
-            <Grid justifyContent='center' alignItems='center' container spacing={2}>
-                <Grid item xs={10} md={8} lg={4} xl={3}>
-                    <Container sx={{ m: 2, p: 4, boxShadow: '0 0 10px #d2d2d2', borderRadius: '20px' }}>
-                        <Typography sx={{ mb: 3 }} variant='h3'>Sign Up</Typography>
-                        <TextField
+            <>
+                <Grid>
+                    <Grid.Col sx={{ padding: 20 }} xs={10} md={8} lg={4} xl={2} offsetXs={1} offsetMd={2} offsetLg={4} offsetXl={5}>
+                        <Title order={2}>Sign Up</Title>
+                        <Space h="md" />
+                        <TextInput
                             value={this.state.email}
                             onChange={this.emailChange}
-                            fullWidth
                             label="email"
-                            variant="outlined"
-                            error={this.state.emailStarted && !this.state.emailIsValid}
-                            helperText={this.state.emailError}
-                            sx={{ mb: 1.3 }}
+                            error={this.state.emailError}
+                            type='email'
                         />
-
-                        <TextField
-                            type='password'
+                        <Space h="md" />
+                        <TextInput
                             value={this.state.password}
                             onChange={this.passwordChange}
-                            margin='normal'
-                            fullWidth
                             label="password"
-                            variant="outlined"
-                            error={this.state.passwordStarted && !this.state.passwordIsValid}
-                            helperText={this.state.passwordError}
-                            sx={{ mb: 1 }}
-                        />
-
-                        <TextField
+                            error={this.state.passwordError}
                             type='password'
+                        />
+                        <Space h="md" />
+                        <TextInput
                             value={this.state.passwordCheck}
                             onChange={this.passwordCheckChange}
-                            margin='normal'
-                            fullWidth
                             label="re-type password"
-                            variant="outlined"
-                            error={this.state.passwordCheckStarted && !this.state.passwordCheckIsValid}
-                            helperText={this.state.passwordCheckError}
-                            sx={{ mb: 3 }}
+                            error={this.state.passwordCheckError}
+                            type='password'
                         />
-                        <Box sx={{ textAlign: 'center', mb: 2 }}>
+                        <Space h="md" />
+                        <Center sx={{ textAlign: 'center', mb: 2 }}>
                             <Button
-                                variant="contained"
                                 onClick={this.registerSubmit}
                                 disabled={this.state.emailIsValid && this.state.passwordCheckIsValid && this.state.passwordIsValid ? false : true}
                             >
                                 Submit
                             </Button>
-                        </Box>
-                        {this.state.notification && <Alert severity={this.state.notificationSuccess ? 'success' : 'warning'}>{this.state.notification}</Alert>}
+                        </Center>
+                        {this.state.notification && <Alert sx={{ marginTop: 20 }} variant="filled" color={this.state.notificationSuccess ? 'green' : 'red'}>{this.state.notification}</Alert>}
+                    </Grid.Col>
 
-                        <Link to='/login' className='has-text-centered is-block mx-auto is-size-7'>already have an account?</Link>
-                    </Container>
                 </Grid>
-            </Grid>
+            </>
 
         )
     }

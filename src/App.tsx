@@ -1,16 +1,10 @@
 //import APIURL from './helpers/environment'
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-import Navbar from './components/Navbar'
+import Nav from './components/Nav'
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Home from './components/Home';
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
-import 'bulma/css/bulma.css';
 import './App.css';
 
 type AppValues = {
@@ -34,7 +28,7 @@ class App extends React.Component<{}, AppValues> {
     return (
       <>
         <Router>
-          <Navbar />
+          <Nav />
           <Routes>
             <Route path="/register" element={<Register sessionToken={this.state.sessionToken} updateToken={this.updateToken} />} />
             <Route path="/login" element={<Login sessionToken={this.state.sessionToken} updateToken={this.updateToken} />} />

@@ -1,17 +1,21 @@
 import APIURL from '../../helpers/environment'
 import React from 'react';
 import { Link } from 'react-router-dom';
-import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
-import Box from '@mui/material/Box'
-import Alert from '@mui/material/Alert'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
-import Container from '@mui/material/Container'
+import { TextInput, Button, Container, Alert, Center, Grid, Space, Title } from '@mantine/core';
 
 type LoginState = {
     email: string,
+    emailIsValid: boolean,
+    emailStarted: boolean,
+    emailError: string,
     password: string,
+    passwordIsValid: boolean,
+    passwordStarted: boolean,
+    passwordError: string,
+    passwordCheck: string,
+    passwordCheckIsValid: boolean,
+    passwordCheckStarted: boolean,
+    passwordCheckError: string,
     notification: string,
     notificationSuccess: boolean
 }
@@ -21,17 +25,25 @@ type LoginProps = {
     updateToken: (token: string) => void
 }
 
-// eslint-disable-next-line
-const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
-
-const passwordRegex = /^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!#$%&?"_]).*$/
-
 class Login extends React.Component<LoginProps, LoginState> {
     constructor(props: LoginProps) {
         super(props)
         this.state = {
             email: '',
+            emailIsValid: false,
+            emailStarted: false,
+            emailError: '',
+
             password: '',
+            passwordIsValid: false,
+            passwordStarted: false,
+            passwordError: '',
+
+            passwordCheck: '',
+            passwordCheckIsValid: false,
+            passwordCheckStarted: false,
+            passwordCheckError: '',
+
             notification: '',
             notificationSuccess: false
         }
@@ -41,8 +53,8 @@ class Login extends React.Component<LoginProps, LoginState> {
 
     passwordChange = (event: React.ChangeEvent<HTMLInputElement>) => this.setState({ password: event.target.value })
 
-    loginSubmit = async (event: React.MouseEvent<HTMLElement>) => {
-        await fetch(`${APIURL}/account/register`, {
+    registerSubmit = async (event: React.MouseEvent<HTMLElement>) => {
+        await fetch(`${APIURL}/account/login`, {
             method: 'POST',
             mode: 'cors',
             body: JSON.stringify({
@@ -67,45 +79,39 @@ class Login extends React.Component<LoginProps, LoginState> {
 
     render() {
         return (
-            <Grid spacing={0} justifyContent='center' alignItems='center' container>
-                <Grid item xs={11} md={8} lg={4} xl={3}>
-                    <Container sx={{ mt: 4, p: 4, boxShadow: '0 0 10px #d2d2d2', borderRadius: '20px' }}>
-                        <Typography sx={{ mb: 3 }} variant='h3'>Log In</Typography>
-                        <TextField
+            <>
+                <Grid>
+                    <Grid.Col sx={{ padding: 20 }} xs={10} md={8} lg={4} xl={2} offsetXs={1} offsetMd={2} offsetLg={4} offsetXl={5}>
+                        <Title order={2}>Log In</Title>
+                        <Space h="md" />
+                        <TextInput
                             value={this.state.email}
                             onChange={this.emailChange}
-                            fullWidth
                             label="email"
-                            variant="outlined"
-                            sx={{ mb: 1.3 }}
+                            error={this.state.emailError}
+                            type='email'
                         />
-
-                        <TextField
-                            type='password'
+                        <Space h="md" />
+                        <TextInput
                             value={this.state.password}
                             onChange={this.passwordChange}
-                            margin='normal'
-                            fullWidth
                             label="password"
-                            variant="outlined"
-                            sx={{ mb: 1 }}
+                            error={this.state.passwordError}
+                            type='password'
                         />
-
-                        <Box sx={{ textAlign: 'center', mb: 2 }}>
+                        <Space h="md" />
+                        <Center sx={{ textAlign: 'center', mb: 2 }}>
                             <Button
-                                variant="contained"
-                                onClick={this.loginSubmit}
-                                disabled={!this.state.email || !this.state.password}
+                                onClick={this.registerSubmit}
+                                disabled={this.state.emailIsValid && this.state.passwordCheckIsValid && this.state.passwordIsValid ? false : true}
                             >
                                 Submit
                             </Button>
-                        </Box>
-                        {this.state.notification && <Alert severity={this.state.notificationSuccess ? 'success' : 'warning'}>{this.state.notification}</Alert>}
-
-                        <Link to='/register' className='has-text-centered is-block mx-auto is-size-7'>don't have an account?</Link>
-                    </Container>
+                        </Center>
+                        {this.state.notification && <Alert sx={{ marginTop: 20 }} variant="filled" color={this.state.notificationSuccess ? 'green' : 'red'}>{this.state.notification}</Alert>}
+                    </Grid.Col>
                 </Grid>
-            </Grid>
+            </>
 
         )
     }
