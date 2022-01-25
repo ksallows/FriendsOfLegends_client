@@ -20,13 +20,18 @@ class App extends React.Component<{}, AppValues> {
       sessionToken: null
     }
   }
+
+  updateToken = (token: string): void => {
+    this.setState({ sessionToken: token })
+  }
+
   render() {
     return (
       <>
         <Router>
           <Navbar />
           <Routes>
-            <Route path="/register" element={<Register sessionToken={this.state.sessionToken} />} />
+            <Route path="/register" element={<Register sessionToken={this.state.sessionToken} updateToken={this.updateToken} />} />
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Home />} />
           </Routes>
