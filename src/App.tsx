@@ -23,6 +23,7 @@ class App extends React.Component<{}, AppValues> {
 
   updateToken = (token: string): void => {
     this.setState({ sessionToken: token })
+    localStorage.setItem('Authorization', token);
   }
 
   render() {
@@ -32,7 +33,7 @@ class App extends React.Component<{}, AppValues> {
           <Navbar />
           <Routes>
             <Route path="/register" element={<Register sessionToken={this.state.sessionToken} updateToken={this.updateToken} />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login sessionToken={this.state.sessionToken} updateToken={this.updateToken} />} />
             <Route path="/" element={<Home />} />
           </Routes>
         </Router>

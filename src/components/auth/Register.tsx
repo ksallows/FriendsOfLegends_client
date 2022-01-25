@@ -111,8 +111,9 @@ class Register extends React.Component<RegisterProps, RegisterState> {
             return result
         }).then(result => result.json())
             .then(result => {
+                console.log(result)
                 this.setState({ notification: result.message });
-
+                this.props.updateToken(result.sessionToken)
             })
     }
 
