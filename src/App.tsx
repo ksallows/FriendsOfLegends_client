@@ -10,7 +10,10 @@ import './App.css';
 
 type AppValues = {
   sessionToken: string | null,
-  auth: boolean
+  auth: boolean,
+  server: string | null,
+  summonerName: string | null,
+  verified: boolean
 }
 
 class App extends React.Component<{}, AppValues> {
@@ -18,7 +21,10 @@ class App extends React.Component<{}, AppValues> {
     super(props)
     this.state = {
       sessionToken: null,
-      auth: false
+      auth: false,
+      server: null,
+      summonerName: null,
+      verified: false
     }
   }
 
@@ -29,8 +35,7 @@ class App extends React.Component<{}, AppValues> {
 
   auth = (): boolean => localStorage.getItem('Authorization') !== null && this.state.sessionToken !== null && this.state.sessionToken === localStorage.getItem('Authorization')
 
-  // if storage has a token but state doesn't, check if token is valid and if it is put it in state
-  checkToken = async (): Promise<any> => {
+  checkToken = async (): Promise<void> => {
     if (localStorage.getItem('Authorization') !== undefined && this.state.sessionToken === null) {
       await fetch(`${APIURL}/account/checkToken`, {
         method: 'POST',
@@ -44,7 +49,25 @@ class App extends React.Component<{}, AppValues> {
         .then(result => {
           if (result.status === 200)
             this.setState({ sessionToken: localStorage.getItem('Authorization') })
+          return result.json()
         })
+
+      if (this.state.sessionToken !== null) {
+        await fetch(`${APIURL}/profile/summonerInfo`, {
+          method: 'GET',
+          mode: 'cors',
+          credentials: 'include',
+          headers: new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('Authorization')}`
+          }),
+        }).then(result => result.json())
+          .then(result => {
+            if (result.verified)
+              this.setState({ verified: true, server: result.server, summonerName: result.summonerName })
+          })
+      }
+
     }
   }
 

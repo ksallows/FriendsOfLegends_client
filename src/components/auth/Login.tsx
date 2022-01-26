@@ -1,7 +1,6 @@
 import APIURL from '../../helpers/environment'
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { TextInput, Button, Container, Alert, Center, Grid, Space, Title } from '@mantine/core';
+import { TextInput, Button, Alert, Center, Grid, Space, Title } from '@mantine/core';
 
 type LoginState = {
     email: string,

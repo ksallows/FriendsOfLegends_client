@@ -1,5 +1,5 @@
 import React from 'react';
-import { SegmentedControl, Title, Grid, Space, Chips, Chip, MultiSelect } from '@mantine/core';
+import { SegmentedControl, Title, Grid, Space, Chips, Chip, MultiSelect, Button, Center } from '@mantine/core';
 
 const dataUrl: string = 'http://ddragon.leagueoflegends.com/cdn/12.2.1/data/en_US/champion.json'
 
@@ -68,6 +68,19 @@ class SearchForm extends React.Component<SearchFormProps, SearchFormState> {
     gameModeChange = (value: string[]) => this.setState({ gameModes: value })
 
     championsChange = (value: []) => this.setState({ champions: value })
+
+    submitSearch = () => {
+        console.log(JSON.stringify({
+            fields: {
+                server: 'na1',
+                gameModes: this.state.gameModes,
+                rank: this.state.rank,
+                voiceComm: this.state.voiceComm,
+                topChamps: this.state.champions,
+                roles: this.state.roles,
+            }
+        }))
+    }
 
     render() {
         return (
@@ -143,6 +156,8 @@ class SearchForm extends React.Component<SearchFormProps, SearchFormState> {
                         onChange={this.championsChange}
                         value={this.state.champions}
                     />
+                    <Space h='xl' />
+                    <Center><Button size='lg' color='orange' onClick={this.submitSearch}>search</Button></Center>
                 </Grid.Col>
 
             </Grid>
