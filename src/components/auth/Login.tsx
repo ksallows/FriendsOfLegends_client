@@ -67,7 +67,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                 "Content-Type": "application/json"
             }),
         }).then((result) => {
-            result.status === 201 ? this.setState({ notificationSuccess: true }) : this.setState({ notificationSuccess: false })
+            result.status === 200 ? this.setState({ notificationSuccess: true }) : this.setState({ notificationSuccess: false })
             return result
         }).then(result => result.json())
             .then(result => {
@@ -103,7 +103,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                         <Center sx={{ textAlign: 'center', mb: 2 }}>
                             <Button
                                 onClick={this.registerSubmit}
-                                disabled={this.state.emailIsValid && this.state.passwordCheckIsValid && this.state.passwordIsValid ? false : true}
+                                disabled={this.state.email && this.state.password ? false : true}
                             >
                                 Submit
                             </Button>
