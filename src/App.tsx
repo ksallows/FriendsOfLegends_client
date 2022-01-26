@@ -37,7 +37,7 @@ class App extends React.Component<{}, AppValues> {
         mode: 'cors',
         credentials: 'include',
         headers: new Headers({
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('Authorization')}`
         }),
       })
@@ -58,10 +58,10 @@ class App extends React.Component<{}, AppValues> {
         <Router>
           <Nav auth={this.auth} />
           <Routes>
-            <Route path="/register" element={<Register sessionToken={this.state.sessionToken} updateToken={this.updateToken} />} />
-            <Route path="/login" element={<Login sessionToken={this.state.sessionToken} updateToken={this.updateToken} />} />
-            <Route path="/" element={<Home />} />
-            <Route path="/searchform" element={<SearchForm auth={this.auth} />} />
+            <Route path='/register' element={<Register sessionToken={this.state.sessionToken} updateToken={this.updateToken} />} />
+            <Route path='/login' element={<Login sessionToken={this.state.sessionToken} updateToken={this.updateToken} />} />
+            <Route path='/' element={<Home />} />
+            <Route path='/searchform' element={<SearchForm auth={this.auth} />} />
           </Routes>
         </Router>
       </>

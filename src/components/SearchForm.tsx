@@ -1,14 +1,14 @@
 import React from 'react';
-import { SegmentedControl, Title, Grid, Space, Chips, Chip, Badge, MultiSelect } from '@mantine/core';
+import { SegmentedControl, Title, Grid, Space, Chips, Chip, MultiSelect } from '@mantine/core';
 
 const dataUrl: string = 'http://ddragon.leagueoflegends.com/cdn/12.2.1/data/en_US/champion.json'
 
 const filters: Filter = {
     MonkeyKing: 'Wukong',
-    RekSai: 'Rek\'Sai',
-    KaiSa: 'Kai\'Sa',
-    VelKoz: 'Vel\'Koz',
-    KhaZix: 'Kha\'Zix',
+    Reksai: 'Rek\'Sai',
+    Kaisa: 'Kai\'Sa',
+    Velkoz: 'Vel\'Koz',
+    Khazix: 'Kha\'Zix',
     AurelionSol: 'Aurelion Sol',
     TahmKench: 'Tahm Kench'
 }
@@ -20,6 +20,7 @@ type SearchFormState = {
     roles: string[] | undefined,
     rank: string[] | undefined,
     champions: string[] | undefined,
+    gameModes: string[] | undefined,
     championNameList: string[] | null,
     championValues: ChampionListData[] | null
 }
@@ -35,6 +36,7 @@ class SearchForm extends React.Component<SearchFormProps, SearchFormState> {
             roles: [],
             rank: [],
             champions: [],
+            gameModes: [],
             championNameList: null,
             championValues: null
         }
@@ -61,7 +63,9 @@ class SearchForm extends React.Component<SearchFormProps, SearchFormState> {
 
     rolesChange = (value: string[]) => this.setState({ roles: value })
 
-    rankChange = (value: string[]) => this.setState({ roles: value })
+    rankChange = (value: string[]) => this.setState({ rank: value })
+
+    gameModeChange = (value: string[]) => this.setState({ gameModes: value })
 
     championsChange = (value: []) => this.setState({ champions: value })
 
@@ -79,27 +83,33 @@ class SearchForm extends React.Component<SearchFormProps, SearchFormState> {
                     offsetLg={4}
                     offsetXl={4}
                 >
-                    <p>VoiceComm: {String(this.state.voiceComm)}</p>
-                    <p>Roles: {String(this.state.roles)}</p>
-                    <p>Rank: {String(this.state.rank)}</p>
-                    <p>Champions: {String(this.state.champions)}</p>
-                    <Title order={3}>Rank</Title>
-                    <Space h="md" />
-                    <Chips size="md" value={this.state.rank} onChange={this.rankChange} multiple color="orange">
-                        <Chip value="unranked">unranked</Chip>
-                        <Chip value="iron">iron</Chip>
-                        <Chip value="bronze">bronze</Chip>
-                        <Chip value="silver">silver</Chip>
-                        <Chip value="gold">gold</Chip>
-                        <Chip value="platinum">platinum</Chip>
-                        <Chip value="diamond">diamond</Chip>
-                        <Chip value="master">master+</Chip>
+                    <Title order={3}>Game Modes</Title>
+                    <Space h='md' />
+                    <Chips size='md' value={this.state.gameModes} onChange={this.gameModeChange} multiple color='orange'>
+                        <Chip value='ranked_solo_duo'>ranked solo/duo</Chip>
+                        <Chip value='ranked_flex'>ranked flex</Chip>
+                        <Chip value='normal_blind'>normal blind</Chip>
+                        <Chip value='normal_draft'>normal draft</Chip>
+                        <Chip value='rgm'>rotating game mode</Chip>
                     </Chips>
-                    <Space h="xl" />
+                    <Space h='xl' />
+                    <Title order={3}>Rank</Title>
+                    <Space h='md' />
+                    <Chips size='md' value={this.state.rank} onChange={this.rankChange} multiple color='orange'>
+                        <Chip value='unranked'>unranked</Chip>
+                        <Chip value='iron'>iron</Chip>
+                        <Chip value='bronze'>bronze</Chip>
+                        <Chip value='silver'>silver</Chip>
+                        <Chip value='gold'>gold</Chip>
+                        <Chip value='platinum'>platinum</Chip>
+                        <Chip value='diamond'>diamond</Chip>
+                        <Chip value='master'>master+</Chip>
+                    </Chips>
+                    <Space h='xl' />
                     <Title order={3}>Voice Comm</Title>
-                    <Space h="md" />
+                    <Space h='md' />
                     <SegmentedControl
-                        radius="xl"
+                        radius='xl'
                         value={String(this.state.voiceComm)}
                         onChange={this.voiceCommChange}
                         data={[
@@ -108,28 +118,28 @@ class SearchForm extends React.Component<SearchFormProps, SearchFormState> {
                             { label: 'no', value: 'false' }
                         ]}
                         fullWidth
-                        size="md"
-                        color="orange"
+                        size='md'
+                        color='orange'
                     />
-                    <Space h="xl" />
-                    <Title order={3}>Roles <Badge color='orange' variant="filled">optional</Badge> </Title>
-                    <Space h="md" />
-                    <Chips size="md" value={this.state.roles} onChange={this.rolesChange} multiple color="orange">
-                        <Chip value="top">top</Chip>
-                        <Chip value="jng">jungle</Chip>
-                        <Chip value="mid">mid</Chip>
-                        <Chip value="bot">bot</Chip>
-                        <Chip value="sup">support</Chip>
+                    <Space h='xl' />
+                    <Title order={3}>Roles</Title>
+                    <Space h='md' />
+                    <Chips size='md' value={this.state.roles} onChange={this.rolesChange} multiple color='orange'>
+                        <Chip value='top'>top</Chip>
+                        <Chip value='jng'>jungle</Chip>
+                        <Chip value='mid'>mid</Chip>
+                        <Chip value='bot'>bot</Chip>
+                        <Chip value='sup'>support</Chip>
                     </Chips>
-                    <Space h="xl" />
-                    <Title order={3}>Champions <Badge color='orange' variant="filled">optional</Badge> </Title>
-                    <Space h="md" />
+                    <Space h='xl' />
+                    <Title order={3}>Champions</Title>
+                    <Space h='md' />
                     <MultiSelect
-                        size="md"
+                        size='md'
                         maxSelectedValues={3}
                         searchable limit={20}
                         data={this.state.championValues !== null ? this.state.championValues : [{ value: 'loading', label: 'loading' }]}
-                        placeholder="choose up to 3"
+                        placeholder='choose up to 3'
                         onChange={this.championsChange}
                         value={this.state.champions}
                     />

@@ -64,7 +64,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                 }
             }),
             headers: new Headers({
-                "Content-Type": "application/json"
+                'Content-Type': 'application/json'
             }),
         }).then((result) => {
             result.status === 200 ? this.setState({ notificationSuccess: true }) : this.setState({ notificationSuccess: false })
@@ -83,23 +83,23 @@ class Login extends React.Component<LoginProps, LoginState> {
                 <Grid>
                     <Grid.Col sx={{ padding: 20 }} xs={10} md={8} lg={4} xl={2} offsetXs={1} offsetMd={2} offsetLg={4} offsetXl={5}>
                         <Title order={2}>Log In</Title>
-                        <Space h="md" />
+                        <Space h='md' />
                         <TextInput
                             value={this.state.email}
                             onChange={this.emailChange}
-                            label="email"
+                            label='email'
                             error={this.state.emailError}
                             type='email'
                         />
-                        <Space h="md" />
+                        <Space h='md' />
                         <TextInput
                             value={this.state.password}
                             onChange={this.passwordChange}
-                            label="password"
+                            label='password'
                             error={this.state.passwordError}
                             type='password'
                         />
-                        <Space h="md" />
+                        <Space h='md' />
                         <Center sx={{ textAlign: 'center', mb: 2 }}>
                             <Button
                                 onClick={this.registerSubmit}
@@ -108,7 +108,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                                 Submit
                             </Button>
                         </Center>
-                        {this.state.notification && <Alert sx={{ marginTop: 20 }} variant="filled" color={this.state.notificationSuccess ? 'green' : 'red'}>{this.state.notification}</Alert>}
+                        {this.state.notification && <Alert sx={{ marginTop: 20 }} variant='filled' color={this.state.notificationSuccess ? 'green' : 'red'}>{this.state.notification}</Alert>}
                     </Grid.Col>
                 </Grid>
             </>

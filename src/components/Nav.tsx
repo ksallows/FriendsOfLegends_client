@@ -23,13 +23,13 @@ class Nav extends React.Component<NavProps, NavState> {
                 {!this.props.auth() ?
 
                     <Group>
-                        <Button size='md' variant="gradient" component={Link} to='/register' gradient={{ from: 'teal', to: 'lime', deg: 105 }}>Sign Up</Button>
-                        <Button size='md' variant="gradient" component={Link} to='/login' gradient={{ from: 'grape', to: 'pink', deg: 35 }}>Log In</Button>
+                        <Button size='md' variant='gradient' component={Link} to='/register' gradient={{ from: 'orange', to: 'yellow', deg: 105 }}>Sign Up</Button>
+                        <Button color='gray' size='md' component={Link} to='/login'>Log In</Button>
                     </Group>
                     :
                     <Group>
-                        <Button size='md' variant="gradient" component={Link} to='/register' gradient={{ from: 'teal', to: 'lime', deg: 105 }}>My Profile</Button>
-                        <Button size='md' variant="gradient" component={Link} to='/login' gradient={{ from: 'grape', to: 'pink', deg: 35 }}>Find Friends</Button>
+                        <Button size='md' variant='gradient' component={Link} to='/register' gradient={{ from: 'orange', to: 'yellow', deg: 105 }}>Find Friends</Button>
+                        <Button color='gray' size='md' component={Link} to='/login'>Profile</Button>
                     </Group>}
             </Header>
         )
