@@ -5,6 +5,7 @@ import Nav from './components/Nav'
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Home from './components/Home';
+import SearchForm from './components/SearchForm';
 import './App.css';
 
 type AppValues = {
@@ -45,13 +46,10 @@ class App extends React.Component<{}, AppValues> {
             this.setState({ sessionToken: localStorage.getItem('Authorization') })
         })
     }
-    console.log(`sessionToken: ${this.state.sessionToken}`)
-    console.log(`storage: ${localStorage.getItem('Authorization')}`)
   }
 
   componentDidMount = () => {
-    setTimeout(this.checkToken, 500)
-    console.log('component updated!')
+    this.checkToken()
   }
 
   render() {
@@ -63,6 +61,7 @@ class App extends React.Component<{}, AppValues> {
             <Route path="/register" element={<Register sessionToken={this.state.sessionToken} updateToken={this.updateToken} />} />
             <Route path="/login" element={<Login sessionToken={this.state.sessionToken} updateToken={this.updateToken} />} />
             <Route path="/" element={<Home />} />
+            <Route path="/searchform" element={<SearchForm auth={this.auth} />} />
           </Routes>
         </Router>
       </>

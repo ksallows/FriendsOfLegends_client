@@ -1,7 +1,6 @@
 import APIURL from '../../helpers/environment'
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { TextInput, Button, Container, Alert, Center, Grid, Space, Title } from '@mantine/core';
+import { TextInput, Button, Alert, Center, Grid, Space, Title } from '@mantine/core';
 
 type RegisterState = {
     email: string,
@@ -119,7 +118,17 @@ class Register extends React.Component<RegisterProps, RegisterState> {
         return (
             <>
                 <Grid>
-                    <Grid.Col sx={{ padding: 20 }} xs={10} md={8} lg={4} xl={2} offsetXs={1} offsetMd={2} offsetLg={4} offsetXl={5}>
+                    <Grid.Col
+                        sx={{ padding: 20 }}
+                        xs={10}
+                        md={8}
+                        lg={4}
+                        xl={2}
+                        offsetXs={1}
+                        offsetMd={2}
+                        offsetLg={4}
+                        offsetXl={5}
+                    >
                         <Title order={2}>Sign Up</Title>
                         <Space h="md" />
                         <TextInput

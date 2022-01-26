@@ -20,11 +20,17 @@ class Nav extends React.Component<NavProps, NavState> {
     render() {
         return (
             <Header sx={{ padding: 10 }} height={60}>
+                {!this.props.auth() ?
 
-                <Group>
-                    <Button size='md' variant="gradient" component={Link} to='/register' gradient={{ from: 'teal', to: 'lime', deg: 105 }}>Sign Up</Button>
-                    <Button size='md' variant="gradient" component={Link} to='/login' gradient={{ from: 'grape', to: 'pink', deg: 35 }}>Log In</Button>
-                </Group>
+                    <Group>
+                        <Button size='md' variant="gradient" component={Link} to='/register' gradient={{ from: 'teal', to: 'lime', deg: 105 }}>Sign Up</Button>
+                        <Button size='md' variant="gradient" component={Link} to='/login' gradient={{ from: 'grape', to: 'pink', deg: 35 }}>Log In</Button>
+                    </Group>
+                    :
+                    <Group>
+                        <Button size='md' variant="gradient" component={Link} to='/register' gradient={{ from: 'teal', to: 'lime', deg: 105 }}>My Profile</Button>
+                        <Button size='md' variant="gradient" component={Link} to='/login' gradient={{ from: 'grape', to: 'pink', deg: 35 }}>Find Friends</Button>
+                    </Group>}
             </Header>
         )
     }
