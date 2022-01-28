@@ -5,7 +5,7 @@ import Nav from './components/Nav'
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Home from './components/Home';
-import SearchForm from './components/SearchForm';
+import Search from './components/search/Search';
 import './App.css';
 
 type AppValues = {
@@ -84,7 +84,7 @@ class App extends React.Component<{}, AppValues> {
             <Route path='/register' element={<Register sessionToken={this.state.sessionToken} updateToken={this.updateToken} />} />
             <Route path='/login' element={<Login sessionToken={this.state.sessionToken} updateToken={this.updateToken} />} />
             <Route path='/' element={<Home />} />
-            <Route path='/searchform' element={<SearchForm auth={this.auth} />} />
+            <Route path='/search' element={<Search sessionToken={this.state.sessionToken} auth={this.auth} />} />
           </Routes>
         </Router>
       </>

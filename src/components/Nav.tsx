@@ -28,7 +28,7 @@ class Nav extends React.Component<NavProps, NavState> {
                     </Group>
                     :
                     <Group>
-                        <Button size='md' variant='gradient' component={Link} to='/register' gradient={{ from: 'orange', to: 'yellow', deg: 105 }}>Find Friends</Button>
+                        <Button size='md' variant='gradient' component={Link} to='/search' gradient={{ from: 'orange', to: 'yellow', deg: 105 }}>Find Friends</Button>
                         <Button color='gray' size='md' component={Link} to='/login'>Profile</Button>
                     </Group>}
             </Header>
