@@ -6,7 +6,8 @@ type SearchResultsState = {
 }
 
 type SearchResultsProps = {
-    results: ResultsList[] | null
+    results: ResultsList[] | null,
+    patch: string | null
 }
 
 type ResultsList = {
@@ -52,7 +53,7 @@ class SearchResults extends React.Component<SearchResultsProps, SearchResultsSta
     render() {
         return (
             <>
-                <ResultBlock result={dummyData[0]} />
+                <ResultBlock patch={this.props.patch} result={dummyData[0]} />
             </>
         )
     }

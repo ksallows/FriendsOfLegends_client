@@ -1,14 +1,15 @@
 import React from 'react';
 import { Paper, Title, Space, Avatar, Group } from '@mantine/core';
 
-const summonerIconUrl = 'http://ddragon.leagueoflegends.com/cdn/12.2.1/img/profileicon/'
+const summonerIconUrl = 'http://ddragon.leagueoflegends.com/cdn/'
 
 type ResultBlockState = {
 
 }
 
 type ResultBlockProps = {
-    result: any;
+    result: Result,
+    patch: string | null
 }
 
 type Result = {
@@ -16,10 +17,10 @@ type Result = {
     summonerIcon: number,
     level: number,
     rank: string,
-    topChamps: number[],
-    roles: string[],
-    voiceComm: boolean,
-    gameModes: string[],
+    topChamps: string[],
+    roles: string[] | null,
+    voiceComm: boolean | null,
+    gameModes: string[] | null,
     summonerName: string
 }
 
@@ -38,7 +39,7 @@ class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {
         return (
             <Paper padding='md' shadow='sm' withBorder>
                 <Group>
-                    <Avatar radius={'xl'} src={`${summonerIconUrl}${this.props.result.summonerIcon}.png`} alt='its me' />
+                    <Avatar radius={'xl'} src={`${summonerIconUrl}${this.props.patch}/img/profileicon/${this.props.result.summonerIcon}.png`} alt='its me' />
                     <Title order={4}>{this.props.result.summonerName}</Title>
                 </Group>
             </Paper>

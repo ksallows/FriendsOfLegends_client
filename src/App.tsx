@@ -13,7 +13,8 @@ type AppValues = {
   auth: boolean,
   server: string | null,
   summonerName: string | null,
-  verified: boolean
+  verified: boolean,
+  patch: string | null
 }
 
 class App extends React.Component<{}, AppValues> {
@@ -24,7 +25,8 @@ class App extends React.Component<{}, AppValues> {
       auth: false,
       server: null,
       summonerName: null,
-      verified: false
+      verified: false,
+      patch: null
     }
   }
 
@@ -34,6 +36,16 @@ class App extends React.Component<{}, AppValues> {
   }
 
   auth = (): boolean => localStorage.getItem('Authorization') !== null && this.state.sessionToken !== null && this.state.sessionToken === localStorage.getItem('Authorization')
+
+  getPatch = async (): Promise<void> => {
+    await fetch('https://ddragon.leagueoflegends.com/realms/na.json', {
+      method: 'GET',
+      mode: 'cors'
+    })
+      .then(result => result.json())
+      .then(result => this.setState({ patch: result.v }))
+    console.log(this.state.patch)
+  }
 
   checkToken = async (): Promise<void> => {
     if (localStorage.getItem('Authorization') !== undefined && this.state.sessionToken === null) {
@@ -73,6 +85,7 @@ class App extends React.Component<{}, AppValues> {
 
   componentDidMount = () => {
     this.checkToken()
+    this.getPatch()
   }
 
   render() {
@@ -84,7 +97,7 @@ class App extends React.Component<{}, AppValues> {
             <Route path='/register' element={<Register sessionToken={this.state.sessionToken} updateToken={this.updateToken} />} />
             <Route path='/login' element={<Login sessionToken={this.state.sessionToken} updateToken={this.updateToken} />} />
             <Route path='/' element={<Home />} />
-            <Route path='/search' element={<Search sessionToken={this.state.sessionToken} auth={this.auth} />} />
+            <Route path='/search' element={<Search patch={this.state.patch} sessionToken={this.state.sessionToken} auth={this.auth} />} />
           </Routes>
         </Router>
       </>

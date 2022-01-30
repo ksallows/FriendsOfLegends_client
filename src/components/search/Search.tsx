@@ -16,7 +16,8 @@ type SearchState = {
 
 type SearchProps = {
     auth: () => boolean,
-    sessionToken: string | null
+    sessionToken: string | null,
+    patch: string | null
 }
 
 type ResultsList = {
@@ -103,6 +104,7 @@ class Search extends React.Component<SearchProps, SearchState> {
                         champions={this.state.champions}
                         gameModes={this.state.gameModes}
                         rank={this.state.rank}
+                        patch={this.props.patch}
                     />
                 </Grid.Col>
                 <Grid.Col
@@ -111,7 +113,7 @@ class Search extends React.Component<SearchProps, SearchState> {
                     lg={6}
                     xl={8}
                 >
-                    <SearchResults results={this.state.results} />
+                    <SearchResults patch={this.props.patch} results={this.state.results} />
                 </Grid.Col>
             </Grid>
         )

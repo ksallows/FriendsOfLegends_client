@@ -2,7 +2,7 @@ import APIURL from '../../helpers/environment'
 import React from 'react';
 import { SegmentedControl, Title, Space, Chips, Chip, MultiSelect, Button, Center } from '@mantine/core';
 
-const dataUrl: string = 'http://ddragon.leagueoflegends.com/cdn/12.2.1/data/en_US/champion.json'
+const dataUrl: string = 'http://ddragon.leagueoflegends.com/cdn/'
 
 const filters: Filter = {
     MonkeyKing: 'Wukong',
@@ -35,6 +35,7 @@ type SearchFormProps = {
     rank: string[] | undefined,
     champions: string[] | undefined,
     gameModes: string[] | undefined,
+    patch: string | null
 }
 
 class SearchForm extends React.Component<SearchFormProps, SearchFormState> {
@@ -47,7 +48,7 @@ class SearchForm extends React.Component<SearchFormProps, SearchFormState> {
     }
 
     componentDidMount = async () => {
-        await fetch(dataUrl)
+        await fetch(`${dataUrl}${this.props.patch ? this.props.patch : '12.2.1'}/data/en_US/champion.json`)
             .then(result => result.json())
             .then(result => {
                 this.setState({ championNameList: Object.keys(result.data) })
