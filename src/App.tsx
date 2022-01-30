@@ -17,7 +17,7 @@ type AppValues = {
 }
 
 class App extends React.Component<{}, AppValues> {
-  constructor(props: any) {
+  constructor(props: {}) {
     super(props)
     this.state = {
       sessionToken: null,
