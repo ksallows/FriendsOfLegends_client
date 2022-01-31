@@ -1,14 +1,17 @@
 import React from 'react';
 import ResultBlock from './ResultBlock'
 
-type SearchResultsState = {
+interface SearchResultsState {
 
 }
 
-type SearchResultsProps = {
+interface SearchResultsProps {
     results: ResultsList[] | null,
-    patch: string | null
+    patch: string | null,
+    championIdsToName: ChampionIdData
 }
+
+interface ChampionIdData { [key: string]: string }
 
 type ResultsList = {
     profileId: string,
@@ -48,12 +51,13 @@ class SearchResults extends React.Component<SearchResultsProps, SearchResultsSta
     }
 
     componentDidMount = async () => {
+
     }
 
     render() {
         return (
             <>
-                <ResultBlock patch={this.props.patch} result={dummyData[0]} />
+                <ResultBlock championIdsToName={this.props.championIdsToName} patch={this.props.patch} result={dummyData[0]} />
             </>
         )
     }

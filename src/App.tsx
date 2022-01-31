@@ -8,7 +8,7 @@ import Home from './components/Home';
 import Search from './components/search/Search';
 import './App.css';
 
-type AppValues = {
+interface AppValues {
   sessionToken: string | null,
   auth: boolean,
   server: string | null,
@@ -35,6 +35,8 @@ class App extends React.Component<{}, AppValues> {
     localStorage.setItem('Authorization', token);
   }
 
+  clearToken = (): void => this.setState({ sessionToken: null })
+
   auth = (): boolean => localStorage.getItem('Authorization') !== null && this.state.sessionToken !== null && this.state.sessionToken === localStorage.getItem('Authorization')
 
   getPatch = async (): Promise<void> => {
@@ -44,7 +46,6 @@ class App extends React.Component<{}, AppValues> {
     })
       .then(result => result.json())
       .then(result => this.setState({ patch: result.v }))
-    console.log(this.state.patch)
   }
 
   checkToken = async (): Promise<void> => {
@@ -92,7 +93,7 @@ class App extends React.Component<{}, AppValues> {
     return (
       <>
         <Router>
-          <Nav auth={this.auth} />
+          <Nav auth={this.auth} sessionToken={this.state.sessionToken} clearToken={this.clearToken} />
           <Routes>
             <Route path='/register' element={<Register sessionToken={this.state.sessionToken} updateToken={this.updateToken} />} />
             <Route path='/login' element={<Login sessionToken={this.state.sessionToken} updateToken={this.updateToken} />} />

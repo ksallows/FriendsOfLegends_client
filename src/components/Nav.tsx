@@ -2,12 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Header, Button, Group } from '@mantine/core';
 
-type NavState = {
+interface NavState {
 
 }
 
-type NavProps = {
-    auth: () => boolean
+interface NavProps {
+    auth: () => boolean,
+    sessionToken: string | null,
+    clearToken: () => void
 }
 
 class Nav extends React.Component<NavProps, NavState> {

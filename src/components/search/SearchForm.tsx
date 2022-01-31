@@ -2,26 +2,10 @@ import APIURL from '../../helpers/environment'
 import React from 'react';
 import { SegmentedControl, Title, Space, Chips, Chip, MultiSelect, Button, Center } from '@mantine/core';
 
-const dataUrl: string = 'http://ddragon.leagueoflegends.com/cdn/'
+interface SearchFormState {
 
-const filters: Filter = {
-    MonkeyKing: 'Wukong',
-    Reksai: 'Rek\'Sai',
-    Kaisa: 'Kai\'Sa',
-    Velkoz: 'Vel\'Koz',
-    Khazix: 'Kha\'Zix',
-    AurelionSol: 'Aurelion Sol',
-    TahmKench: 'Tahm Kench',
-    Kogmaw: 'Kog\'Maw'
 }
-
-type Filter = { [key: string]: string }
-type ChampionListData = { value: string, label: string }
-type SearchFormState = {
-    championNameList: string[] | null,
-    championValues: ChampionListData[] | null
-}
-type SearchFormProps = {
+interface SearchFormProps {
     auth: () => boolean,
     submitSearch: () => void,
     sessionToken: string | null,
@@ -35,30 +19,19 @@ type SearchFormProps = {
     rank: string[] | undefined,
     champions: string[] | undefined,
     gameModes: string[] | undefined,
-    patch: string | null
+    patch: string | null,
+    championNameList: string[] | null,
+    championValues: ChampionListData[] | null
 }
+
+interface ChampionListData { value: string, label: string }
 
 class SearchForm extends React.Component<SearchFormProps, SearchFormState> {
     constructor(props: SearchFormProps) {
         super(props);
         this.state = {
-            championNameList: null,
-            championValues: null
-        }
-    }
 
-    componentDidMount = async () => {
-        await fetch(`${dataUrl}${this.props.patch ? this.props.patch : '12.2.1'}/data/en_US/champion.json`)
-            .then(result => result.json())
-            .then(result => {
-                this.setState({ championNameList: Object.keys(result.data) })
-                let champData: ChampionListData[] = [];
-                Object.keys(result.data).map(key => {
-                    champData.push({ value: result.data[key].key, label: Object.keys(filters).includes(result.data[key].id) ? filters[key] : result.data[key].id });
-                    return null
-                })
-                this.setState({ championValues: champData })
-            })
+        }
     }
 
     render() {
@@ -119,7 +92,7 @@ class SearchForm extends React.Component<SearchFormProps, SearchFormState> {
                     size='sm'
                     maxSelectedValues={3}
                     searchable limit={20}
-                    data={this.state.championValues !== null ? this.state.championValues : [{ value: 'loading', label: 'loading' }]}
+                    data={this.props.championValues !== null ? this.props.championValues : [{ value: 'loading', label: 'loading' }]}
                     placeholder='choose up to 3'
                     onChange={this.props.championsChange}
                     value={this.props.champions}

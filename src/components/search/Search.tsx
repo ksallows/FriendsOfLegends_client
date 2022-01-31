@@ -4,14 +4,23 @@ import SearchForm from './SearchForm';
 import SearchResults from './SearchResults';
 import { Grid } from '@mantine/core';
 
-type SearchState = {
+const dataUrl: string = 'http://ddragon.leagueoflegends.com/cdn/'
+
+interface SearchState {
     prevSearch: boolean,
     voiceComm: boolean | null,
     roles: string[] | undefined,
     rank: string[] | undefined,
     champions: string[] | undefined,
     gameModes: string[] | undefined,
-    results: ResultsList[] | null
+    results: ResultsList[] | null,
+    championNameList: string[] | null,
+    championValues: ChampionListData[] | null,
+    championIdsToName: ChampionIdData
+}
+
+interface ChampionIdData {
+    [key: string]: string
 }
 
 type SearchProps = {
@@ -20,7 +29,20 @@ type SearchProps = {
     patch: string | null
 }
 
-type ResultsList = {
+const filters: Filter = {
+    MonkeyKing: 'Wukong',
+    Reksai: 'Rek\'Sai',
+    Kaisa: 'Kai\'Sa',
+    Velkoz: 'Vel\'Koz',
+    Khazix: 'Kha\'Zix',
+    AurelionSol: 'Aurelion Sol',
+    TahmKench: 'Tahm Kench',
+    Kogmaw: 'Kog\'Maw'
+}
+
+interface Filter { [key: string]: string }
+
+interface ResultsList {
     profileId: string,
     summonerIcon: number,
     level: number,
@@ -30,6 +52,8 @@ type ResultsList = {
     voiceComm: boolean,
     gameModes: string[]
 }
+
+interface ChampionListData { value: string, label: string }
 
 class Search extends React.Component<SearchProps, SearchState> {
     constructor(props: SearchProps) {
@@ -41,7 +65,10 @@ class Search extends React.Component<SearchProps, SearchState> {
             rank: [],
             champions: [],
             gameModes: [],
-            results: null
+            results: null,
+            championNameList: null, // 1 dimensional array of all champ names    
+            championValues: null,   // {{label: 'Aatrox', value: '266'}, ...}
+            championIdsToName: { n0: '' } // {n266: 'AAtrox, ...}
         }
     }
 
@@ -79,6 +106,25 @@ class Search extends React.Component<SearchProps, SearchState> {
     championsChange = (value: []) => this.setState({ champions: value })
 
     componentDidMount = async () => {
+        for (let i = 0; i < 5 || this.state.championValues !== null; i++) {
+            setTimeout(async () => {
+                if (this.props.patch !== null) {
+                    await fetch(`${dataUrl}${this.props.patch}/data/en_US/champion.json`)
+                        .then(result => result.json())
+                        .then(result => {
+                            this.setState({ championNameList: Object.keys(result.data) })
+                            let champData: ChampionListData[] = [];
+                            let champIds: ChampionIdData = {}
+                            Object.keys(result.data).map(key => {
+                                champData.push({ value: result.data[key].key, label: Object.keys(filters).includes(result.data[key].id) ? filters[key] : result.data[key].id });
+                                champIds[`n${result.data[key].key}`] = result.data[key].id
+                                return null
+                            })
+                            this.setState({ championValues: champData, championIdsToName: champIds })
+                        })
+                }
+            }, 1000)
+        }
     }
 
     render() {
@@ -105,6 +151,8 @@ class Search extends React.Component<SearchProps, SearchState> {
                         gameModes={this.state.gameModes}
                         rank={this.state.rank}
                         patch={this.props.patch}
+                        championNameList={this.state.championNameList}
+                        championValues={this.state.championValues}
                     />
                 </Grid.Col>
                 <Grid.Col
@@ -113,7 +161,11 @@ class Search extends React.Component<SearchProps, SearchState> {
                     lg={6}
                     xl={8}
                 >
-                    <SearchResults patch={this.props.patch} results={this.state.results} />
+                    <SearchResults
+                        patch={this.props.patch}
+                        results={this.state.results}
+                        championIdsToName={this.state.championIdsToName}
+                    />
                 </Grid.Col>
             </Grid>
         )
