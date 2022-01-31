@@ -1,32 +1,14 @@
 import React from 'react';
 import { Paper, Title, Space, Avatar, Group, Badge, SimpleGrid } from '@mantine/core';
-
+import { Result, ChampionIdData } from './d'
 const url = 'http://ddragon.leagueoflegends.com/cdn/'
 
-type ResultBlockState = {
+type ResultBlockState = {}
 
-}
-
-type ResultBlockProps = {
+interface ResultBlockProps {
     result: Result,
     patch: string | null,
     championIdsToName: ChampionIdData
-}
-
-interface ChampionIdData {
-    [key: string]: string
-}
-
-type Result = {
-    profileId: string,
-    summonerIcon: number,
-    level: number,
-    rank: string,
-    topChamps: string[],
-    roles: string[] | null,
-    voiceComm: boolean | null,
-    gameModes: string[] | null,
-    summonerName: string
 }
 
 class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {

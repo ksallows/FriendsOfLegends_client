@@ -1,27 +1,13 @@
 import React from 'react';
 import ResultBlock from './ResultBlock'
+import { ChampionIdData, ResultsList } from './d'
 
-interface SearchResultsState {
-
-}
+interface SearchResultsState { }
 
 interface SearchResultsProps {
     results: ResultsList[] | null,
     patch: string | null,
     championIdsToName: ChampionIdData
-}
-
-interface ChampionIdData { [key: string]: string }
-
-type ResultsList = {
-    profileId: string,
-    summonerIcon: number,
-    level: number,
-    rank: string,
-    topChamps: number[],
-    roles: string[],
-    voiceComm: boolean,
-    gameModes: string[]
 }
 
 const dummyData = [

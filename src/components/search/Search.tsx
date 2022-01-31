@@ -3,6 +3,7 @@ import React from 'react';
 import SearchForm from './SearchForm';
 import SearchResults from './SearchResults';
 import { Grid } from '@mantine/core';
+import { ChampionListData, ChampionIdData, Filter, ResultsList } from './d'
 
 const dataUrl: string = 'http://ddragon.leagueoflegends.com/cdn/'
 
@@ -17,10 +18,6 @@ interface SearchState {
     championNameList: string[] | null,
     championValues: ChampionListData[] | null,
     championIdsToName: ChampionIdData
-}
-
-interface ChampionIdData {
-    [key: string]: string
 }
 
 type SearchProps = {
@@ -39,21 +36,6 @@ const filters: Filter = {
     TahmKench: 'Tahm Kench',
     Kogmaw: 'Kog\'Maw'
 }
-
-interface Filter { [key: string]: string }
-
-interface ResultsList {
-    profileId: string,
-    summonerIcon: number,
-    level: number,
-    rank: string,
-    topChamps: number[],
-    roles: string[],
-    voiceComm: boolean,
-    gameModes: string[]
-}
-
-interface ChampionListData { value: string, label: string }
 
 class Search extends React.Component<SearchProps, SearchState> {
     constructor(props: SearchProps) {

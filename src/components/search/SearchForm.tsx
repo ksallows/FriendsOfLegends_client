@@ -1,10 +1,10 @@
 import APIURL from '../../helpers/environment'
 import React from 'react';
 import { SegmentedControl, Title, Space, Chips, Chip, MultiSelect, Button, Center } from '@mantine/core';
+import { ChampionListData } from './d'
 
-interface SearchFormState {
+interface SearchFormState { }
 
-}
 interface SearchFormProps {
     auth: () => boolean,
     submitSearch: () => void,
@@ -23,8 +23,6 @@ interface SearchFormProps {
     championNameList: string[] | null,
     championValues: ChampionListData[] | null
 }
-
-interface ChampionListData { value: string, label: string }
 
 class SearchForm extends React.Component<SearchFormProps, SearchFormState> {
     constructor(props: SearchFormProps) {
