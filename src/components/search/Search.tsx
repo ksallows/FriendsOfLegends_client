@@ -3,7 +3,7 @@ import React from 'react';
 import SearchForm from './SearchForm';
 import SearchResults from './SearchResults';
 import { Grid } from '@mantine/core';
-import { ChampionListData, ChampionIdData, Filter, ResultsList } from './d'
+import { ChampionListData, ChampionIdData, Filter, Result } from './d'
 
 const dataUrl: string = 'http://ddragon.leagueoflegends.com/cdn/'
 
@@ -14,7 +14,7 @@ interface SearchState {
     rank: string[] | undefined,
     champions: string[] | undefined,
     gameModes: string[] | undefined,
-    results: ResultsList[] | null,
+    results: Result[] | null,
     championNameList: string[] | null,
     championValues: ChampionListData[] | null,
     championIdsToName: ChampionIdData

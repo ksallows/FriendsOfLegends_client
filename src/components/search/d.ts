@@ -10,19 +10,10 @@ export interface Result {
     summonerName: string
 }
 
+//{n233: 'Aatrox'}
 export interface ChampionIdData { [key: string]: string }
 
-export interface ResultsList {
-    profileId: string,
-    summonerIcon: number,
-    level: number,
-    rank: string,
-    topChamps: number[],
-    roles: string[],
-    voiceComm: boolean,
-    gameModes: string[]
-}
-
+// {value: '233', label: 'Aatrox'}
 export interface ChampionListData { value: string, label: string }
 
 export interface Filter { [key: string]: string }

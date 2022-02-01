@@ -1,11 +1,11 @@
 import React from 'react';
 import ResultBlock from './ResultBlock'
-import { ChampionIdData, ResultsList } from './d'
+import { ChampionIdData, Result } from './d'
 
 interface SearchResultsState { }
 
 interface SearchResultsProps {
-    results: ResultsList[] | null,
+    results: Result[] | null,
     patch: string | null,
     championIdsToName: ChampionIdData
 }
@@ -22,7 +22,7 @@ const dummyData = [
             "150"
         ],
         "roles": null,
-        "voiceComm": null,
+        "voiceComm": false,
         "gameModes": null,
         'summonerName': 'summ name'
     }

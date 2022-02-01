@@ -1,6 +1,9 @@
 import React from 'react';
-import { Paper, Title, Space, Avatar, Group, Badge, SimpleGrid } from '@mantine/core';
+import { Paper, Title, Space, Avatar, Group, Badge, SimpleGrid, Tooltip } from '@mantine/core';
 import { Result, ChampionIdData } from './d'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMicrophone, faMicrophoneSlash } from '@fortawesome/free-solid-svg-icons'
+
 const url = 'http://ddragon.leagueoflegends.com/cdn/'
 
 type ResultBlockState = {}
@@ -37,6 +40,9 @@ class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {
                         src={`${url}${this.props.patch}/img/profileicon/${this.props.result.summonerIcon}.png`} alt='its me'
                     />
                     <Title order={4}>{this.props.result.summonerName}</Title>
+                    {this.props.result.voiceComm === null ? '' :
+                        this.props.result.voiceComm === true ? <Tooltip withArrow color='orange' label='wants to voice chat'><FontAwesomeIcon size='lg' icon={faMicrophone} color="green" /></Tooltip> :
+                            <Tooltip withArrow color='orange' label='does not want to voice chat'><FontAwesomeIcon icon={faMicrophoneSlash} color="red" /></Tooltip>}
                 </Group>
                 <Space h='xl' />
                 <SimpleGrid cols={3}>
