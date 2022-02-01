@@ -1,3 +1,14 @@
 body {
   overflow-x:hidden
 }
+
+.unranked {background-color:grey}
+.iron {background-color:#5d4d4e}
+.bronze {background-color:#806744}
+.silver {background-color:#a1a1a1}
+.gold {background-color:#c29500}
+.platinum {background-color:#4ea39c}
+.diamond {background-color:#2bb8ca}
+.master {background-color:#cb68db}
+.grandmaster {background-color:#c53a19}
+.challenger {background-color:#005275; color:#ffcb51}

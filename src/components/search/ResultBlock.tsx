@@ -3,10 +3,18 @@ import { Paper, Title, Space, Avatar, Group, Badge, SimpleGrid, Tooltip } from '
 import { Result, ChampionIdData } from './d'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMicrophone, faMicrophoneSlash } from '@fortawesome/free-solid-svg-icons'
+import all from '../../assets/all.svg'
+import jungle from '../../assets/jungle.svg'
+import mid from '../../assets/mid.svg'
+import support from '../../assets/support.svg'
+import bottom from '../../assets/bottom.svg'
+import top from '../../assets/top.svg'
 
 const url = 'http://ddragon.leagueoflegends.com/cdn/'
 
-type ResultBlockState = {}
+interface ResultBlockState {
+    rankClass: string | null
+}
 
 interface ResultBlockProps {
     result: Result,
@@ -18,16 +26,59 @@ class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {
     constructor(props: ResultBlockProps) {
         super(props);
         this.state = {
-
+            rankClass: null
         }
     }
 
-    topChamps = (): any => {
-        let champs = []
+    topChamps = (): JSX.Element[] => {
+        let champs: JSX.Element[] = []
         for (let i = 0; i < this.props.result.topChamps.length; i++) {
             champs.push(<Avatar radius='xs' src={`${url}${this.props.patch}/img/champion/${this.props.championIdsToName[`n${this.props.result.topChamps[i]}`]}.png`} />)
         }
         return champs;
+    }
+
+    roles = (): JSX.Element[] | JSX.Element => {
+        let roles: JSX.Element[] = []
+        if (this.props.result.roles !== null) {
+            for (let i = 0; i < this.props.result.roles.length; i++) {
+                switch (this.props.result.roles[i]) {
+                    case 'top': roles.push(<Avatar src={top} />); break;
+                    case 'mid': roles.push(<Avatar src={mid} />); break;
+                    case 'support': roles.push(<Avatar src={support} />); break;
+                    case 'jungle': roles.push(<Avatar src={jungle} />); break;
+                    case 'bottom': roles.push(<Avatar src={bottom} />); break;
+                }
+            }
+            return roles;
+        }
+        else return <Avatar src={all} />
+    }
+
+    gameModes = () => {
+        let gameModes: JSX.Element[] = [];
+        if (this.props.result.gameModes !== null) {
+            for (let i = 0; i < this.props.result.gameModes.length; i++) {
+                gameModes.push(<Badge color='orange' variant='filled' size='md'>{this.props.result.gameModes[i]}</Badge>)
+            }
+            return gameModes;
+        }
+        else return <Badge color='orange' variant='filled' size='md'>any</Badge>
+    }
+
+    componentDidMount = () => {
+        switch (this.props.result.rank.substring(0, 2)) {
+            case 'Un': this.setState({ rankClass: 'unranked' }); break;
+            case 'Ir': this.setState({ rankClass: 'iron' }); break;
+            case 'Br': this.setState({ rankClass: 'bronze' }); break;
+            case 'Si': this.setState({ rankClass: 'silver' }); break;
+            case 'Go': this.setState({ rankClass: 'gold' }); break;
+            case 'Pl': this.setState({ rankClass: 'platinum' }); break;
+            case 'Di': this.setState({ rankClass: 'diamond' }); break;
+            case 'Ma': this.setState({ rankClass: 'master' }); break;
+            case 'Gr': this.setState({ rankClass: 'grandmaster' }); break;
+            case 'Ch': this.setState({ rankClass: 'challenger' }); break;
+        }
     }
 
     render() {
@@ -39,10 +90,12 @@ class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {
                         radius='xl'
                         src={`${url}${this.props.patch}/img/profileicon/${this.props.result.summonerIcon}.png`} alt='its me'
                     />
-                    <Title order={4}>{this.props.result.summonerName}</Title>
+                    <Title order={3}>{this.props.result.summonerName}</Title>
+                    <Badge variant='filled' className={`${this.state.rankClass}`}>{this.props.result.rank}</Badge>
                     {this.props.result.voiceComm === null ? '' :
                         this.props.result.voiceComm === true ? <Tooltip withArrow color='orange' label='wants to voice chat'><FontAwesomeIcon size='lg' icon={faMicrophone} color="green" /></Tooltip> :
-                            <Tooltip withArrow color='orange' label='does not want to voice chat'><FontAwesomeIcon icon={faMicrophoneSlash} color="red" /></Tooltip>}
+                            <Tooltip withArrow color='orange' label='does not want to voice chat'><FontAwesomeIcon icon={faMicrophoneSlash} color="red" /></Tooltip>
+                    }
                 </Group>
                 <Space h='xl' />
                 <SimpleGrid cols={3}>
@@ -52,13 +105,12 @@ class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {
                     </Group>
                     <Group direction='column'>
                         <Title order={4}>ROLES</Title>
-                        <Group>{this.topChamps()}</Group>
+                        <Group>{this.roles()}</Group>
                     </Group>
                     <Group direction='column'>
                         <Title order={4}>GAME MODES</Title>
                         <Group>
-                            <Badge color='orange' variant='filled' size='md'>Ranked Solo/Duo</Badge>
-                            <Badge color='orange' variant='filled' size='md'>Normal Draft</Badge>
+                            {this.gameModes()}
                         </Group>
                     </Group>
                 </SimpleGrid>

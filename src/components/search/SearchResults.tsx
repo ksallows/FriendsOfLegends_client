@@ -15,13 +15,13 @@ const dummyData = [
         "profileId": "24f5cec9-6084-4cb7-bcac-fd0b03dd3beb",
         "summonerIcon": 4413,
         "level": 214,
-        "rank": "Unranked",
+        "rank": "Grandmaster",
         "topChamps": [
             "222",
             "17",
             "150"
         ],
-        "roles": null,
+        "roles": ['top', 'jungle', 'mid', 'bottom', 'support'],
         "voiceComm": false,
         "gameModes": null,
         'summonerName': 'summ name'
