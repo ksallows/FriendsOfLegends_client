@@ -31,6 +31,8 @@ class App extends React.Component<{}, AppValues> {
     }
   }
 
+  updateVerify = (value: boolean): void => this.setState({ verified: value })
+
   updateToken = (token: string): void => {
     this.setState({ sessionToken: token })
     localStorage.setItem('Authorization', token);
@@ -68,6 +70,7 @@ class App extends React.Component<{}, AppValues> {
         .then(result => {
           if (result.status === 200)
             this.setState({ sessionToken: localStorage.getItem('Authorization') })
+          else this.setState({ sessionToken: null })
           return result.json()
         })
 
@@ -105,7 +108,7 @@ class App extends React.Component<{}, AppValues> {
             <Route path='/login' element={<Login sessionToken={this.state.sessionToken} updateToken={this.updateToken} />} />
             <Route path='/' element={<Home />} />
             <Route path='/search' element={<Search patch={this.state.patch} sessionToken={this.state.sessionToken} auth={this.auth} />} />
-            <Route path='/editprofile' element={<EditProfile verified={this.state.verified} sessionToken={this.state.sessionToken} auth={this.auth} />} />
+            <Route path='/editprofile' element={<EditProfile summonerName={this.state.summonerName} updateVerify={this.updateVerify} verified={this.state.verified} sessionToken={this.state.sessionToken} auth={this.auth} />} />
           </Routes>
         </Router>
       </>
