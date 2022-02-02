@@ -70,7 +70,7 @@ class Login extends React.Component<LoginProps, LoginState> {
             return result
         }).then(result => result.json())
             .then(result => {
-                console.log(result)
+                //console.log(result)
                 this.setState({ notification: result.message });
                 this.props.updateToken(result.sessionToken)
             })
@@ -80,7 +80,7 @@ class Login extends React.Component<LoginProps, LoginState> {
         return (
             <>
                 <Grid>
-                    <Grid.Col sx={{ padding: 20 }} xs={10} md={8} lg={4} xl={2} offsetXs={1} offsetMd={2} offsetLg={4} offsetXl={5}>
+                    <Grid.Col sx={{ paddingTop: 40 }} xs={10} md={8} lg={4} xl={2} offsetXs={1} offsetMd={2} offsetLg={4} offsetXl={5}>
                         <Title order={2}>Log In</Title>
                         <Space h='md' />
                         <TextInput

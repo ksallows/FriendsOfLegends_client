@@ -119,7 +119,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
             <>
                 <Grid>
                     <Grid.Col
-                        sx={{ padding: 20 }}
+                        sx={{ paddingTop: 40 }}
                         xs={10}
                         md={8}
                         lg={4}

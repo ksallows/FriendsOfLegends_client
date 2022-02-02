@@ -36,9 +36,14 @@ class App extends React.Component<{}, AppValues> {
     localStorage.setItem('Authorization', token);
   }
 
-  clearToken = (): void => this.setState({ sessionToken: null })
+  clearToken = (): void => {
+    this.setState({ sessionToken: null });
+    localStorage.removeItem('Authorization')
+  }
 
-  auth = (): boolean => localStorage.getItem('Authorization') !== null && this.state.sessionToken !== null && this.state.sessionToken === localStorage.getItem('Authorization')
+  auth = (): boolean => localStorage.getItem('Authorization') !== null &&
+    this.state.sessionToken !== null &&
+    this.state.sessionToken === localStorage.getItem('Authorization')
 
   getPatch = async (): Promise<void> => {
     await fetch('https://ddragon.leagueoflegends.com/realms/na.json', {
@@ -100,7 +105,7 @@ class App extends React.Component<{}, AppValues> {
             <Route path='/login' element={<Login sessionToken={this.state.sessionToken} updateToken={this.updateToken} />} />
             <Route path='/' element={<Home />} />
             <Route path='/search' element={<Search patch={this.state.patch} sessionToken={this.state.sessionToken} auth={this.auth} />} />
-            <Route path='/editprofile' element={<EditProfile patch={this.state.patch} sessionToken={this.state.sessionToken} auth={this.auth} />} />
+            <Route path='/editprofile' element={<EditProfile verified={this.state.verified} sessionToken={this.state.sessionToken} auth={this.auth} />} />
           </Routes>
         </Router>
       </>
