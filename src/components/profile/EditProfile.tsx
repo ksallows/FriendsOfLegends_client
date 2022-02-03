@@ -11,7 +11,10 @@ interface EditProfileProps {
     sessionToken: string | null,
     verified: boolean,
     updateVerify: (value: boolean) => void,
-    summonerName: string | null
+    updateSummonerName: (value: string) => void,
+    updateServer: (value: string) => void,
+    summonerName: string | null,
+    server: string | null,
 }
 
 class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
@@ -26,7 +29,7 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
             <Grid>
                 <Grid.Col sx={{ paddingTop: 40 }} xs={10} md={8} lg={6} xl={6} offsetXs={1} offsetMd={2} offsetLg={3} offsetXl={3}>
                     <Title>Edit Profile</Title>
-                    <Verify summonerName={this.props.summonerName} updateVerify={this.props.updateVerify} verified={this.props.verified} sessionToken={this.props.sessionToken} />
+                    <Verify server={this.props.server} updateSummonerName={this.props.updateSummonerName} updateServer={this.props.updateServer} summonerName={this.props.summonerName} updateVerify={this.props.updateVerify} verified={this.props.verified} sessionToken={this.props.sessionToken} />
                 </Grid.Col>
             </Grid>
         )
