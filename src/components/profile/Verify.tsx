@@ -1,6 +1,6 @@
 import React from 'react';
 import APIURL from '../../helpers/environment'
-import { Title, Space, TextInput, Button, Alert, NativeSelect, Group, Badge } from '@mantine/core';
+import { Title, Space, TextInput, Button, Alert, NativeSelect, Group, Badge, Paper } from '@mantine/core';
 
 interface VerifyState {
     verificationCode: string,
@@ -107,33 +107,36 @@ class Verify extends React.Component<VerifyProps, VerifyState> {
 
                 {this.props.summonerName === null ?
                     <>
-                        <Title order={4}>Summoner Name</Title>
-                        <p>Enter your summoner name and region to start.</p>
-                        <Group>
-                            <TextInput onChange={this.summonerNameChange} value={this.state.summonerNameInput}
-                            /><NativeSelect
-                                onChange={this.serverChange}
-                                value={this.state.serverInput}
-                                data={[
-                                    { value: 'br1', label: 'BR' },
-                                    { value: 'eun1', label: 'EUNE' },
-                                    { value: 'euw1', label: 'EUW' },
-                                    { value: 'jp1', label: 'JP' },
-                                    { value: 'kr', label: 'KR' },
-                                    { value: 'la1', label: 'LAN' },
-                                    { value: 'la2', label: 'LAS' },
-                                    { value: 'na1', label: 'NA' },
-                                    { value: 'oc1', label: 'OCE' },
-                                    { value: 'tr1', label: 'TR' },
-                                    { value: 'ru1', label: 'RU' },
-                                ]} />
-                            <Button color='orange' onClick={this.changeSubmit}>Submit</Button>
-                        </Group>
+                        <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
+                            <Title order={4}>Summoner Name</Title>
+                            <p>Enter your summoner name and region to start.</p>
+                            <Group>
+                                <TextInput onChange={this.summonerNameChange} value={this.state.summonerNameInput}
+                                /><NativeSelect
+                                    onChange={this.serverChange}
+                                    value={this.state.serverInput}
+                                    data={[
+                                        { value: 'br1', label: 'BR' },
+                                        { value: 'eun1', label: 'EUNE' },
+                                        { value: 'euw1', label: 'EUW' },
+                                        { value: 'jp1', label: 'JP' },
+                                        { value: 'kr', label: 'KR' },
+                                        { value: 'la1', label: 'LAN' },
+                                        { value: 'la2', label: 'LAS' },
+                                        { value: 'na1', label: 'NA' },
+                                        { value: 'oc1', label: 'OCE' },
+                                        { value: 'tr1', label: 'TR' },
+                                        { value: 'ru1', label: 'RU' },
+                                    ]} />
+                                <Button color='orange' onClick={this.changeSubmit}>Submit</Button>
+                            </Group>
+                        </Paper>
                     </>
                     :
-                    <>
+                    <><Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
                         <Title order={4}>Summoner Name {this.props.verified ? <Badge color='green'>verified</Badge> : <Badge color='red'>not verified</Badge>}</Title>
                         <p>Your summoner name and region: {this.props.summonerName} ({this.props.server})</p>
+                    </Paper>
                     </>}
                 <Space h='xl'></Space>
 

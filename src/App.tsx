@@ -15,7 +15,8 @@ interface AppValues {
   server: string | null,
   summonerName: string | null,
   verified: boolean,
-  patch: string | null
+  patch: string | null,
+  profileId: string | null
 }
 
 class App extends React.Component<{}, AppValues> {
@@ -27,7 +28,8 @@ class App extends React.Component<{}, AppValues> {
       server: null,
       summonerName: null,
       verified: false,
-      patch: null
+      patch: null,
+      profileId: null
     }
   }
 
@@ -87,8 +89,7 @@ class App extends React.Component<{}, AppValues> {
           }),
         }).then(result => result.json())
           .then(result => {
-            if (result.verified)
-              this.setState({ verified: true, server: result.server, summonerName: result.summonerName })
+            this.setState({ profileId: result.profileId, verified: result.verified, server: result.server, summonerName: result.summonerName })
           })
       }
 
@@ -110,7 +111,7 @@ class App extends React.Component<{}, AppValues> {
             <Route path='/login' element={<Login sessionToken={this.state.sessionToken} updateToken={this.updateToken} />} />
             <Route path='/' element={<Home />} />
             <Route path='/search' element={<Search patch={this.state.patch} sessionToken={this.state.sessionToken} auth={this.auth} />} />
-            <Route path='/editprofile' element={<EditProfile server={this.state.server} updateSummonerName={this.updateSummonerName} updateServer={this.updateServer} summonerName={this.state.summonerName} updateVerify={this.updateVerify} verified={this.state.verified} sessionToken={this.state.sessionToken} auth={this.auth} />} />
+            <Route path='/editprofile' element={<EditProfile profileId={this.state.profileId} server={this.state.server} updateSummonerName={this.updateSummonerName} updateServer={this.updateServer} summonerName={this.state.summonerName} updateVerify={this.updateVerify} verified={this.state.verified} sessionToken={this.state.sessionToken} auth={this.auth} />} />
           </Routes>
         </Router>
       </>

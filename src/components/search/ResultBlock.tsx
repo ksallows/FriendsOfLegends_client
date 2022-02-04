@@ -83,7 +83,7 @@ class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {
 
     render() {
         return (
-            <Paper padding='md' shadow='sm' withBorder>
+            <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
                 <Group>
                     <Avatar
                         size='lg'

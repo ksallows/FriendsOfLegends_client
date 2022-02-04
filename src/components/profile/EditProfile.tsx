@@ -1,5 +1,6 @@
+import APIURL from '../../helpers/environment'
 import React from 'react';
-import { Title, Grid, Space, Chips, Chip } from '@mantine/core';
+import { Title, Grid, Space, Chips, Chip, Paper } from '@mantine/core';
 import Verify from './Verify'
 import ResultBlock from '../search/ResultBlock'
 import jungle from '../../assets/jungle.svg'
@@ -10,7 +11,7 @@ import top from '../../assets/top.svg'
 
 interface EditProfileState {
     gameModes: string[] | undefined,
-    roles: string[] | undefined
+    roles: string[] | undefined,
 }
 
 interface EditProfileProps {
@@ -21,7 +22,8 @@ interface EditProfileProps {
     updateSummonerName: (value: string) => void,
     updateServer: (value: string) => void,
     summonerName: string | null,
-    server: string | null
+    server: string | null,
+    profileId: string | null
 }
 
 class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
@@ -36,6 +38,22 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
     gameModeChange = (value: string[]) => this.setState({ gameModes: value })
 
     rolesChange = (value: string[]) => this.setState({ roles: value })
+
+    componentDidMount = async () => {
+        await fetch(`${APIURL}/profile/p/${this.props.profileId}`, {
+            method: 'GET',
+            mode: 'cors',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.props.sessionToken}`
+            })
+        })
+            .then(result => result.json())
+            .then(result => this.setState({
+                roles: result.profile.roles,
+                gameModes: result.profile.gameModes
+            }))
+    }
 
     render() {
         return (
@@ -53,26 +71,29 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                     />
                     {this.props.verified && this.props.summonerName !== null ?
                         <>
-
-                            <Title order={4}>Game Modes</Title>
-                            <Space h='md' />
-                            <Chips size='sm' value={this.state.gameModes} onChange={this.gameModeChange} multiple color='orange'>
-                                <Chip value='ranked_solo_duo'>ranked solo/duo</Chip>
-                                <Chip value='ranked_flex'>ranked flex</Chip>
-                                <Chip value='normal_blind'>normal blind</Chip>
-                                <Chip value='normal_draft'>normal draft</Chip>
-                                <Chip value='rgm'>rotating game mode</Chip>
-                            </Chips>
+                            <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
+                                <Title order={4}>Game Modes</Title>
+                                <Space h='md' />
+                                <Chips size='sm' value={this.state.gameModes} onChange={this.gameModeChange} multiple color='orange'>
+                                    <Chip value='ranked_solo_duo'>ranked solo/duo</Chip>
+                                    <Chip value='ranked_flex'>ranked flex</Chip>
+                                    <Chip value='normal_blind'>normal blind</Chip>
+                                    <Chip value='normal_draft'>normal draft</Chip>
+                                    <Chip value='rgm'>rotating game mode</Chip>
+                                </Chips>
+                            </Paper>
                             <Space h='xl' />
-                            <Title order={4}>Roles</Title>
-                            <Space h='md' />
-                            <Chips size='sm' value={this.state.roles} onChange={this.rolesChange} multiple color='orange'>
-                                <Chip value='top'>top</Chip>
-                                <Chip value='jng'>jungle</Chip>
-                                <Chip value='mid'>mid</Chip>
-                                <Chip value='bot'>bot</Chip>
-                                <Chip value='sup'>support</Chip>
-                            </Chips>
+                            <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
+                                <Title order={4}>Roles</Title>
+                                <Space h='md' />
+                                <Chips size='sm' value={this.state.roles} onChange={this.rolesChange} multiple color='orange'>
+                                    <Chip value='top'>top</Chip>
+                                    <Chip value='jng'>jungle</Chip>
+                                    <Chip value='mid'>mid</Chip>
+                                    <Chip value='bot'>bot</Chip>
+                                    <Chip value='sup'>support</Chip>
+                                </Chips>
+                            </Paper>
                         </>
                         :
                         ''
