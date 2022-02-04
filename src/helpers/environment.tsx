@@ -4,7 +4,7 @@ switch (window.location.hostname) {
     case 'localhost' || '127.0.0.1':
         APIURL = 'http://localhost:3000';
         break;
-    case 'https://ks-friendsoflegends-client.herokuapp.com':
+    case 'ks-friendsoflegends-client.herokuapp.com':
         APIURL = 'https://ks-friendsoflegends-server.herokuapp.com'
 }
 
