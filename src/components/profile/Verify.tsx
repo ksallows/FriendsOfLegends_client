@@ -1,6 +1,6 @@
 import React from 'react';
 import APIURL from '../../helpers/environment'
-import { Title, Space, TextInput, Button, Alert, NativeSelect, Group } from '@mantine/core';
+import { Title, Space, TextInput, Button, Alert, NativeSelect, Group, Badge } from '@mantine/core';
 
 interface VerifyState {
     verificationCode: string,
@@ -132,17 +132,14 @@ class Verify extends React.Component<VerifyProps, VerifyState> {
                     </>
                     :
                     <>
-                        <Title order={4}>Summoner Name</Title>
+                        <Title order={4}>Summoner Name {this.props.verified ? <Badge color='green'>verified</Badge> : <Badge color='red'>not verified</Badge>}</Title>
                         <p>Your summoner name and region: {this.props.summonerName} ({this.props.server})</p>
                     </>}
                 <Space h='xl'></Space>
 
                 {this.props.summonerName !== null ?
                     this.props.verified ?
-                        <>
-                            <Title order={4}>Verify</Title>
-                            <p>Your summoner name is verified!</p>
-                        </>
+                        ''
                         :
                         <>
                             <Title order={4}>Verify</Title>
