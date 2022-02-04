@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Header, Button, Group, Title, Grid } from '@mantine/core';
+import { Title, Grid } from '@mantine/core';
 import Verify from './Verify'
 
 interface EditProfileState {
