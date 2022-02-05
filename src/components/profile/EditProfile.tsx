@@ -1,6 +1,7 @@
 import APIURL from '../../helpers/environment'
 import React from 'react';
-import { Title, Grid, Space, Chips, Chip, Paper, Badge, Group } from '@mantine/core';
+import { Title, Grid, Space, Chips, Chip, Paper, Badge, Group, Avatar, SimpleGrid } from '@mantine/core';
+import { ChampionListData, ChampionIdData, baseUrl } from '../../d'
 import Verify from './Verify'
 import Refresh from './Refresh'
 import ResultBlock from '../search/ResultBlock'
@@ -29,7 +30,11 @@ interface EditProfileProps {
     updateServer: (value: string) => void,
     summonerName: string | null,
     server: string | null,
-    profileId: string | null
+    profileId: string | null,
+    championNameList: string[] | null,
+    championValues: ChampionListData[] | null,
+    championIdsToName: ChampionIdData,
+    patch: string | null,
 }
 
 class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
@@ -70,24 +75,27 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
             .then(result => this.setState({ refreshLoading: false }))
     }
 
-    componentDidMount = async () => {
-        await fetch(`${APIURL}/profile/p/${this.props.profileId}`, {
-            method: 'GET',
-            mode: 'cors',
-            headers: new Headers({
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.props.sessionToken}`
+    componentDidMount = () => {
+        setTimeout(async () => {
+            await fetch(`${APIURL}/profile/p/${this.props.profileId}`, {
+                method: 'GET',
+                mode: 'cors',
+                headers: new Headers({
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${this.props.sessionToken}`
+                })
             })
-        })
-            .then(result => result.json())
-            .then(result => this.setState({
-                roles: result.profile.roles,
-                gameModes: result.profile.gameModes,
-                rank: result.profile.rank,
-                summonerIcon: result.profile.summonerIcon,
-                topChamps: result.profile.topChamps,
-                level: result.profile.level
-            }))
+                .then(result => result.json())
+                .then(result => this.setState({
+                    roles: result.profile.roles,
+                    gameModes: result.profile.gameModes,
+                    rank: result.profile.rank,
+                    summonerIcon: result.profile.summonerIcon,
+                    topChamps: result.profile.topChamps,
+                    level: result.profile.level
+                }))
+        }, 500)
+
     }
 
     render() {
@@ -121,10 +129,32 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                             <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
                                 <Title order={4}>Ranked &amp; Champions</Title>
                                 <Space h='md' />
-                                <Group>
-                                    <Title order={6}>Rank: {this.state.rank}</Title>
-                                    <Title order={6}>Level: {this.state.level}</Title>
-                                </Group>
+                                <SimpleGrid cols={3}>
+                                    <Group direction='column'>
+                                        <Avatar
+                                            size='lg'
+                                            radius='xl'
+                                            src={`${baseUrl}${this.props.patch}/img/profileicon/${this.state.summonerIcon}.png`} alt='its me'
+                                        />
+                                        <p>{this.state.level}</p>
+                                    </Group>
+
+                                    <Group direction='column'>
+                                        <Title order={6}>Rank:</Title>
+                                        <p>{this.state.rank}</p>
+                                    </Group>
+                                    <Group direction='column'>
+                                        <Title order={6}>Top Champs:</Title>
+                                        {this.state.topChamps !== undefined ?
+                                            <Group>
+                                                <Avatar radius='xs' src={`${baseUrl}${this.props.patch}/img/champion/${this.props.championIdsToName[`n${this.state.topChamps[0]}`]}.png`} />
+                                                <Avatar radius='xs' src={`${baseUrl}${this.props.patch}/img/champion/${this.props.championIdsToName[`n${this.state.topChamps[1]}`]}.png`} />
+                                                <Avatar radius='xs' src={`${baseUrl}${this.props.patch}/img/champion/${this.props.championIdsToName[`n${this.state.topChamps[2]}`]}.png`} />
+                                            </Group>
+                                            :
+                                            ''}
+                                    </Group>
+                                </SimpleGrid>
                             </Paper>
                             <Space h='xl' />
                             <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>

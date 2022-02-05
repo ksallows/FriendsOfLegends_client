@@ -1,6 +1,6 @@
 import React from 'react';
 import ResultBlock from './ResultBlock'
-import { ChampionIdData, Result } from './d'
+import { ChampionIdData, Result } from '../../d'
 
 interface SearchResultsState { }
 

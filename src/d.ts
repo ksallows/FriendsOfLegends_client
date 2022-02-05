@@ -17,3 +17,5 @@ export interface ChampionIdData { [key: string]: string }
 export interface ChampionListData { value: string, label: string }
 
 export interface Filter { [key: string]: string }
+
+export const baseUrl = 'http://ddragon.leagueoflegends.com/cdn/'

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Paper, Title, Space, Avatar, Group, Badge, SimpleGrid, Tooltip } from '@mantine/core';
-import { Result, ChampionIdData } from './d'
+import { Result, ChampionIdData, baseUrl } from '../../d'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMicrophone, faMicrophoneSlash } from '@fortawesome/free-solid-svg-icons'
 import all from '../../assets/all.svg'
@@ -9,8 +9,6 @@ import mid from '../../assets/mid.svg'
 import support from '../../assets/support.svg'
 import bottom from '../../assets/bottom.svg'
 import top from '../../assets/top.svg'
-
-const url = 'http://ddragon.leagueoflegends.com/cdn/'
 
 interface ResultBlockState {
     rankClass: string | null
@@ -33,7 +31,7 @@ class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {
     topChamps = (): JSX.Element[] => {
         let champs: JSX.Element[] = []
         for (let i = 0; i < this.props.result.topChamps.length; i++) {
-            champs.push(<Avatar radius='xs' src={`${url}${this.props.patch}/img/champion/${this.props.championIdsToName[`n${this.props.result.topChamps[i]}`]}.png`} />)
+            champs.push(<Avatar radius='xs' src={`${baseUrl}${this.props.patch}/img/champion/${this.props.championIdsToName[`n${this.props.result.topChamps[i]}`]}.png`} />)
         }
         return champs;
     }
@@ -88,7 +86,7 @@ class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {
                     <Avatar
                         size='lg'
                         radius='xl'
-                        src={`${url}${this.props.patch}/img/profileicon/${this.props.result.summonerIcon}.png`} alt='its me'
+                        src={`${baseUrl}${this.props.patch}/img/profileicon/${this.props.result.summonerIcon}.png`} alt='its me'
                     />
                     <Title order={3}>{this.props.result.summonerName}</Title>
                     <Badge variant='filled' className={`${this.state.rankClass}`}>{this.props.result.rank}</Badge>

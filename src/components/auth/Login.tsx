@@ -1,6 +1,8 @@
 import APIURL from '../../helpers/environment'
 import React from 'react';
-import { TextInput, Button, Alert, Center, Grid, Space, Title } from '@mantine/core';
+import { TextInput, Button, Alert, Center, Grid, Space, Title, PasswordInput } from '@mantine/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLock, faAt } from '@fortawesome/free-solid-svg-icons'
 
 type LoginState = {
     email: string,
@@ -84,6 +86,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                         <Title order={2}>Log In</Title>
                         <Space h='md' />
                         <TextInput
+                            icon={<FontAwesomeIcon icon={faAt} />}
                             value={this.state.email}
                             onChange={this.emailChange}
                             label='email'
@@ -91,7 +94,8 @@ class Login extends React.Component<LoginProps, LoginState> {
                             type='email'
                         />
                         <Space h='md' />
-                        <TextInput
+                        <PasswordInput
+                            icon={<FontAwesomeIcon icon={faLock} />}
                             value={this.state.password}
                             onChange={this.passwordChange}
                             label='password'

@@ -1,6 +1,8 @@
 import APIURL from '../../helpers/environment'
 import React from 'react';
-import { TextInput, Button, Alert, Center, Grid, Space, Title } from '@mantine/core';
+import { TextInput, Button, Alert, Center, Grid, Space, Title, PasswordInput } from '@mantine/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLock, faAt, faEllipsisH } from '@fortawesome/free-solid-svg-icons'
 
 type RegisterState = {
     email: string,
@@ -132,6 +134,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
                         <Title order={2}>Sign Up</Title>
                         <Space h='md' />
                         <TextInput
+                            icon={<FontAwesomeIcon icon={faAt} />}
                             value={this.state.email}
                             onChange={this.emailChange}
                             label='email'
@@ -139,7 +142,8 @@ class Register extends React.Component<RegisterProps, RegisterState> {
                             type='email'
                         />
                         <Space h='md' />
-                        <TextInput
+                        <PasswordInput
+                            icon={<FontAwesomeIcon icon={faLock} />}
                             value={this.state.password}
                             onChange={this.passwordChange}
                             label='password'
@@ -147,7 +151,8 @@ class Register extends React.Component<RegisterProps, RegisterState> {
                             type='password'
                         />
                         <Space h='md' />
-                        <TextInput
+                        <PasswordInput
+                            icon={<FontAwesomeIcon icon={faEllipsisH} />}
                             value={this.state.passwordCheck}
                             onChange={this.passwordCheckChange}
                             label='re-type password'
