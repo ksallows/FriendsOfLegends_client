@@ -88,6 +88,7 @@ class Search extends React.Component<SearchProps, SearchState> {
     championsChange = (value: []) => this.setState({ champions: value })
 
     componentDidMount = async () => {
+        // TODO move this to app so it can be used in editProfile
         for (let i = 0; i < 5 || this.state.championValues !== null; i++) {
             setTimeout(async () => {
                 if (this.props.patch !== null) {

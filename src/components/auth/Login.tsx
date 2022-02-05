@@ -52,7 +52,7 @@ class Login extends React.Component<LoginProps, LoginState> {
 
     passwordChange = (event: React.ChangeEvent<HTMLInputElement>) => this.setState({ password: event.target.value })
 
-    registerSubmit = async (event: React.MouseEvent<HTMLElement>) => {
+    loginSubmit = async (event: React.MouseEvent<HTMLElement>) => {
         await fetch(`${APIURL}/account/login`, {
             method: 'POST',
             mode: 'cors',
@@ -101,7 +101,8 @@ class Login extends React.Component<LoginProps, LoginState> {
                         <Space h='md' />
                         <Center sx={{ textAlign: 'center', mb: 2 }}>
                             <Button
-                                onClick={this.registerSubmit}
+                                color='orange'
+                                onClick={this.loginSubmit}
                                 disabled={this.state.email && this.state.password ? false : true}
                             >
                                 Submit

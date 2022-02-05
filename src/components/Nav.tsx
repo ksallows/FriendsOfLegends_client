@@ -28,7 +28,7 @@ class Nav extends React.Component<NavProps, NavState> {
                 {this.props.sessionToken ?
                     <Group position='apart'>
                         <Group>
-                            <Image src={logo} width={300} />
+                            <Link to='/'><Image src={logo} width={280} /></Link>
                             <Button size='md' variant='gradient' component={Link} to='/search' gradient={{ from: 'orange', to: 'yellow', deg: 105 }}>Find Friends</Button>
                             <Button color='gray' size='md' component={Link} to='/editprofile'>Profile</Button>
                         </Group>
@@ -38,7 +38,7 @@ class Nav extends React.Component<NavProps, NavState> {
                     :
 
                     <Group position='apart'>
-                        <Image src={logo} width={300} />
+                        <Link to='/'><Image src={logo} width={280} /></Link>
                         <Group>
                             <Button size='md' variant='gradient' component={Link} to='/register' gradient={{ from: 'orange', to: 'yellow', deg: 105 }}>Sign Up</Button>
                             <Button color='gray' size='md' component={Link} to='/login'>Log In</Button>

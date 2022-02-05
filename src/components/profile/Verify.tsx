@@ -100,60 +100,46 @@ class Verify extends React.Component<VerifyProps, VerifyState> {
     }
 
     render() {
-        return (
-            <>
-                <Space h='xl'></Space>
+        return (<>
+            <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
+                <Title order={4}>Summoner Name</Title>
+                <p>Enter your summoner name and region to start.</p>
+                <Group>
+                    <TextInput onChange={this.summonerNameChange} value={this.state.summonerNameInput}
+                    /><NativeSelect
+                        onChange={this.serverChange}
+                        value={this.state.serverInput}
+                        data={[
+                            { value: 'br1', label: 'BR' },
+                            { value: 'eun1', label: 'EUNE' },
+                            { value: 'euw1', label: 'EUW' },
+                            { value: 'jp1', label: 'JP' },
+                            { value: 'kr', label: 'KR' },
+                            { value: 'la1', label: 'LAN' },
+                            { value: 'la2', label: 'LAS' },
+                            { value: 'na1', label: 'NA' },
+                            { value: 'oc1', label: 'OCE' },
+                            { value: 'tr1', label: 'TR' },
+                            { value: 'ru1', label: 'RU' },
+                        ]} />
+                    <Button color='orange' onClick={this.changeSubmit}>Submit</Button>
+                </Group>
+            </Paper>
 
-
-                {this.props.summonerName === null ?
-                    <>
-                        <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
-                            <Title order={4}>Summoner Name</Title>
-                            <p>Enter your summoner name and region to start.</p>
-                            <Group>
-                                <TextInput onChange={this.summonerNameChange} value={this.state.summonerNameInput}
-                                /><NativeSelect
-                                    onChange={this.serverChange}
-                                    value={this.state.serverInput}
-                                    data={[
-                                        { value: 'br1', label: 'BR' },
-                                        { value: 'eun1', label: 'EUNE' },
-                                        { value: 'euw1', label: 'EUW' },
-                                        { value: 'jp1', label: 'JP' },
-                                        { value: 'kr', label: 'KR' },
-                                        { value: 'la1', label: 'LAN' },
-                                        { value: 'la2', label: 'LAS' },
-                                        { value: 'na1', label: 'NA' },
-                                        { value: 'oc1', label: 'OCE' },
-                                        { value: 'tr1', label: 'TR' },
-                                        { value: 'ru1', label: 'RU' },
-                                    ]} />
-                                <Button color='orange' onClick={this.changeSubmit}>Submit</Button>
-                            </Group>
-                        </Paper>
-                    </>
-                    :
-                    <><Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
-                        <Title order={4}>Summoner Name {this.props.verified ? <Badge color='green'>verified</Badge> : <Badge color='red'>not verified</Badge>}</Title>
-                        <p>Your summoner name and region: {this.props.summonerName} ({this.props.server})</p>
-                    </Paper>
-                    </>}
-                <Space h='xl'></Space>
-
-                {this.props.summonerName !== null ?
-                    this.props.verified ?
-                        ''
-                        :
-                        <>
-                            <Title order={4}>Verify</Title>
-                            <p>You must verify your summoner name to continue. Copy the code below and paste it in the "verification" box in your League client (settings -&gt; verification -&gt; paste -&gt; save). When you're done, click <strong>Check</strong>.</p>
-                            <TextInput readOnly value={this.state.verificationCode} rightSection={<Button sx={{ borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }} color='orange' onClick={this.checkVerificationCode}>Check</Button>} />
-                            {this.state.notification && <Alert sx={{ marginTop: 20 }} variant='filled' color={this.state.notificationSuccess ? 'green' : 'red'}>{this.state.notification}</Alert>}
-                        </>
-                    :
+            {this.props.summonerName !== null ?
+                this.props.verified ?
                     ''
-                }
-            </>
+                    :
+                    <>
+                        <Title order={4}>Verify</Title>
+                        <p>You must verify your summoner name to continue. Copy the code below and paste it in the "verification" box in your League client (settings -&gt; verification -&gt; paste -&gt; save). When you're done, click <strong>Check</strong>.</p>
+                        <TextInput readOnly value={this.state.verificationCode} rightSection={<Button sx={{ borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }} color='orange' onClick={this.checkVerificationCode}>Check</Button>} />
+                        {this.state.notification && <Alert sx={{ marginTop: 20 }} variant='filled' color={this.state.notificationSuccess ? 'green' : 'red'}>{this.state.notification}</Alert>}
+                    </>
+                :
+                ''
+            }
+        </>
         )
     }
 }

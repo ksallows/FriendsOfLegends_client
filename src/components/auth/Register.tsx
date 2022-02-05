@@ -157,6 +157,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
                         <Space h='md' />
                         <Center sx={{ textAlign: 'center', mb: 2 }}>
                             <Button
+                                color='orange'
                                 onClick={this.registerSubmit}
                                 disabled={this.state.emailIsValid && this.state.passwordCheckIsValid && this.state.passwordIsValid ? false : true}
                             >
