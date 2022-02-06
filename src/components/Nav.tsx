@@ -23,7 +23,7 @@ class Nav extends React.Component<NavProps, NavState> {
 
     render() {
         return (
-            <Header sx={{ padding: 10 }} height={65}>
+            <Header sx={{ padding: 10, backgroundColor: '#151619' }} height={65}>
 
                 {this.props.sessionToken ?
                     <Group position='apart'>

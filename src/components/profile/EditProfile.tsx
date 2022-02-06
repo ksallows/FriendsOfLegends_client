@@ -1,7 +1,7 @@
 import APIURL from '../../helpers/environment'
 import React from 'react';
-import { Title, Grid, Space, Chips, Chip, Paper, Badge, Group, Avatar, SimpleGrid } from '@mantine/core';
-import { ChampionListData, ChampionIdData, baseUrl } from '../../d'
+import { Title, Grid, Space, Chips, Chip, Paper, Badge, Group, Avatar, SimpleGrid, Textarea, TextInput } from '@mantine/core';
+import { ChampionListData, ChampionIdData, baseUrl, serversList } from '../../d'
 import Verify from './Verify'
 import Refresh from './Refresh'
 import ResultBlock from '../search/ResultBlock'
@@ -18,7 +18,9 @@ interface EditProfileState {
     summonerIcon: number | undefined,
     level: number | undefined,
     topChamps: string[] | undefined,
-    refreshLoading: boolean
+    refreshLoading: boolean,
+    description: string | undefined,
+    discord: string | undefined
 }
 
 interface EditProfileProps {
@@ -47,13 +49,19 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
             topChamps: undefined,
             summonerIcon: undefined,
             rank: undefined,
-            refreshLoading: false
+            refreshLoading: false,
+            description: undefined,
+            discord: undefined
         }
     }
 
     gameModeChange = (value: string[]): void => this.setState({ gameModes: value })
 
     rolesChange = (value: string[]): void => this.setState({ roles: value })
+
+    descriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => this.setState({ description: event.target.value })
+
+    discordChange = (event: React.ChangeEvent<HTMLInputElement>): void => this.setState({ description: event.target.value })
 
     refresh = async () => {
         this.setState({ refreshLoading: true })
@@ -92,7 +100,8 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                     rank: result.profile.rank,
                     summonerIcon: result.profile.summonerIcon,
                     topChamps: result.profile.topChamps,
-                    level: result.profile.level
+                    level: result.profile.level,
+                    description: result.profile.description
                 }))
         }, 500)
 
@@ -104,7 +113,6 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                 <Grid.Col sx={{ paddingTop: 40 }} xs={10} md={8} lg={6} xl={6} offsetXs={1} offsetMd={2} offsetLg={3} offsetXl={3}>
                     <Group position='apart'>
                         <Title>Edit Profile</Title>
-                        {this.props.verified ? <Refresh refreshLoading={this.state.refreshLoading} refresh={this.refresh} /> : ''}
                     </Group>
 
                     <Space h='xl' />
@@ -120,14 +128,23 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                         />
                         :
                         <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
-                            <Title order={4}>{this.props.summonerName} ({this.props.server}) {this.props.verified ? <Badge color='green'>verified</Badge> : <Badge color='red'>not verified</Badge>}</Title>
+                            <Group position='apart'>
+                                <Title order={4}>{this.props.summonerName} {Object.values(serversList).map(v => {
+                                    if (v.value === this.props.server) return (<Badge radius='xs' className={v.label} variant='filled'>{v.label}</Badge>)
+                                })}</Title>
+                                {this.props.verified ? <Badge radius='xs' variant='filled' size='lg' color='green'>verified</Badge> : <Badge radius='xs' variant='filled' color='red'>not verified</Badge>}
+                            </Group>
+
                         </Paper>
                     }
                     <Space h='xl' />
                     {this.props.verified && this.props.summonerName !== null ?
                         <>
                             <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
-                                <Title order={4}>Ranked &amp; Champions</Title>
+                                <Group position='apart'>
+                                    <Title order={4}>Ranked &amp; Champions</Title>
+                                    {this.props.verified ? <Refresh refreshLoading={this.state.refreshLoading} refresh={this.refresh} /> : ''}
+                                </Group>
                                 <Space h='md' />
                                 <SimpleGrid cols={3}>
                                     <Group direction='column'>
@@ -155,6 +172,18 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                                             ''}
                                     </Group>
                                 </SimpleGrid>
+                            </Paper>
+                            <Space h='xl' />
+                            <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
+                                <Title order={4}>Profile Description</Title>
+                                <Space h='md' />
+                                <Textarea value={this.state.description} onChange={this.descriptionChange} />
+                            </Paper>
+                            <Space h='xl' />
+                            <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
+                                <Title order={4}>Discord Tag</Title>
+                                <Space h='md' />
+                                <TextInput placeholder='mydiscord#1234' value={this.state.discord} onChange={this.discordChange} />
                             </Paper>
                             <Space h='xl' />
                             <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>

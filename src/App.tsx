@@ -176,6 +176,8 @@ class App extends React.Component<{}, AppValues> {
               />} />
           </Routes>
         </Router>
+        <div id='cover'></div>
+        <div id='gradient'></div>
       </>
     );
   }

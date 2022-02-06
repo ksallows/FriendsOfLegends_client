@@ -1,5 +1,49 @@
 body {
-  overflow-x:hidden
+  overflow-x:hidden;
+  /* background: url('assets/bg3.png') bottom left no-repeat fixed;
+  background-size: 100%; */
+}
+
+#gradient {
+  background: linear-gradient(224deg, #693d1a, #1a1b1e);
+  background-size: 400% 400%;
+  -webkit-animation: Gradient 19s ease infinite;
+  -moz-animation: Gradient 19s ease infinite;
+  animation: Gradient 19s ease infinite;
+
+  width:100%;
+  position:fixed;
+  bottom:0;
+  left:0;
+  height:30vh;
+  z-index:-100;
+}
+
+#cover {
+  width:100%;
+  position:fixed;
+  bottom:0;
+  left:0;
+  height:30vh;
+  z-index:-80;
+  background: rgb(26,27,30);
+  background: linear-gradient(180deg, rgba(26,27,30,1) 0%, rgba(26,27,30,0) 100%);
+}
+
+@-webkit-keyframes Gradient {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@-moz-keyframes Gradient {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@keyframes Gradient {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
 }
 
 .unranked {background-color:grey}
@@ -12,3 +56,15 @@ body {
 .master {background-color:#cb68db}
 .grandmaster {background-color:#c53a19}
 .challenger {background-color:#005275; color:#ffcb51}
+
+.NA {background-color:#fa5252}
+.BR {background-color:#be4bdb}
+.EUNE {background-color:#15aabf}
+.LAS {background-color:#12b886}
+.LAN {background-color:#fd7e14}
+.JP {background-color:#7950f2}
+.KR {background-color:#4c6ef5}
+.EUW {background-color:#228be6}
+.RU {background-color:#fab005}
+.TR {background-color:#82c91e}
+.OCE {background-color:#40c057}

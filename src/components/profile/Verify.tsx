@@ -1,6 +1,7 @@
 import React from 'react';
 import APIURL from '../../helpers/environment'
 import { Title, Space, TextInput, Button, Alert, NativeSelect, Group, Badge, Paper } from '@mantine/core';
+import { serversList } from '../../d'
 
 interface VerifyState {
     verificationCode: string,
@@ -109,19 +110,7 @@ class Verify extends React.Component<VerifyProps, VerifyState> {
                     /><NativeSelect
                         onChange={this.serverChange}
                         value={this.state.serverInput}
-                        data={[
-                            { value: 'br1', label: 'BR' },
-                            { value: 'eun1', label: 'EUNE' },
-                            { value: 'euw1', label: 'EUW' },
-                            { value: 'jp1', label: 'JP' },
-                            { value: 'kr', label: 'KR' },
-                            { value: 'la1', label: 'LAN' },
-                            { value: 'la2', label: 'LAS' },
-                            { value: 'na1', label: 'NA' },
-                            { value: 'oc1', label: 'OCE' },
-                            { value: 'tr1', label: 'TR' },
-                            { value: 'ru1', label: 'RU' },
-                        ]} />
+                        data={serversList} />
                     <Button color='orange' onClick={this.changeSubmit}>Submit</Button>
                 </Group>
             </Paper>
