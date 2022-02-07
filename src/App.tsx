@@ -1,7 +1,7 @@
 import APIURL from './helpers/environment'
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ChampionListData, ChampionIdData, filters } from './d'
+import { ChampionListData, ChampionIdData, filters, baseUrl } from './d'
 import Nav from './components/Nav'
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
@@ -10,14 +10,11 @@ import Search from './components/search/Search';
 import EditProfile from './components/profile/EditProfile';
 import './App.css';
 
-const dataUrl: string = 'http://ddragon.leagueoflegends.com/cdn/'
-
 // TODO when you first log in, profileInfo isn't loaded in
 // fixed! 2/7/22
 
 interface AppValues {
   app_sessionToken: string | null,
-  app_auth: boolean,
 
   app_server: string | null,
   app_summonerName: string | null,
@@ -36,7 +33,7 @@ class App extends React.Component<{}, AppValues> {
     super(props)
     this.state = {
       app_sessionToken: null,
-      app_auth: false,
+
       app_server: null,
       app_summonerName: null,
       app_verified: false,
@@ -76,6 +73,7 @@ class App extends React.Component<{}, AppValues> {
   }
 
   checkToken = async (): Promise<void> => {
+    // if storage and state has token, check token for expiration and authenticity
     if (localStorage.getItem('Authorization') !== undefined && this.state.app_sessionToken === null) {
       await fetch(`${APIURL}/account/checkToken`, {
         method: 'POST',
@@ -92,7 +90,7 @@ class App extends React.Component<{}, AppValues> {
           else this.setState({ app_sessionToken: null })
           return result.json()
         })
-
+      // then get important user info
       if (this.state.app_sessionToken !== null) {
         await fetch(`${APIURL}/profile/summonerInfo`, {
           method: 'GET',
@@ -117,7 +115,7 @@ class App extends React.Component<{}, AppValues> {
     for (let i = 0; i < 5 || this.state.app_championValues !== null; i++) {
       setTimeout(async () => {
         if (this.state.app_patch !== null) {
-          await fetch(`${dataUrl}${this.state.app_patch}/data/en_US/champion.json`)
+          await fetch(`${baseUrl}${this.state.app_patch}/data/en_US/champion.json`)
             .then(result => result.json())
             .then(result => {
               this.setState({ app_championNameList: Object.keys(result.data) })
@@ -139,7 +137,7 @@ class App extends React.Component<{}, AppValues> {
     return (
       <>
         <Router>
-          <Nav app_auth={this.auth} app_sessionToken={this.state.app_sessionToken} app_clearToken={this.clearToken} />
+          <Nav app_sessionToken={this.state.app_sessionToken} app_clearToken={this.clearToken} />
           <Routes>
             <Route path='/register' element={<Register app_sessionToken={this.state.app_sessionToken} app_updateToken={this.updateToken} />} />
             <Route path='/login' element={<Login app_sessionToken={this.state.app_sessionToken} app_updateToken={this.updateToken} />} />

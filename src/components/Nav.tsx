@@ -8,7 +8,6 @@ interface NavState {
 }
 
 interface NavProps {
-    app_auth: () => boolean,
     app_sessionToken: string | null,
     app_clearToken: () => void
 }
