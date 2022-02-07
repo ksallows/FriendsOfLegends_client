@@ -18,7 +18,7 @@ export interface ChampionListData { value: string, label: string }
 
 export interface Filter { [key: string]: string }
 
-export const baseUrl = 'http://ddragon.leagueoflegends.com/cdn/'
+export const baseUrl = '//ddragon.leagueoflegends.com/cdn/'
 
 export const serversList = [
     { value: 'br1', label: 'BR' },
