@@ -44,3 +44,21 @@ export const filters: Filter = {
     TahmKench: 'Tahm Kench',
     Kogmaw: 'Kog\'Maw'
 }
+
+export function rankToCSS(rank: string | undefined) {
+    if (rank !== undefined) {
+        switch (rank.substring(0, 2)) {
+            case 'UN': return 'unranked';
+            case 'IR': return 'iron';
+            case 'BR': return 'bronze';
+            case 'SS': return 'silver';
+            case 'GO': return 'gold';
+            case 'PL': return 'platinum';
+            case 'DI': return 'diamond';
+            case 'MA': return 'master';
+            case 'GR': return 'grandmaster';
+            case 'CH': return 'challenger';
+        }
+    }
+    else return ''
+}

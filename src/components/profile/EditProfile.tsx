@@ -1,9 +1,10 @@
 import APIURL from '../../helpers/environment'
 import React from 'react';
-import { Title, Grid, Space, Chips, Chip, Paper, Badge, Group, Avatar, SimpleGrid, Textarea, TextInput, SegmentedControl } from '@mantine/core';
-import { ChampionListData, ChampionIdData, baseUrl, serversList } from '../../d'
+import { Title, Grid, Space, Chips, Chip, Paper, Badge, Group, Avatar, SimpleGrid, Textarea, TextInput, SegmentedControl, Center } from '@mantine/core';
+import { ChampionListData, ChampionIdData, baseUrl, serversList, rankToCSS } from '../../d'
 import Verify from './Verify'
 import Refresh from './Refresh'
+import equal from 'fast-deep-equal'
 import ResultBlock from '../search/ResultBlock'
 import jungle from '../../assets/jungle.svg'
 import mid from '../../assets/mid.svg'
@@ -21,7 +22,8 @@ interface EditProfileState {
     refreshLoading: boolean,
     description: string | undefined,
     discord: string | undefined,
-    voiceComm: boolean | null
+    voiceComm: boolean | null,
+    rankClass: string | undefined
 }
 
 interface EditProfileProps {
@@ -53,7 +55,8 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
             refreshLoading: false,
             description: undefined,
             discord: undefined,
-            voiceComm: null
+            voiceComm: null,
+            rankClass: undefined
         }
     }
 
@@ -87,28 +90,35 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
             .then(result => this.setState({ refreshLoading: false }))
     }
 
-    componentDidMount = () => {
-        setTimeout(async () => {
-            await fetch(`${APIURL}/profile/p/${this.props.app_profileId}`, {
-                method: 'GET',
-                mode: 'cors',
-                headers: new Headers({
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.props.app_sessionToken}`
-                })
+    getProfile = async () => {
+        await fetch(`${APIURL}/profile/p/${this.props.app_profileId}`, {
+            method: 'GET',
+            mode: 'cors',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.props.app_sessionToken}`
             })
-                .then(result => result.json())
-                .then(result => this.setState({
-                    roles: result.profile.roles,
-                    gameModes: result.profile.gameModes,
-                    rank: result.profile.rank,
-                    summonerIcon: result.profile.summonerIcon,
-                    topChamps: result.profile.topChamps,
-                    level: result.profile.level,
-                    description: result.profile.description
-                }))
-        }, 500)
+        })
+            .then(result => result.json())
+            .then(result => this.setState({
+                roles: result.profile.roles,
+                gameModes: result.profile.gameModes,
+                rank: result.profile.rank,
+                summonerIcon: result.profile.summonerIcon,
+                topChamps: result.profile.topChamps,
+                level: result.profile.level,
+                description: result.profile.description,
+                rankClass: rankToCSS(result.profile.rank)
+            }))
+    }
 
+    componentDidMount = () => {
+        setTimeout(this.getProfile, 500);
+    }
+
+    componentDidUpdate(prevProps: EditProfileProps) {
+        if (!equal(this.props.app_sessionToken, prevProps.app_sessionToken))
+            this.getProfile()
     }
 
     render() {
@@ -117,6 +127,7 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                 <Grid.Col sx={{ paddingTop: 40 }} xs={10} md={8} lg={6} xl={6} offsetXs={1} offsetMd={2} offsetLg={3} offsetXl={3}>
                     <Group position='apart'>
                         <Title>Edit Profile</Title>
+                        {this.props.app_verified ? <Refresh editProfile_refreshLoading={this.state.refreshLoading} editProfile_refresh={this.refresh} /> : ''}
                     </Group>
 
                     <Space h='xl' />
@@ -133,9 +144,20 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                         :
                         <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
                             <Group position='apart'>
-                                <Title order={4}>{this.props.app_summonerName} {Object.values(serversList).map(v => {
-                                    if (v.value === this.props.app_server) return (<Badge radius='xs' className={v.label} variant='filled'>{v.label}</Badge>)
-                                })}</Title>
+                                <Group>
+                                    <Avatar
+                                        size='lg'
+                                        radius='xl'
+                                        src={`${baseUrl}${this.props.app_patch}/img/profileicon/${this.state.summonerIcon}.png`} alt='its me'
+                                    />
+                                    <Title order={4}>
+                                        {this.props.app_summonerName}
+                                        {Object.values(serversList).map(v => {
+                                            if (v.value === this.props.app_server) return (<Badge sx={{ marginLeft: '0.5rem' }} radius='xs' className={v.label} variant='filled'>{v.label}</Badge>)
+                                        })}
+                                        <Badge radius='xs' sx={{ marginLeft: '0.5rem' }} variant='filled' className={`${this.state.rankClass}`}>{this.state.rank}</Badge></Title>
+                                </Group>
+
                                 {this.props.app_verified ? <Badge radius='xs' variant='filled' size='lg' color='green'>verified</Badge> : <Badge radius='xs' variant='filled' color='red'>not verified</Badge>}
                             </Group>
 
@@ -146,36 +168,17 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                         <>
                             <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
                                 <Group position='apart'>
-                                    <Title order={4}>Ranked &amp; Champions</Title>
-                                    {this.props.app_verified ? <Refresh editProfile_refreshLoading={this.state.refreshLoading} editProfile_refresh={this.refresh} /> : ''}
-                                </Group>
-                                <Space h='md' />
-                                <SimpleGrid cols={3}>
-                                    <Group direction='column'>
-                                        <Avatar
-                                            size='lg'
-                                            radius='xl'
-                                            src={`${baseUrl}${this.props.app_patch}/img/profileicon/${this.state.summonerIcon}.png`} alt='its me'
-                                        />
-                                        <p>{this.state.level}</p>
-                                    </Group>
+                                    <Title order={4}>Top Champions</Title>
+                                    {this.state.topChamps !== undefined ?
+                                        <Group>
+                                            <Avatar radius='xs' src={`${baseUrl}${this.props.app_patch}/img/champion/${this.props.app_championIdsToName[`n${this.state.topChamps[0]}`]}.png`} />
+                                            <Avatar radius='xs' src={`${baseUrl}${this.props.app_patch}/img/champion/${this.props.app_championIdsToName[`n${this.state.topChamps[1]}`]}.png`} />
+                                            <Avatar radius='xs' src={`${baseUrl}${this.props.app_patch}/img/champion/${this.props.app_championIdsToName[`n${this.state.topChamps[2]}`]}.png`} />
+                                        </Group>
+                                        :
+                                        ''}
 
-                                    <Group direction='column'>
-                                        <Title order={6}>Rank:</Title>
-                                        <p>{this.state.rank}</p>
-                                    </Group>
-                                    <Group direction='column'>
-                                        <Title order={6}>Top Champs:</Title>
-                                        {this.state.topChamps !== undefined ?
-                                            <Group>
-                                                <Avatar radius='xs' src={`${baseUrl}${this.props.app_patch}/img/champion/${this.props.app_championIdsToName[`n${this.state.topChamps[0]}`]}.png`} />
-                                                <Avatar radius='xs' src={`${baseUrl}${this.props.app_patch}/img/champion/${this.props.app_championIdsToName[`n${this.state.topChamps[1]}`]}.png`} />
-                                                <Avatar radius='xs' src={`${baseUrl}${this.props.app_patch}/img/champion/${this.props.app_championIdsToName[`n${this.state.topChamps[2]}`]}.png`} />
-                                            </Group>
-                                            :
-                                            ''}
-                                    </Group>
-                                </SimpleGrid>
+                                </Group>
                             </Paper>
                             <Space h='xl' />
                             <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>

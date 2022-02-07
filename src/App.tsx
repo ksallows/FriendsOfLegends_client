@@ -13,6 +13,7 @@ import './App.css';
 const dataUrl: string = 'http://ddragon.leagueoflegends.com/cdn/'
 
 // TODO when you first log in, profileInfo isn't loaded in
+// fixed! 2/7/22
 
 interface AppValues {
   app_sessionToken: string | null,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Paper, Title, Space, Avatar, Group, Badge, SimpleGrid, Tooltip } from '@mantine/core';
-import { Result, ChampionIdData, baseUrl } from '../../d'
+import { Result, ChampionIdData, baseUrl, rankToCSS } from '../../d'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMicrophone, faMicrophoneSlash } from '@fortawesome/free-solid-svg-icons'
 import all from '../../assets/all.svg'
@@ -11,7 +11,7 @@ import bottom from '../../assets/bottom.svg'
 import top from '../../assets/top.svg'
 
 interface ResultBlockState {
-    rankClass: string | null
+    rankClass: string | undefined
 }
 
 interface ResultBlockProps {
@@ -24,7 +24,7 @@ class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {
     constructor(props: ResultBlockProps) {
         super(props);
         this.state = {
-            rankClass: null
+            rankClass: undefined
         }
     }
 
@@ -65,18 +65,7 @@ class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {
     }
 
     componentDidMount = () => {
-        switch (this.props.search_result.rank.substring(0, 2)) {
-            case 'Un': this.setState({ rankClass: 'unranked' }); break;
-            case 'Ir': this.setState({ rankClass: 'iron' }); break;
-            case 'Br': this.setState({ rankClass: 'bronze' }); break;
-            case 'Si': this.setState({ rankClass: 'silver' }); break;
-            case 'Go': this.setState({ rankClass: 'gold' }); break;
-            case 'Pl': this.setState({ rankClass: 'platinum' }); break;
-            case 'Di': this.setState({ rankClass: 'diamond' }); break;
-            case 'Ma': this.setState({ rankClass: 'master' }); break;
-            case 'Gr': this.setState({ rankClass: 'grandmaster' }); break;
-            case 'Ch': this.setState({ rankClass: 'challenger' }); break;
-        }
+        this.setState({ rankClass: rankToCSS(this.props.search_result.rank) });
     }
 
     render() {

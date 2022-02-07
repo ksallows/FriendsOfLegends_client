@@ -15,7 +15,7 @@ const dummyData = [
         "profileId": "24f5cec9-6084-4cb7-bcac-fd0b03dd3beb",
         "summonerIcon": 4413,
         "level": 214,
-        "rank": "Grandmaster",
+        "rank": "GRANDMASTER",
         "topChamps": [
             "222",
             "17",
