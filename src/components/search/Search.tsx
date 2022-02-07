@@ -17,12 +17,12 @@ interface SearchState {
 }
 
 type SearchProps = {
-    auth: () => boolean,
-    sessionToken: string | null,
-    patch: string | null,
-    championNameList: string[] | null,
-    championValues: ChampionListData[] | null,
-    championIdsToName: ChampionIdData
+    app_auth: () => boolean,
+    app_sessionToken: string | null,
+    app_patch: string | null,
+    app_championNameList: string[] | null,
+    app_championValues: ChampionListData[] | null,
+    app_championIdsToName: ChampionIdData
 }
 
 class Search extends React.Component<SearchProps, SearchState> {
@@ -56,7 +56,7 @@ class Search extends React.Component<SearchProps, SearchState> {
             }),
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.props.sessionToken}`
+                'Authorization': `Bearer ${this.props.app_sessionToken}`
             })
         })
             .then(result => result.json())
@@ -83,22 +83,22 @@ class Search extends React.Component<SearchProps, SearchState> {
                     xl={2}
                 >
                     <SearchForm
-                        sessionToken={this.props.sessionToken}
-                        auth={this.props.auth}
-                        voiceCommChange={this.voiceCommChange}
-                        rolesChange={this.rolesChange}
-                        rankChange={this.rankChange}
-                        gameModeChange={this.gameModeChange}
-                        championsChange={this.championsChange}
-                        submitSearch={this.submitSearch}
-                        voiceComm={this.state.voiceComm}
-                        roles={this.state.roles}
-                        champions={this.state.champions}
-                        gameModes={this.state.gameModes}
-                        rank={this.state.rank}
-                        patch={this.props.patch}
-                        championNameList={this.props.championNameList}
-                        championValues={this.props.championValues}
+                        app_sessionToken={this.props.app_sessionToken}
+                        app_auth={this.props.app_auth}
+                        search_voiceCommChange={this.voiceCommChange}
+                        search_rolesChange={this.rolesChange}
+                        search_rankChange={this.rankChange}
+                        search_gameModeChange={this.gameModeChange}
+                        search_championsChange={this.championsChange}
+                        search_submitSearch={this.submitSearch}
+                        search_voiceComm={this.state.voiceComm}
+                        search_roles={this.state.roles}
+                        search_champions={this.state.champions}
+                        search_gameModes={this.state.gameModes}
+                        search_rank={this.state.rank}
+                        app_patch={this.props.app_patch}
+                        app_championNameList={this.props.app_championNameList}
+                        app_championValues={this.props.app_championValues}
                     />
                 </Grid.Col>
                 <Grid.Col
@@ -108,9 +108,9 @@ class Search extends React.Component<SearchProps, SearchState> {
                     xl={8}
                 >
                     <SearchResults
-                        patch={this.props.patch}
-                        results={this.state.results}
-                        championIdsToName={this.props.championIdsToName}
+                        app_patch={this.props.app_patch}
+                        search_results={this.state.results}
+                        app_championIdsToName={this.props.app_championIdsToName}
                     />
                 </Grid.Col>
             </Grid>

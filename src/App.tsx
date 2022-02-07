@@ -1,7 +1,7 @@
 import APIURL from './helpers/environment'
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ChampionListData, ChampionIdData, Filter } from './d'
+import { ChampionListData, ChampionIdData, filters } from './d'
 import Nav from './components/Nav'
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
@@ -14,64 +14,56 @@ const dataUrl: string = 'http://ddragon.leagueoflegends.com/cdn/'
 
 // TODO when you first log in, profileInfo isn't loaded in
 
-const filters: Filter = {
-  MonkeyKing: 'Wukong',
-  Reksai: 'Rek\'Sai',
-  Kaisa: 'Kai\'Sa',
-  Velkoz: 'Vel\'Koz',
-  Khazix: 'Kha\'Zix',
-  AurelionSol: 'Aurelion Sol',
-  TahmKench: 'Tahm Kench',
-  Kogmaw: 'Kog\'Maw'
-}
-
 interface AppValues {
-  sessionToken: string | null,
-  auth: boolean,
-  server: string | null,
-  summonerName: string | null,
-  verified: boolean,
-  patch: string | null,
-  profileId: string | null,
-  championNameList: string[] | null,
-  championValues: ChampionListData[] | null,
-  championIdsToName: ChampionIdData
+  app_sessionToken: string | null,
+  app_auth: boolean,
+
+  app_server: string | null,
+  app_summonerName: string | null,
+  app_verified: boolean,
+  app_profileId: string | null,
+
+  app_patch: string | null,
+
+  app_championNameList: string[] | null,
+  app_championValues: ChampionListData[] | null,
+  app_championIdsToName: ChampionIdData
 }
 
 class App extends React.Component<{}, AppValues> {
   constructor(props: {}) {
     super(props)
     this.state = {
-      sessionToken: null,
-      auth: false,
-      server: null,
-      summonerName: null,
-      verified: false,
-      patch: null,
-      profileId: null,
-      championNameList: null, // 1 dimensional array of all champ names    
-      championValues: null,   // {{label: 'Aatrox', value: '266'}, ...}
-      championIdsToName: { n0: '' } // {n266: 'AAtrox, ...}
+      app_sessionToken: null,
+      app_auth: false,
+      app_server: null,
+      app_summonerName: null,
+      app_verified: false,
+      app_patch: null,
+      app_profileId: null,
+      app_championNameList: null, // 1 dimensional array of all champ names    
+      app_championValues: null,   // {{label: 'Aatrox', value: '266'}, ...}
+      app_championIdsToName: { n0: '' } // {n266: 'AAtrox, ...}
     }
   }
 
-  updateVerify = (value: boolean): void => this.setState({ verified: value })
-  updateSummonerName = (value: string): void => this.setState({ summonerName: value })
-  updateServer = (value: string): void => this.setState({ server: value })
+  updateVerify = (value: boolean): void => this.setState({ app_verified: value })
+  updateSummonerName = (value: string): void => this.setState({ app_summonerName: value })
+  updateServer = (value: string): void => this.setState({ app_server: value })
 
   updateToken = (token: string): void => {
-    this.setState({ sessionToken: token })
+    this.setState({ app_sessionToken: token })
     localStorage.setItem('Authorization', token);
   }
 
   clearToken = (): void => {
-    this.setState({ sessionToken: null });
+    this.setState({ app_sessionToken: null });
     localStorage.removeItem('Authorization');
   }
 
   auth = (): boolean => localStorage.getItem('Authorization') !== null &&
-    this.state.sessionToken !== null &&
-    this.state.sessionToken === localStorage.getItem('Authorization')
+    this.state.app_sessionToken !== null &&
+    this.state.app_sessionToken === localStorage.getItem('Authorization')
 
   getPatch = async (): Promise<void> => {
     await fetch('https://ddragon.leagueoflegends.com/realms/na.json', {
@@ -79,11 +71,11 @@ class App extends React.Component<{}, AppValues> {
       mode: 'cors'
     })
       .then(result => result.json())
-      .then(result => this.setState({ patch: result.v }))
+      .then(result => this.setState({ app_patch: result.v }))
   }
 
   checkToken = async (): Promise<void> => {
-    if (localStorage.getItem('Authorization') !== undefined && this.state.sessionToken === null) {
+    if (localStorage.getItem('Authorization') !== undefined && this.state.app_sessionToken === null) {
       await fetch(`${APIURL}/account/checkToken`, {
         method: 'POST',
         mode: 'cors',
@@ -95,12 +87,12 @@ class App extends React.Component<{}, AppValues> {
       })
         .then(result => {
           if (result.status === 200)
-            this.setState({ sessionToken: localStorage.getItem('Authorization') })
-          else this.setState({ sessionToken: null })
+            this.setState({ app_sessionToken: localStorage.getItem('Authorization') })
+          else this.setState({ app_sessionToken: null })
           return result.json()
         })
 
-      if (this.state.sessionToken !== null) {
+      if (this.state.app_sessionToken !== null) {
         await fetch(`${APIURL}/profile/summonerInfo`, {
           method: 'GET',
           mode: 'cors',
@@ -111,7 +103,7 @@ class App extends React.Component<{}, AppValues> {
           }),
         }).then(result => result.json())
           .then(result => {
-            this.setState({ profileId: result.profileId, verified: result.verified, server: result.server, summonerName: result.summonerName })
+            this.setState({ app_profileId: result.profileId, app_verified: result.verified, app_server: result.server, app_summonerName: result.summonerName })
           })
       }
 
@@ -121,13 +113,13 @@ class App extends React.Component<{}, AppValues> {
   componentDidMount = () => {
     this.checkToken()
     this.getPatch()
-    for (let i = 0; i < 5 || this.state.championValues !== null; i++) {
+    for (let i = 0; i < 5 || this.state.app_championValues !== null; i++) {
       setTimeout(async () => {
-        if (this.state.patch !== null) {
-          await fetch(`${dataUrl}${this.state.patch}/data/en_US/champion.json`)
+        if (this.state.app_patch !== null) {
+          await fetch(`${dataUrl}${this.state.app_patch}/data/en_US/champion.json`)
             .then(result => result.json())
             .then(result => {
-              this.setState({ championNameList: Object.keys(result.data) })
+              this.setState({ app_championNameList: Object.keys(result.data) })
               let champData: ChampionListData[] = [];
               let champIds: ChampionIdData = {}
               Object.keys(result.data).map(key => {
@@ -135,7 +127,7 @@ class App extends React.Component<{}, AppValues> {
                 champIds[`n${result.data[key].key}`] = result.data[key].id
                 return null
               })
-              this.setState({ championValues: champData, championIdsToName: champIds })
+              this.setState({ app_championValues: champData, app_championIdsToName: champIds })
             })
         }
       }, 1000)
@@ -146,33 +138,33 @@ class App extends React.Component<{}, AppValues> {
     return (
       <>
         <Router>
-          <Nav auth={this.auth} sessionToken={this.state.sessionToken} clearToken={this.clearToken} />
+          <Nav app_auth={this.auth} app_sessionToken={this.state.app_sessionToken} app_clearToken={this.clearToken} />
           <Routes>
-            <Route path='/register' element={<Register sessionToken={this.state.sessionToken} updateToken={this.updateToken} />} />
-            <Route path='/login' element={<Login sessionToken={this.state.sessionToken} updateToken={this.updateToken} />} />
+            <Route path='/register' element={<Register app_sessionToken={this.state.app_sessionToken} app_updateToken={this.updateToken} />} />
+            <Route path='/login' element={<Login app_sessionToken={this.state.app_sessionToken} app_updateToken={this.updateToken} />} />
             <Route path='/' element={<Home />} />
             <Route path='/search' element={<Search
-              championNameList={this.state.championNameList}
-              championValues={this.state.championValues}
-              patch={this.state.patch}
-              sessionToken={this.state.sessionToken}
-              auth={this.auth}
-              championIdsToName={this.state.championIdsToName} />} />
+              app_championNameList={this.state.app_championNameList}
+              app_championValues={this.state.app_championValues}
+              app_patch={this.state.app_patch}
+              app_sessionToken={this.state.app_sessionToken}
+              app_auth={this.auth}
+              app_championIdsToName={this.state.app_championIdsToName} />} />
             <Route path='/editprofile'
               element={<EditProfile
-                patch={this.state.patch}
-                profileId={this.state.profileId}
-                server={this.state.server}
-                updateSummonerName={this.updateSummonerName}
-                updateServer={this.updateServer}
-                summonerName={this.state.summonerName}
-                updateVerify={this.updateVerify}
-                verified={this.state.verified}
-                sessionToken={this.state.sessionToken}
-                auth={this.auth}
-                championNameList={this.state.championNameList}
-                championValues={this.state.championValues}
-                championIdsToName={this.state.championIdsToName}
+                app_patch={this.state.app_patch}
+                app_profileId={this.state.app_profileId}
+                app_server={this.state.app_server}
+                app_updateSummonerName={this.updateSummonerName}
+                app_updateServer={this.updateServer}
+                app_summonerName={this.state.app_summonerName}
+                app_updateVerify={this.updateVerify}
+                app_verified={this.state.app_verified}
+                app_sessionToken={this.state.app_sessionToken}
+                app_auth={this.auth}
+                app_championNameList={this.state.app_championNameList}
+                app_championValues={this.state.app_championValues}
+                app_championIdsToName={this.state.app_championIdsToName}
               />} />
           </Routes>
         </Router>

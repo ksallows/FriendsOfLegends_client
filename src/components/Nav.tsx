@@ -8,9 +8,9 @@ interface NavState {
 }
 
 interface NavProps {
-    auth: () => boolean,
-    sessionToken: string | null,
-    clearToken: () => void
+    app_auth: () => boolean,
+    app_sessionToken: string | null,
+    app_clearToken: () => void
 }
 
 class Nav extends React.Component<NavProps, NavState> {
@@ -25,14 +25,14 @@ class Nav extends React.Component<NavProps, NavState> {
         return (
             <Header sx={{ padding: 10, backgroundColor: '#151619' }} height={65}>
 
-                {this.props.sessionToken ?
+                {this.props.app_sessionToken ?
                     <Group position='apart'>
                         <Group>
                             <Link to='/'><Image src={logo} width={280} /></Link>
                             <Button size='md' variant='gradient' component={Link} to='/search' gradient={{ from: 'orange', to: 'yellow', deg: 105 }}>Find Friends</Button>
                             <Button color='gray' size='md' component={Link} to='/editprofile'>Profile</Button>
                         </Group>
-                        <Button component={Link} to='/' variant='subtle' color='gray' size='md' onClick={this.props.clearToken}>Log Out</Button>
+                        <Button component={Link} to='/' variant='subtle' color='gray' size='md' onClick={this.props.app_clearToken}>Log Out</Button>
                     </Group>
 
                     :

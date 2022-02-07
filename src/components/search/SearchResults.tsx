@@ -5,9 +5,9 @@ import { ChampionIdData, Result } from '../../d'
 interface SearchResultsState { }
 
 interface SearchResultsProps {
-    results: Result[] | null,
-    patch: string | null,
-    championIdsToName: ChampionIdData
+    search_results: Result[] | null,
+    app_patch: string | null,
+    app_championIdsToName: ChampionIdData
 }
 
 const dummyData = [
@@ -43,7 +43,7 @@ class SearchResults extends React.Component<SearchResultsProps, SearchResultsSta
     render() {
         return (
             <>
-                <ResultBlock championIdsToName={this.props.championIdsToName} patch={this.props.patch} result={dummyData[0]} />
+                <ResultBlock app_championIdsToName={this.props.app_championIdsToName} app_patch={this.props.app_patch} search_result={dummyData[0]} />
             </>
         )
     }

@@ -33,3 +33,14 @@ export const serversList = [
     { value: 'tr1', label: 'TR' },
     { value: 'ru1', label: 'RU' },
 ]
+
+export const filters: Filter = {
+    MonkeyKing: 'Wukong',
+    Reksai: 'Rek\'Sai',
+    Kaisa: 'Kai\'Sa',
+    Velkoz: 'Vel\'Koz',
+    Khazix: 'Kha\'Zix',
+    AurelionSol: 'Aurelion Sol',
+    TahmKench: 'Tahm Kench',
+    Kogmaw: 'Kog\'Maw'
+}

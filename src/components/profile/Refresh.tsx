@@ -5,8 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSync } from '@fortawesome/free-solid-svg-icons'
 
 interface RefreshProps {
-    refresh: () => any,
-    refreshLoading: boolean
+    editProfile_refresh: () => any,
+    editProfile_refreshLoading: boolean
 }
 
 class Refresh extends React.Component<RefreshProps, {}> {
@@ -15,7 +15,7 @@ class Refresh extends React.Component<RefreshProps, {}> {
     }
     render() {
         return (
-            <Button loading={this.props.refreshLoading} onClick={this.props.refresh} color='orange' leftIcon={<FontAwesomeIcon icon={faSync} />}> Refresh</Button>
+            <Button loading={this.props.editProfile_refreshLoading} onClick={this.props.editProfile_refresh} color='orange' leftIcon={<FontAwesomeIcon icon={faSync} />}> Refresh</Button>
         )
     }
 }

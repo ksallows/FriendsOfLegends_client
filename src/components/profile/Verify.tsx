@@ -12,13 +12,13 @@ interface VerifyState {
 }
 
 interface VerifyProps {
-    sessionToken: string | null,
-    verified: boolean,
-    updateVerify: (value: boolean) => void,
-    summonerName: string | null,
-    server: string | null,
-    updateSummonerName: (value: string) => void,
-    updateServer: (value: string) => void
+    app_sessionToken: string | null,
+    app_verified: boolean,
+    app_updateVerify: (value: boolean) => void,
+    app_summonerName: string | null,
+    app_server: string | null,
+    app_updateSummonerName: (value: string) => void,
+    app_updateServer: (value: string) => void
 }
 
 class Verify extends React.Component<VerifyProps, VerifyState> {
@@ -39,7 +39,7 @@ class Verify extends React.Component<VerifyProps, VerifyState> {
             mode: 'cors',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.props.sessionToken}`
+                'Authorization': `Bearer ${this.props.app_sessionToken}`
             })
         })
             .then(result => result.json())
@@ -54,12 +54,12 @@ class Verify extends React.Component<VerifyProps, VerifyState> {
             credentials: 'include',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.props.sessionToken}`
+                'Authorization': `Bearer ${this.props.app_sessionToken}`
             })
         })
             .then(result => {
                 if (result.status === 200) {
-                    this.props.updateVerify(true)
+                    this.props.app_updateVerify(true)
                     this.setState({ notification: 'Summoner verified!', notificationSuccess: true })
                 }
                 else this.setState({ notification: 'Unable to verify. Repeat the steps and try again.', notificationSuccess: false })
@@ -84,13 +84,13 @@ class Verify extends React.Component<VerifyProps, VerifyState> {
             credentials: 'include',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.props.sessionToken}`
+                'Authorization': `Bearer ${this.props.app_sessionToken}`
             })
         })
             .then(result => {
                 if (result.status === 200) {
-                    this.props.updateSummonerName(this.state.summonerNameInput);
-                    this.props.updateServer(this.state.serverInput)
+                    this.props.app_updateSummonerName(this.state.summonerNameInput);
+                    this.props.app_updateServer(this.state.serverInput)
                 }
             })
             .catch(error => console.log(error))
@@ -115,8 +115,8 @@ class Verify extends React.Component<VerifyProps, VerifyState> {
                 </Group>
             </Paper>
 
-            {this.props.summonerName !== null ?
-                this.props.verified ?
+            {this.props.app_summonerName !== null ?
+                this.props.app_verified ?
                     ''
                     :
                     <>

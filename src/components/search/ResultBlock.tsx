@@ -15,9 +15,9 @@ interface ResultBlockState {
 }
 
 interface ResultBlockProps {
-    result: Result,
-    patch: string | null,
-    championIdsToName: ChampionIdData
+    search_result: Result,
+    app_patch: string | null,
+    app_championIdsToName: ChampionIdData
 }
 
 class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {
@@ -30,17 +30,17 @@ class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {
 
     topChamps = (): JSX.Element[] => {
         let champs: JSX.Element[] = []
-        for (let i = 0; i < this.props.result.topChamps.length; i++) {
-            champs.push(<Avatar radius='xs' src={`${baseUrl}${this.props.patch}/img/champion/${this.props.championIdsToName[`n${this.props.result.topChamps[i]}`]}.png`} />)
+        for (let i = 0; i < this.props.search_result.topChamps.length; i++) {
+            champs.push(<Avatar radius='xs' src={`${baseUrl}${this.props.app_patch}/img/champion/${this.props.app_championIdsToName[`n${this.props.search_result.topChamps[i]}`]}.png`} />)
         }
         return champs;
     }
 
     roles = (): JSX.Element[] | JSX.Element => {
         let roles: JSX.Element[] = []
-        if (this.props.result.roles !== null) {
-            for (let i = 0; i < this.props.result.roles.length; i++) {
-                switch (this.props.result.roles[i]) {
+        if (this.props.search_result.roles !== null) {
+            for (let i = 0; i < this.props.search_result.roles.length; i++) {
+                switch (this.props.search_result.roles[i]) {
                     case 'top': roles.push(<Avatar src={top} />); break;
                     case 'mid': roles.push(<Avatar src={mid} />); break;
                     case 'support': roles.push(<Avatar src={support} />); break;
@@ -55,9 +55,9 @@ class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {
 
     gameModes = () => {
         let gameModes: JSX.Element[] = [];
-        if (this.props.result.gameModes !== null) {
-            for (let i = 0; i < this.props.result.gameModes.length; i++) {
-                gameModes.push(<Badge color='orange' variant='filled' size='md'>{this.props.result.gameModes[i]}</Badge>)
+        if (this.props.search_result.gameModes !== null) {
+            for (let i = 0; i < this.props.search_result.gameModes.length; i++) {
+                gameModes.push(<Badge color='orange' variant='filled' size='md'>{this.props.search_result.gameModes[i]}</Badge>)
             }
             return gameModes;
         }
@@ -65,7 +65,7 @@ class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {
     }
 
     componentDidMount = () => {
-        switch (this.props.result.rank.substring(0, 2)) {
+        switch (this.props.search_result.rank.substring(0, 2)) {
             case 'Un': this.setState({ rankClass: 'unranked' }); break;
             case 'Ir': this.setState({ rankClass: 'iron' }); break;
             case 'Br': this.setState({ rankClass: 'bronze' }); break;
@@ -86,12 +86,12 @@ class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {
                     <Avatar
                         size='lg'
                         radius='xl'
-                        src={`${baseUrl}${this.props.patch}/img/profileicon/${this.props.result.summonerIcon}.png`} alt='its me'
+                        src={`${baseUrl}${this.props.app_patch}/img/profileicon/${this.props.search_result.summonerIcon}.png`} alt='its me'
                     />
-                    <Title order={3}>{this.props.result.summonerName}</Title>
-                    <Badge variant='filled' className={`${this.state.rankClass}`}>{this.props.result.rank}</Badge>
-                    {this.props.result.voiceComm === null ? '' :
-                        this.props.result.voiceComm === true ? <Tooltip withArrow color='orange' label='wants to voice chat'><FontAwesomeIcon size='lg' icon={faMicrophone} color="green" /></Tooltip> :
+                    <Title order={3}>{this.props.search_result.summonerName}</Title>
+                    <Badge variant='filled' className={`${this.state.rankClass}`}>{this.props.search_result.rank}</Badge>
+                    {this.props.search_result.voiceComm === null ? '' :
+                        this.props.search_result.voiceComm === true ? <Tooltip withArrow color='orange' label='wants to voice chat'><FontAwesomeIcon size='lg' icon={faMicrophone} color="green" /></Tooltip> :
                             <Tooltip withArrow color='orange' label='does not want to voice chat'><FontAwesomeIcon icon={faMicrophoneSlash} color="red" /></Tooltip>
                     }
                 </Group>

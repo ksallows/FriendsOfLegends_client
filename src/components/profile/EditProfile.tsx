@@ -25,19 +25,19 @@ interface EditProfileState {
 }
 
 interface EditProfileProps {
-    auth: () => boolean,
-    sessionToken: string | null,
-    verified: boolean,
-    updateVerify: (value: boolean) => void,
-    updateSummonerName: (value: string) => void,
-    updateServer: (value: string) => void,
-    summonerName: string | null,
-    server: string | null,
-    profileId: string | null,
-    championNameList: string[] | null,
-    championValues: ChampionListData[] | null,
-    championIdsToName: ChampionIdData,
-    patch: string | null,
+    app_auth: () => boolean,
+    app_sessionToken: string | null,
+    app_verified: boolean,
+    app_updateVerify: (value: boolean) => void,
+    app_updateSummonerName: (value: string) => void,
+    app_updateServer: (value: string) => void,
+    app_summonerName: string | null,
+    app_server: string | null,
+    app_profileId: string | null,
+    app_championNameList: string[] | null,
+    app_championValues: ChampionListData[] | null,
+    app_championIdsToName: ChampionIdData,
+    app_patch: string | null,
 }
 
 class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
@@ -74,7 +74,7 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
             mode: 'cors',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.props.sessionToken}`
+                'Authorization': `Bearer ${this.props.app_sessionToken}`
             })
         })
             .then(result => result.json())
@@ -89,12 +89,12 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
 
     componentDidMount = () => {
         setTimeout(async () => {
-            await fetch(`${APIURL}/profile/p/${this.props.profileId}`, {
+            await fetch(`${APIURL}/profile/p/${this.props.app_profileId}`, {
                 method: 'GET',
                 mode: 'cors',
                 headers: new Headers({
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.props.sessionToken}`
+                    'Authorization': `Bearer ${this.props.app_sessionToken}`
                 })
             })
                 .then(result => result.json())
@@ -120,34 +120,34 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                     </Group>
 
                     <Space h='xl' />
-                    {this.props.summonerName === null ?
+                    {this.props.app_summonerName === null ?
                         <Verify
-                            server={this.props.server}
-                            updateSummonerName={this.props.updateSummonerName}
-                            updateServer={this.props.updateServer}
-                            summonerName={this.props.summonerName}
-                            updateVerify={this.props.updateVerify}
-                            verified={this.props.verified}
-                            sessionToken={this.props.sessionToken}
+                            app_server={this.props.app_server}
+                            app_updateSummonerName={this.props.app_updateSummonerName}
+                            app_updateServer={this.props.app_updateServer}
+                            app_summonerName={this.props.app_summonerName}
+                            app_updateVerify={this.props.app_updateVerify}
+                            app_verified={this.props.app_verified}
+                            app_sessionToken={this.props.app_sessionToken}
                         />
                         :
                         <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
                             <Group position='apart'>
-                                <Title order={4}>{this.props.summonerName} {Object.values(serversList).map(v => {
-                                    if (v.value === this.props.server) return (<Badge radius='xs' className={v.label} variant='filled'>{v.label}</Badge>)
+                                <Title order={4}>{this.props.app_summonerName} {Object.values(serversList).map(v => {
+                                    if (v.value === this.props.app_server) return (<Badge radius='xs' className={v.label} variant='filled'>{v.label}</Badge>)
                                 })}</Title>
-                                {this.props.verified ? <Badge radius='xs' variant='filled' size='lg' color='green'>verified</Badge> : <Badge radius='xs' variant='filled' color='red'>not verified</Badge>}
+                                {this.props.app_verified ? <Badge radius='xs' variant='filled' size='lg' color='green'>verified</Badge> : <Badge radius='xs' variant='filled' color='red'>not verified</Badge>}
                             </Group>
 
                         </Paper>
                     }
                     <Space h='xl' />
-                    {this.props.verified && this.props.summonerName !== null ?
+                    {this.props.app_verified && this.props.app_summonerName !== null ?
                         <>
                             <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
                                 <Group position='apart'>
                                     <Title order={4}>Ranked &amp; Champions</Title>
-                                    {this.props.verified ? <Refresh refreshLoading={this.state.refreshLoading} refresh={this.refresh} /> : ''}
+                                    {this.props.app_verified ? <Refresh editProfile_refreshLoading={this.state.refreshLoading} editProfile_refresh={this.refresh} /> : ''}
                                 </Group>
                                 <Space h='md' />
                                 <SimpleGrid cols={3}>
@@ -155,7 +155,7 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                                         <Avatar
                                             size='lg'
                                             radius='xl'
-                                            src={`${baseUrl}${this.props.patch}/img/profileicon/${this.state.summonerIcon}.png`} alt='its me'
+                                            src={`${baseUrl}${this.props.app_patch}/img/profileicon/${this.state.summonerIcon}.png`} alt='its me'
                                         />
                                         <p>{this.state.level}</p>
                                     </Group>
@@ -168,9 +168,9 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                                         <Title order={6}>Top Champs:</Title>
                                         {this.state.topChamps !== undefined ?
                                             <Group>
-                                                <Avatar radius='xs' src={`${baseUrl}${this.props.patch}/img/champion/${this.props.championIdsToName[`n${this.state.topChamps[0]}`]}.png`} />
-                                                <Avatar radius='xs' src={`${baseUrl}${this.props.patch}/img/champion/${this.props.championIdsToName[`n${this.state.topChamps[1]}`]}.png`} />
-                                                <Avatar radius='xs' src={`${baseUrl}${this.props.patch}/img/champion/${this.props.championIdsToName[`n${this.state.topChamps[2]}`]}.png`} />
+                                                <Avatar radius='xs' src={`${baseUrl}${this.props.app_patch}/img/champion/${this.props.app_championIdsToName[`n${this.state.topChamps[0]}`]}.png`} />
+                                                <Avatar radius='xs' src={`${baseUrl}${this.props.app_patch}/img/champion/${this.props.app_championIdsToName[`n${this.state.topChamps[1]}`]}.png`} />
+                                                <Avatar radius='xs' src={`${baseUrl}${this.props.app_patch}/img/champion/${this.props.app_championIdsToName[`n${this.state.topChamps[2]}`]}.png`} />
                                             </Group>
                                             :
                                             ''}
