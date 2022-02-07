@@ -1,6 +1,6 @@
 import APIURL from '../../helpers/environment'
 import React from 'react';
-import { Title, Grid, Space, Chips, Chip, Paper, Badge, Group, Avatar, SimpleGrid, Textarea, TextInput } from '@mantine/core';
+import { Title, Grid, Space, Chips, Chip, Paper, Badge, Group, Avatar, SimpleGrid, Textarea, TextInput, SegmentedControl } from '@mantine/core';
 import { ChampionListData, ChampionIdData, baseUrl, serversList } from '../../d'
 import Verify from './Verify'
 import Refresh from './Refresh'
@@ -20,7 +20,8 @@ interface EditProfileState {
     topChamps: string[] | undefined,
     refreshLoading: boolean,
     description: string | undefined,
-    discord: string | undefined
+    discord: string | undefined,
+    voiceComm: boolean | null
 }
 
 interface EditProfileProps {
@@ -51,7 +52,8 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
             rank: undefined,
             refreshLoading: false,
             description: undefined,
-            discord: undefined
+            discord: undefined,
+            voiceComm: null
         }
     }
 
@@ -62,6 +64,8 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
     descriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => this.setState({ description: event.target.value })
 
     discordChange = (event: React.ChangeEvent<HTMLInputElement>): void => this.setState({ description: event.target.value })
+
+    voiceCommChange = (value: string) => this.setState({ voiceComm: value === 'null' ? null : value === 'true' ? true : false })
 
     refresh = async () => {
         this.setState({ refreshLoading: true })
@@ -180,6 +184,25 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                                 <Textarea value={this.state.description} onChange={this.descriptionChange} />
                             </Paper>
                             <Space h='xl' />
+                            <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
+                                <Title order={4}>Voice Comm</Title>
+                                <Space h='md' />
+                                <SegmentedControl
+                                    radius='xl'
+                                    value={String(this.state.voiceComm)}
+                                    onChange={this.voiceCommChange}
+                                    data={[
+                                        { label: 'no preference', value: 'null' },
+                                        { label: 'yes', value: 'true' },
+                                        { label: 'no', value: 'false' }
+                                    ]}
+                                    fullWidth
+                                    size='md'
+                                    color='orange'
+                                />
+                            </Paper>
+                            <Space h='xl' />
+
                             <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
                                 <Title order={4}>Discord Tag</Title>
                                 <Space h='md' />
