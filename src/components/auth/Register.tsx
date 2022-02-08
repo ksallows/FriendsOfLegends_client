@@ -1,8 +1,8 @@
 import APIURL from '../../helpers/environment'
 import React from 'react';
-import { TextInput, Button, Alert, Center, Grid, Space, Title, PasswordInput } from '@mantine/core';
+import { TextInput, Button, Alert, Center, Grid, Space, Title, PasswordInput, Paper } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLock, faAt, faEllipsisH } from '@fortawesome/free-solid-svg-icons'
+import { faLock, faAt } from '@fortawesome/free-solid-svg-icons'
 
 type RegisterState = {
     email: string,
@@ -118,19 +118,17 @@ class Register extends React.Component<RegisterProps, RegisterState> {
 
     render() {
         return (
-            <>
-                <Grid>
-                    <Grid.Col
-                        sx={{ paddingTop: 40 }}
-                        xs={10}
-                        md={8}
-                        lg={4}
-                        xl={2}
-                        offsetXs={1}
-                        offsetMd={2}
-                        offsetLg={4}
-                        offsetXl={5}
-                    >
+            <Grid>
+                <Grid.Col sx={{ paddingTop: 40 }}
+                    xs={10}
+                    md={8}
+                    lg={4}
+                    xl={2}
+                    offsetXs={1}
+                    offsetMd={2}
+                    offsetLg={4}
+                    offsetXl={5}>
+                    <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
                         <Title order={2}>Sign Up</Title>
                         <Space h='md' />
                         <TextInput
@@ -152,7 +150,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
                         />
                         <Space h='md' />
                         <PasswordInput
-                            icon={<FontAwesomeIcon icon={faEllipsisH} />}
+                            icon={<FontAwesomeIcon icon={faLock} />}
                             value={this.state.passwordCheck}
                             onChange={this.passwordCheckChange}
                             label='re-type password'
@@ -170,10 +168,9 @@ class Register extends React.Component<RegisterProps, RegisterState> {
                             </Button>
                         </Center>
                         {this.state.notification && <Alert sx={{ marginTop: 20 }} variant='filled' color={this.state.notificationSuccess ? 'green' : 'red'}>{this.state.notification}</Alert>}
-                    </Grid.Col>
-
-                </Grid>
-            </>
+                    </Paper>
+                </Grid.Col>
+            </Grid>
 
         )
     }

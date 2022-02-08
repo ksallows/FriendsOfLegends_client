@@ -41,6 +41,28 @@ class Search extends React.Component<SearchProps, SearchState> {
     }
 
     submitSearch = async () => {
+        let newRankArray: string[] = []
+        let numerals = ['I', 'II', 'III', 'VI']
+
+        if (this.state.rank !== undefined) {
+            this.state.rank.map((rank) => {
+                if (rank !== 'UNRANKED')
+                    numerals.map(numeral => newRankArray.push(`${rank} ${numeral}`))
+                else newRankArray.push('UNRANKED')
+            })
+        }
+
+        //console.log(`new array: ${newRankArray}`)
+
+        console.log(
+            {
+                server: 'na1',
+                gameModes: this.state.gameModes,
+                rank: newRankArray,
+                voiceComm: this.state.voiceComm,
+                topChamps: this.state.champions,
+                roles: this.state.roles,
+            })
         await fetch(`${APIURL}/profile/find`, {
             method: 'POST',
             mode: 'cors',
@@ -48,7 +70,7 @@ class Search extends React.Component<SearchProps, SearchState> {
                 fields: {
                     server: 'na1',
                     gameModes: this.state.gameModes,
-                    rank: this.state.rank,
+                    rank: newRankArray,
                     voiceComm: this.state.voiceComm,
                     topChamps: this.state.champions,
                     roles: this.state.roles,

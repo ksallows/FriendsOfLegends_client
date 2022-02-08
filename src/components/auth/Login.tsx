@@ -1,6 +1,6 @@
 import APIURL from '../../helpers/environment'
 import React from 'react';
-import { TextInput, Button, Alert, Center, Grid, Space, Title, PasswordInput } from '@mantine/core';
+import { TextInput, Button, Alert, Center, Grid, Space, Title, PasswordInput, Paper } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faAt } from '@fortawesome/free-solid-svg-icons'
 
@@ -82,36 +82,38 @@ class Login extends React.Component<LoginProps, LoginState> {
             <>
                 <Grid>
                     <Grid.Col sx={{ paddingTop: 40 }} xs={10} md={8} lg={4} xl={2} offsetXs={1} offsetMd={2} offsetLg={4} offsetXl={5}>
-                        <Title order={2}>Log In</Title>
-                        <Space h='md' />
-                        <TextInput
-                            icon={<FontAwesomeIcon icon={faAt} />}
-                            value={this.state.email}
-                            onChange={this.emailChange}
-                            label='email'
-                            error={this.state.emailError}
-                            type='email'
-                        />
-                        <Space h='md' />
-                        <PasswordInput
-                            icon={<FontAwesomeIcon icon={faLock} />}
-                            value={this.state.password}
-                            onChange={this.passwordChange}
-                            label='password'
-                            error={this.state.passwordError}
-                            type='password'
-                        />
-                        <Space h='md' />
-                        <Center sx={{ textAlign: 'center', mb: 2 }}>
-                            <Button
-                                color='orange'
-                                onClick={this.loginSubmit}
-                                disabled={this.state.email && this.state.password ? false : true}
-                            >
-                                Submit
-                            </Button>
-                        </Center>
-                        {this.state.notification && <Alert sx={{ marginTop: 20 }} variant='filled' color={this.state.notificationSuccess ? 'green' : 'red'}>{this.state.notification}</Alert>}
+                        <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
+                            <Title order={2}>Log In</Title>
+                            <Space h='md' />
+                            <TextInput
+                                icon={<FontAwesomeIcon icon={faAt} />}
+                                value={this.state.email}
+                                onChange={this.emailChange}
+                                label='email'
+                                error={this.state.emailError}
+                                type='email'
+                            />
+                            <Space h='md' />
+                            <PasswordInput
+                                icon={<FontAwesomeIcon icon={faLock} />}
+                                value={this.state.password}
+                                onChange={this.passwordChange}
+                                label='password'
+                                error={this.state.passwordError}
+                                type='password'
+                            />
+                            <Space h='md' />
+                            <Center sx={{ textAlign: 'center', mb: 2 }}>
+                                <Button
+                                    color='orange'
+                                    onClick={this.loginSubmit}
+                                    disabled={this.state.email && this.state.password ? false : true}
+                                >
+                                    Submit
+                                </Button>
+                            </Center>
+                            {this.state.notification && <Alert sx={{ marginTop: 20 }} variant='filled' color={this.state.notificationSuccess ? 'green' : 'red'}>{this.state.notification}</Alert>}
+                        </Paper>
                     </Grid.Col>
                 </Grid>
             </>

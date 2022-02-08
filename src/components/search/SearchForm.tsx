@@ -37,24 +37,24 @@ class SearchForm extends React.Component<SearchFormProps, SearchFormState> {
                 <Title order={4}>Game Modes</Title>
                 <Space h='md' />
                 <Chips size='sm' value={this.props.search_gameModes} onChange={this.props.search_gameModeChange} multiple color='orange'>
-                    <Chip value='ranked_solo_duo'>ranked solo/duo</Chip>
-                    <Chip value='ranked_flex'>ranked flex</Chip>
-                    <Chip value='normal_blind'>normal blind</Chip>
-                    <Chip value='normal_draft'>normal draft</Chip>
-                    <Chip value='rgm'>rotating game mode</Chip>
+                    <Chip value='Ranked Solo/Duo'>ranked solo/duo</Chip>
+                    <Chip value='Ranked Flex'>ranked flex</Chip>
+                    <Chip value='Normal Blind'>normal blind</Chip>
+                    <Chip value='Normal Draft'>normal draft</Chip>
+                    <Chip value='RGM'>rotating game mode</Chip>
                 </Chips>
                 <Space h='xl' />
                 <Title order={4}>Rank</Title>
                 <Space h='md' />
                 <Chips size='sm' value={this.props.search_rank} onChange={this.props.search_rankChange} multiple color='orange'>
-                    <Chip value='unranked'>unranked</Chip>
-                    <Chip value='iron'>iron</Chip>
-                    <Chip value='bronze'>bronze</Chip>
-                    <Chip value='silver'>silver</Chip>
-                    <Chip value='gold'>gold</Chip>
-                    <Chip value='platinum'>platinum</Chip>
-                    <Chip value='diamond'>diamond</Chip>
-                    <Chip value='master'>master+</Chip>
+                    <Chip value='UNRANKED'>unranked</Chip>
+                    <Chip value='IRON'>iron</Chip>
+                    <Chip value='BRONZE'>bronze</Chip>
+                    <Chip value='SILVER'>silver</Chip>
+                    <Chip value='GOLD'>gold</Chip>
+                    <Chip value='PLATINUM'>platinum</Chip>
+                    <Chip value='DIAMOND'>diamond</Chip>
+                    <Chip value='MASTER'>master+</Chip>
                 </Chips>
                 <Space h='xl' />
                 <Title order={4}>Voice Comm</Title>
