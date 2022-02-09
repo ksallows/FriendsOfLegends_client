@@ -21,6 +21,7 @@ export interface Filter { [key: string]: string }
 export const baseUrl = '//ddragon.leagueoflegends.com/cdn/'
 
 export const serversList = [
+    { value: 'na1', label: 'NA' },
     { value: 'br1', label: 'BR' },
     { value: 'eun1', label: 'EUNE' },
     { value: 'euw1', label: 'EUW' },
@@ -28,7 +29,6 @@ export const serversList = [
     { value: 'kr', label: 'KR' },
     { value: 'la1', label: 'LAN' },
     { value: 'la2', label: 'LAS' },
-    { value: 'na1', label: 'NA' },
     { value: 'oc1', label: 'OCE' },
     { value: 'tr1', label: 'TR' },
     { value: 'ru1', label: 'RU' },
@@ -46,7 +46,7 @@ export const filters: Filter = {
 }
 
 export function rankToCSS(rank: string | undefined) {
-    if (rank !== undefined) {
+    if (rank !== undefined && rank !== null) {
         switch (rank.substring(0, 2)) {
             case 'UN': return 'unranked';
             case 'IR': return 'iron';

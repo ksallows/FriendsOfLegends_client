@@ -46,8 +46,8 @@ class App extends React.Component<{}, AppValues> {
   }
 
   updateVerify = (value: boolean): void => this.setState({ app_verified: value })
-  updateSummonerName = (value: string): void => this.setState({ app_summonerName: value })
-  updateServer = (value: string): void => this.setState({ app_server: value })
+  updateSummonerName = (value: string | null): void => this.setState({ app_summonerName: value })
+  updateServer = (value: string | null): void => this.setState({ app_server: value })
 
   updateToken = (token: string): void => {
     this.setState({ app_sessionToken: token })
@@ -55,7 +55,12 @@ class App extends React.Component<{}, AppValues> {
   }
 
   clearToken = (): void => {
-    this.setState({ app_sessionToken: null });
+    this.setState({
+      app_sessionToken: null,
+      app_summonerName: null,
+      app_verified: false,
+      app_profileId: null
+    });
     localStorage.removeItem('Authorization');
   }
 

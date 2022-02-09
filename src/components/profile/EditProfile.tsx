@@ -31,8 +31,8 @@ interface EditProfileProps {
     app_sessionToken: string | null,
     app_verified: boolean,
     app_updateVerify: (value: boolean) => void,
-    app_updateSummonerName: (value: string) => void,
-    app_updateServer: (value: string) => void,
+    app_updateSummonerName: (value: string | null) => void,
+    app_updateServer: (value: string | null) => void,
     app_summonerName: string | null,
     app_server: string | null,
     app_profileId: string | null,
@@ -91,25 +91,28 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
     }
 
     getProfile = async () => {
-        await fetch(`${APIURL}/profile/p/${this.props.app_profileId}`, {
-            method: 'GET',
-            mode: 'cors',
-            headers: new Headers({
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.props.app_sessionToken}`
+        if (this.props.app_profileId !== undefined && this.props.app_profileId !== null) {
+            await fetch(`${APIURL}/profile/p/${this.props.app_profileId}`, {
+                method: 'GET',
+                mode: 'cors',
+                headers: new Headers({
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${this.props.app_sessionToken}`
+                })
             })
-        })
-            .then(result => result.json())
-            .then(result => this.setState({
-                roles: result.profile.roles,
-                gameModes: result.profile.gameModes,
-                rank: result.profile.rank,
-                summonerIcon: result.profile.summonerIcon,
-                topChamps: result.profile.topChamps,
-                level: result.profile.level,
-                description: result.profile.description,
-                rankClass: rankToCSS(result.profile.rank)
-            }))
+                .then(result => result.json())
+                .then(result => this.setState({
+                    roles: result.profile.roles,
+                    gameModes: result.profile.gameModes,
+                    rank: result.profile.rank,
+                    summonerIcon: result.profile.summonerIcon,
+                    topChamps: result.profile.topChamps,
+                    level: result.profile.level,
+                    description: result.profile.description,
+                    rankClass: rankToCSS(result.profile.rank)
+                }))
+                .catch(error => console.log(error))
+        }
     }
 
     componentDidMount = () => {
@@ -131,7 +134,7 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                     </Group>
 
                     <Space h='xl' />
-                    {this.props.app_summonerName === null ?
+                    {this.props.app_summonerName === null || !this.props.app_verified ?
                         <Verify
                             app_server={this.props.app_server}
                             app_updateSummonerName={this.props.app_updateSummonerName}
@@ -153,9 +156,13 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                                     <Title order={4}>
                                         {this.props.app_summonerName}
                                         {Object.values(serversList).map(v => {
-                                            if (v.value === this.props.app_server) return (<Badge sx={{ marginLeft: '0.5rem' }} radius='xs' className={v.label} variant='filled'>{v.label}</Badge>)
+                                            if (v.value === this.props.app_server) return (<Badge key={v.value} sx={{ marginLeft: '0.5rem' }} radius='xs' className={v.label} variant='filled'>{v.label}</Badge>)
                                         })}
-                                        <Badge radius='xs' sx={{ marginLeft: '0.5rem' }} variant='filled' className={`${this.state.rankClass}`}>{this.state.rank}</Badge></Title>
+                                        {this.state.rank !== undefined ?
+                                            <Badge radius='xs' sx={{ marginLeft: '0.5rem' }} variant='filled' className={`${this.state.rankClass}`}>{this.state.rank}</Badge>
+                                            :
+                                            ''}
+                                    </Title>
                                 </Group>
 
                                 {this.props.app_verified ? <Badge radius='xs' variant='filled' size='lg' color='green'>verified</Badge> : <Badge radius='xs' variant='filled' color='red'>not verified</Badge>}
