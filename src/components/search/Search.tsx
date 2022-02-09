@@ -6,13 +6,13 @@ import { Grid } from '@mantine/core';
 import { ChampionListData, ChampionIdData, Filter, Result } from '../../d'
 
 interface SearchState {
-    prevSearch: boolean,
-    voiceComm: boolean | null,
-    roles: string[] | undefined,
-    rank: string[] | undefined,
-    champions: string[] | undefined,
-    gameModes: string[] | undefined,
-    results: Result[] | null,
+    search_prevSearch: boolean,
+    search_voiceComm: boolean | null,
+    search_roles: string[] | undefined,
+    search_rank: string[] | undefined,
+    search_champions: string[] | undefined,
+    search_gameModes: string[] | undefined,
+    search_results: any | null,
 
 }
 
@@ -29,51 +29,49 @@ class Search extends React.Component<SearchProps, SearchState> {
     constructor(props: SearchProps) {
         super(props);
         this.state = {
-            prevSearch: false,
-            voiceComm: null,
-            roles: [],
-            rank: [],
-            champions: [],
-            gameModes: [],
-            results: null,
-
+            search_prevSearch: false,
+            search_voiceComm: null,
+            search_roles: [],
+            search_rank: [],
+            search_champions: [],
+            search_gameModes: [],
+            search_results: null,
         }
     }
 
     submitSearch = async () => {
         let newRankArray: string[] = []
-        let numerals = ['I', 'II', 'III', 'VI']
-
-        if (this.state.rank !== undefined) {
-            this.state.rank.map((rank) => {
+        let numerals = ['III', 'II', 'I', 'IV']
+        if (this.state.search_rank !== undefined) {
+            this.state.search_rank.map((rank) => {
                 if (rank !== 'UNRANKED')
                     numerals.map(numeral => newRankArray.push(`${rank} ${numeral}`))
                 else newRankArray.push('UNRANKED')
             })
         }
-
-        //console.log(`new array: ${newRankArray}`)
-
         console.log(
-            {
-                server: 'na1',
-                gameModes: this.state.gameModes,
-                rank: newRankArray,
-                voiceComm: this.state.voiceComm,
-                topChamps: this.state.champions,
-                roles: this.state.roles,
+            JSON.stringify({
+                fields: {
+                    server: 'na1',
+                    gameModes: this.state.search_gameModes,
+                    rank: newRankArray,
+                    voiceComm: this.state.search_voiceComm,
+                    topChamps: this.state.search_champions,
+                    roles: this.state.search_roles,
+                }
             })
+        )
         await fetch(`${APIURL}/profile/find`, {
             method: 'POST',
             mode: 'cors',
             body: JSON.stringify({
                 fields: {
                     server: 'na1',
-                    gameModes: this.state.gameModes,
+                    gameModes: this.state.search_gameModes,
                     rank: newRankArray,
-                    voiceComm: this.state.voiceComm,
-                    topChamps: this.state.champions,
-                    roles: this.state.roles,
+                    voiceComm: this.state.search_voiceComm,
+                    topChamps: this.state.search_champions,
+                    roles: this.state.search_roles,
                 }
             }),
             headers: new Headers({
@@ -82,18 +80,18 @@ class Search extends React.Component<SearchProps, SearchState> {
             })
         })
             .then(result => result.json())
-            .then(result => console.log(result))
+            .then(result => this.setState({ search_results: result }))
     }
 
-    voiceCommChange = (value: string) => this.setState({ voiceComm: value === 'null' ? null : value === 'true' ? true : false })
+    voiceCommChange = (value: string) => this.setState({ search_voiceComm: value === 'null' ? null : value === 'true' ? true : false })
 
-    rolesChange = (value: string[]) => this.setState({ roles: value })
+    rolesChange = (value: string[]) => this.setState({ search_roles: value })
 
-    rankChange = (value: string[]) => this.setState({ rank: value })
+    rankChange = (value: string[]) => this.setState({ search_rank: value })
 
-    gameModeChange = (value: string[]) => this.setState({ gameModes: value })
+    gameModeChange = (value: string[]) => this.setState({ search_gameModes: value })
 
-    championsChange = (value: []) => this.setState({ champions: value })
+    championsChange = (value: []) => this.setState({ search_champions: value })
 
     render() {
         return (
@@ -113,11 +111,11 @@ class Search extends React.Component<SearchProps, SearchState> {
                         search_gameModeChange={this.gameModeChange}
                         search_championsChange={this.championsChange}
                         search_submitSearch={this.submitSearch}
-                        search_voiceComm={this.state.voiceComm}
-                        search_roles={this.state.roles}
-                        search_champions={this.state.champions}
-                        search_gameModes={this.state.gameModes}
-                        search_rank={this.state.rank}
+                        search_voiceComm={this.state.search_voiceComm}
+                        search_roles={this.state.search_roles}
+                        search_champions={this.state.search_champions}
+                        search_gameModes={this.state.search_gameModes}
+                        search_rank={this.state.search_rank}
                         app_patch={this.props.app_patch}
                         app_championNameList={this.props.app_championNameList}
                         app_championValues={this.props.app_championValues}
@@ -129,11 +127,15 @@ class Search extends React.Component<SearchProps, SearchState> {
                     lg={6}
                     xl={8}
                 >
-                    <SearchResults
-                        app_patch={this.props.app_patch}
-                        search_results={this.state.results}
-                        app_championIdsToName={this.props.app_championIdsToName}
-                    />
+                    {this.state.search_results !== null ?
+                        <SearchResults
+                            app_patch={this.props.app_patch}
+                            search_results={this.state.search_results}
+                            app_championIdsToName={this.props.app_championIdsToName}
+                        />
+                        :
+                        <></>
+                    }
                 </Grid.Col>
             </Grid>
         )

@@ -5,7 +5,6 @@ import { ChampionListData, ChampionIdData, baseUrl, serversList, rankToCSS } fro
 import Verify from './Verify'
 import Refresh from './Refresh'
 import equal from 'fast-deep-equal'
-import ResultBlock from '../search/ResultBlock'
 import jungle from '../../assets/jungle.svg'
 import mid from '../../assets/mid.svg'
 import support from '../../assets/support.svg'
