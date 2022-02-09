@@ -62,22 +62,3 @@ export function rankToCSS(rank: string | undefined) {
     }
     else return ''
 }
-
-export async function quickFetch(url: string, method: string, credentials: boolean, token?: string) {
-    let request: any = {}
-    if (credentials) {
-        request.credentials = 'include'
-        request.headers = new Headers({
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        })
-    }
-    else {
-        request.headers = new Headers({
-            'Content-Type': 'application/json',
-        })
-    }
-    request.method = method
-    request.mode = 'cors'
-    return await fetch(url, request)
-}

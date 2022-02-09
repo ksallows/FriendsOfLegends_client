@@ -8,6 +8,8 @@ import Register from './components/auth/Register';
 import Home from './components/Home';
 import Search from './components/search/Search';
 import EditProfile from './components/profile/EditProfile';
+import ViewProfile from './components/profile/ViewProfile';
+import Footer from './components/Footer';
 import './App.css';
 
 // TODO when you first log in, profileInfo isn't loaded in
@@ -169,9 +171,18 @@ class App extends React.Component<{}, AppValues> {
                 app_championNameList={this.state.app_championNameList}
                 app_championValues={this.state.app_championValues}
                 app_championIdsToName={this.state.app_championIdsToName}
-              />} />
+              />}
+            />
+            <Route path='/p/:profileId' element={
+              <ViewProfile
+                app_sessionToken={this.state.app_sessionToken}
+                app_patch={this.state.app_patch}
+                app_championIdsToName={this.state.app_championIdsToName}
+              />}
+            />
           </Routes>
         </Router>
+        <Footer />
         <div id='cover'></div>
         <div id='gradient'></div>
       </>

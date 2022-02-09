@@ -1,7 +1,8 @@
 import APIURL from '../../helpers/environment'
 import React from 'react';
-import { Title, Grid, Space, Chips, Chip, Paper, Badge, Group, Avatar, SimpleGrid, Textarea, TextInput, SegmentedControl, Center } from '@mantine/core';
+import { Title, Grid, Space, Chips, Chip, Paper, Badge, Group, Avatar, Textarea, TextInput, SegmentedControl, Button, Center } from '@mantine/core';
 import { ChampionListData, ChampionIdData, baseUrl, serversList, rankToCSS } from '../../d'
+import { Link } from 'react-router-dom';
 import Verify from './Verify'
 import Refresh from './Refresh'
 import equal from 'fast-deep-equal'
@@ -114,6 +115,31 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
         }
     }
 
+    saveProfile = async () => {
+        await fetch(`${APIURL}/profile/update`, {
+            method: 'PUT',
+            mode: 'cors',
+            body: JSON.stringify({
+                profile: {
+                    // summonerName: this.props.app_summonerName,
+                    // server: this.props.app_server,
+                    gameModes: this.state.gameModes,
+                    voiceComm: this.state.voiceComm,
+                    roles: this.state.roles,
+                    discord: this.state.discord,
+                    description: this.state.description
+                }
+            }),
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.props.app_sessionToken}`
+            })
+        })
+            .then(result => result.json())
+            .then(result => console.log(result))
+            .catch(error => console.log(error))
+    }
+
     componentDidMount = () => {
         setTimeout(this.getProfile, 500);
     }
@@ -129,7 +155,10 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                 <Grid.Col sx={{ paddingTop: 40 }} xs={10} md={8} lg={6} xl={6} offsetXs={1} offsetMd={2} offsetLg={3} offsetXl={3}>
                     <Group position='apart'>
                         <Title>Edit Profile</Title>
-                        {this.props.app_verified ? <Refresh editProfile_refreshLoading={this.state.refreshLoading} editProfile_refresh={this.refresh} /> : ''}
+                        <Group>
+                            {this.props.app_verified ? <Refresh editProfile_refreshLoading={this.state.refreshLoading} editProfile_refresh={this.refresh} /> : ''}
+                            <Button variant='default' component={Link} to={`/p/${this.props.app_profileId}`}>View Profile</Button>
+                        </Group>
                     </Group>
 
                     <Space h='xl' />
@@ -222,11 +251,12 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                                 <Title order={4}>Game Modes</Title>
                                 <Space h='md' />
                                 <Chips size='sm' value={this.state.gameModes} onChange={this.gameModeChange} multiple color='orange'>
-                                    <Chip value='ranked_solo_duo'>ranked solo/duo</Chip>
-                                    <Chip value='ranked_flex'>ranked flex</Chip>
-                                    <Chip value='normal_blind'>normal blind</Chip>
-                                    <Chip value='normal_draft'>normal draft</Chip>
-                                    <Chip value='rgm'>rotating game mode</Chip>
+                                    <Chip value='Ranked Solo/Duo'>ranked solo/duo</Chip>
+                                    <Chip value='Ranked Flex'>ranked flex</Chip>
+                                    <Chip value='Normal Blind'>normal blind</Chip>
+                                    <Chip value='Normal Draft'>normal draft</Chip>
+                                    <Chip value='RGM'>rotating game mode</Chip>
+                                    <Chip value='ARAM'>aram</Chip>
                                 </Chips>
                             </Paper>
                             <Space h='xl' />
@@ -241,6 +271,9 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                                     <Chip value='sup'>support</Chip>
                                 </Chips>
                             </Paper>
+                            <Space h='xl' />
+                            <Center><Button onClick={this.saveProfile} size='lg' color='orange'>save</Button></Center>
+
                         </>
                         :
                         ''

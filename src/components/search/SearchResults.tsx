@@ -3,24 +3,15 @@ import ResultBlock from './ResultBlock'
 import { ChampionIdData, Result } from '../../d'
 import { Space } from '@mantine/core';
 
-interface SearchResultsState { }
-
 interface SearchResultsProps {
     search_results: any | null,
     app_patch: string | null,
     app_championIdsToName: ChampionIdData
 }
 
-class SearchResults extends React.Component<SearchResultsProps, SearchResultsState> {
+class SearchResults extends React.Component<SearchResultsProps, {}> {
     constructor(props: SearchResultsProps) {
         super(props);
-        this.state = {
-
-        }
-    }
-
-    componentDidMount = async () => {
-
     }
 
     render() {

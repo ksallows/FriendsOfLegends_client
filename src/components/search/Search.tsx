@@ -49,18 +49,6 @@ class Search extends React.Component<SearchProps, SearchState> {
                 else newRankArray.push('UNRANKED')
             })
         }
-        console.log(
-            JSON.stringify({
-                fields: {
-                    server: 'na1',
-                    gameModes: this.state.search_gameModes,
-                    rank: newRankArray,
-                    voiceComm: this.state.search_voiceComm,
-                    topChamps: this.state.search_champions,
-                    roles: this.state.search_roles,
-                }
-            })
-        )
         await fetch(`${APIURL}/profile/find`, {
             method: 'POST',
             mode: 'cors',

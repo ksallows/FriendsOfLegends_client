@@ -3,6 +3,7 @@ import { Paper, Title, Space, Avatar, Group, Badge, SimpleGrid, Tooltip } from '
 import { Result, ChampionIdData, baseUrl, rankToCSS } from '../../d'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMicrophone, faMicrophoneSlash } from '@fortawesome/free-solid-svg-icons'
+import { Link } from 'react-router-dom';
 import all from '../../assets/all.svg'
 import jungle from '../../assets/jungle.svg'
 import mid from '../../assets/mid.svg'
@@ -43,9 +44,9 @@ class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {
                 switch (this.props.search_result.roles[i]) {
                     case 'top': roles.push(<Avatar src={top} />); break;
                     case 'mid': roles.push(<Avatar src={mid} />); break;
-                    case 'support': roles.push(<Avatar src={support} />); break;
-                    case 'jungle': roles.push(<Avatar src={jungle} />); break;
-                    case 'bottom': roles.push(<Avatar src={bottom} />); break;
+                    case 'sup': roles.push(<Avatar src={support} />); break;
+                    case 'jng': roles.push(<Avatar src={jungle} />); break;
+                    case 'bot': roles.push(<Avatar src={bottom} />); break;
                 }
             }
             return roles;
@@ -77,7 +78,7 @@ class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {
                         radius='xl'
                         src={`${baseUrl}${this.props.app_patch}/img/profileicon/${this.props.search_result.summonerIcon}.png`} alt='its me'
                     />
-                    <Title order={3}>{this.props.search_result.summonerName}</Title>
+                    <Title order={3}><Link className='white' to={`/p/${this.props.search_result.profileId}`}>{this.props.search_result.summonerName}</Link></Title>
                     <Badge variant='filled' className={`${this.state.rankClass}`}>{this.props.search_result.rank}</Badge>
                     {this.props.search_result.voiceComm === null ? '' :
                         this.props.search_result.voiceComm === true ? <Tooltip withArrow color='orange' label='wants to voice chat'><FontAwesomeIcon size='lg' icon={faMicrophone} color="green" /></Tooltip> :
