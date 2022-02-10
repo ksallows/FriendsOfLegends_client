@@ -44,8 +44,10 @@ class Search extends React.Component<SearchProps, SearchState> {
         let numerals = ['III', 'II', 'I', 'IV']
         if (this.state.search_rank !== undefined) {
             this.state.search_rank.map((rank) => {
-                if (rank !== 'UNRANKED')
+                if (rank !== 'UNRANKED' && rank !== 'MASTER')
                     numerals.map(numeral => newRankArray.push(`${rank} ${numeral}`))
+                else if (rank === 'MASTER')
+                    newRankArray.push('MASTER', 'GRANDMASTER', 'CHALLENGER')
                 else newRankArray.push('UNRANKED')
             })
         }
