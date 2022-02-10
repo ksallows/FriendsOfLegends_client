@@ -1,6 +1,6 @@
 import React from 'react';
 import APIURL from '../../helpers/environment'
-import { Title, Grid, Space, Paper, Badge, Group, Avatar, SimpleGrid } from '@mantine/core';
+import { Title, Grid, Space, Paper, Badge, Group, Avatar, SimpleGrid, Text } from '@mantine/core';
 import { rankToCSS, baseUrl, ChampionIdData, serversList } from '../../d';
 import all from '../../assets/all.svg'
 import jungle from '../../assets/jungle.svg'
@@ -8,7 +8,8 @@ import mid from '../../assets/mid.svg'
 import support from '../../assets/support.svg'
 import bottom from '../../assets/bottom.svg'
 import top from '../../assets/top.svg'
-import { StringMappingType } from 'typescript';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faDiscord } from '@fortawesome/free-brands-svg-icons'
 
 interface ViewProfileProps {
     app_sessionToken: string | null,
@@ -33,7 +34,7 @@ interface Data {
     voiceComm: boolean | null,
     roles: string[],
     rank: string,
-    description: StringMappingType,
+    description: string,
     server: string | undefined
 }
 
@@ -109,28 +110,30 @@ class ViewProfile extends React.Component<ViewProfileProps, ViewProfileState> {
             <Grid>
                 <Grid.Col sx={{ paddingTop: 40 }} xs={10} md={8} lg={6} xl={6} offsetXs={1} offsetMd={2} offsetLg={3} offsetXl={3}>
                     <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
-                        <Group>
-                            <Avatar
-                                size='lg'
-                                radius='xl'
-                                src={`${baseUrl}${this.props.app_patch}/img/profileicon/${this.state.profileData?.summonerIcon}.png`} alt='its me'
-                            />
-                            <Title order={4}>
+                        <Group position='apart'>
+                            <Group>
+                                <Avatar
+                                    size='lg'
+                                    radius='xl'
+                                    src={`${baseUrl}${this.props.app_patch}/img/profileicon/${this.state.profileData?.summonerIcon}.png`} alt='its me'
+                                />
+                                <Title order={4}>
 
-                                {this.state.profileData?.summonerName}
+                                    {this.state.profileData?.summonerName}
 
-                                {Object.values(serversList).map(v => {
-                                    if (v.value === this.state.profileData?.server) return (<Badge key={v.value} sx={{ marginLeft: '0.5rem' }} radius='xs' className={v.label} variant='filled'>{v.label}</Badge>)
-                                })}
+                                    {Object.values(serversList).map(v => {
+                                        if (v.value === this.state.profileData?.server) return (<Badge key={v.value} sx={{ marginLeft: '0.5rem' }} radius='xs' className={v.label} variant='filled'>{v.label}</Badge>)
+                                    })}
 
-                                <Badge radius='xs' sx={{ marginLeft: '0.5rem' }} variant='filled' className={`${this.state.rankClass}`}>{this.state.profileData?.rank}</Badge>
+                                    <Badge radius='xs' sx={{ marginLeft: '0.5rem' }} variant='filled' className={`${this.state.rankClass}`}>{this.state.profileData?.rank}</Badge>
 
-                            </Title>
+                                </Title>
+                            </Group>
+                            <Text sx={{ marginRight: '0.5rem' }}>{this.state.profileData?.discord !== undefined ? <><FontAwesomeIcon icon={faDiscord} /> {this.state.profileData?.discord}</> : ''}</Text>
                         </Group>
                     </Paper>
                     <Space h='xl' />
                     <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
-                        <Title order={4}></Title>
                         <p>{this.state.profileData?.description}</p>
                     </Paper>
                     <Space h='xl' />
@@ -151,6 +154,11 @@ class ViewProfile extends React.Component<ViewProfileProps, ViewProfileState> {
                                 </Group>
                             </Group>
                         </SimpleGrid>
+                    </Paper>
+                    <Space h='xl' />
+                    <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
+                        <Title order={4}>Comments</Title>
+
                     </Paper>
                 </Grid.Col>
             </Grid>

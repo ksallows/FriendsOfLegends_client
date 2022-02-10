@@ -2,6 +2,8 @@ import APIURL from '../../helpers/environment'
 import React from 'react';
 import { Title, Grid, Space, Chips, Chip, Paper, Badge, Group, Avatar, Textarea, TextInput, SegmentedControl, Button, Center } from '@mantine/core';
 import { ChampionListData, ChampionIdData, baseUrl, serversList, rankToCSS } from '../../d'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faDiscord } from '@fortawesome/free-brands-svg-icons'
 import { Link } from 'react-router-dom';
 import Verify from './Verify'
 import Refresh from './Refresh'
@@ -109,7 +111,8 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                     topChamps: result.profile.topChamps,
                     level: result.profile.level,
                     description: result.profile.description,
-                    rankClass: rankToCSS(result.profile.rank)
+                    rankClass: rankToCSS(result.profile.rank),
+                    discord: result.profile.discord
                 }))
                 .catch(error => console.log(error))
         }
@@ -244,7 +247,7 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                             <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
                                 <Title order={4}>Discord Tag</Title>
                                 <Space h='md' />
-                                <TextInput placeholder='mydiscord#1234' value={this.state.discord} onChange={this.discordChange} />
+                                <TextInput icon={<FontAwesomeIcon icon={faDiscord} />} placeholder='mydiscord#1234' value={this.state.discord} onChange={this.discordChange} />
                             </Paper>
                             <Space h='xl' />
                             <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
