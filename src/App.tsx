@@ -153,7 +153,7 @@ class App extends React.Component<{}, AppValues> {
           <Routes>
             <Route path='/register' element={<Register app_updateProfileId={this.updateProfileId} app_sessionToken={this.state.app_sessionToken} app_updateToken={this.updateToken} />} />
             <Route path='/login' element={<Login app_sessionToken={this.state.app_sessionToken} app_updateToken={this.updateToken} />} />
-            <Route path='/' element={<Home />} />
+            <Route path='/' element={<Home app_sessionToken={this.state.app_sessionToken} />} />
             <Route path='/search' element={<Search
               app_championNameList={this.state.app_championNameList}
               app_championValues={this.state.app_championValues}
