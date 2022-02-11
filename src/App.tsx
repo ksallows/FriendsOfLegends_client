@@ -52,6 +52,7 @@ class App extends React.Component<{}, AppValues> {
   updateVerify = (value: boolean): void => this.setState({ app_verified: value })
   updateSummonerName = (value: string | null): void => this.setState({ app_summonerName: value })
   updateServer = (value: string | null): void => this.setState({ app_server: value })
+  updateProfileId = (value: string): void => this.setState({ app_profileId: value })
 
   updateToken = (token: string): void => {
     this.setState({ app_sessionToken: token })
@@ -67,10 +68,6 @@ class App extends React.Component<{}, AppValues> {
     });
     localStorage.removeItem('Authorization');
   }
-
-  auth = (): boolean => localStorage.getItem('Authorization') !== null &&
-    this.state.app_sessionToken !== null &&
-    this.state.app_sessionToken === localStorage.getItem('Authorization')
 
   getPatch = async (): Promise<void> => {
     await fetch('https://ddragon.leagueoflegends.com/realms/na.json', {
@@ -111,7 +108,13 @@ class App extends React.Component<{}, AppValues> {
           }),
         }).then(result => result.json())
           .then(result => {
-            this.setState({ app_admin: result.admin, app_profileId: result.profileId, app_verified: result.verified, app_server: result.server, app_summonerName: result.summonerName })
+            this.setState({
+              app_admin: result.admin,
+              app_profileId: result.profileId,
+              app_verified: result.verified,
+              app_server: result.server,
+              app_summonerName: result.summonerName
+            })
           })
       }
 
@@ -148,7 +151,7 @@ class App extends React.Component<{}, AppValues> {
         <Router>
           <Nav app_sessionToken={this.state.app_sessionToken} app_clearToken={this.clearToken} />
           <Routes>
-            <Route path='/register' element={<Register app_sessionToken={this.state.app_sessionToken} app_updateToken={this.updateToken} />} />
+            <Route path='/register' element={<Register app_updateProfileId={this.updateProfileId} app_sessionToken={this.state.app_sessionToken} app_updateToken={this.updateToken} />} />
             <Route path='/login' element={<Login app_sessionToken={this.state.app_sessionToken} app_updateToken={this.updateToken} />} />
             <Route path='/' element={<Home />} />
             <Route path='/search' element={<Search
@@ -156,7 +159,6 @@ class App extends React.Component<{}, AppValues> {
               app_championValues={this.state.app_championValues}
               app_patch={this.state.app_patch}
               app_sessionToken={this.state.app_sessionToken}
-              app_auth={this.auth}
               app_championIdsToName={this.state.app_championIdsToName} />} />
             <Route path='/editprofile'
               element={<EditProfile
@@ -169,7 +171,6 @@ class App extends React.Component<{}, AppValues> {
                 app_updateVerify={this.updateVerify}
                 app_verified={this.state.app_verified}
                 app_sessionToken={this.state.app_sessionToken}
-                app_auth={this.auth}
                 app_championNameList={this.state.app_championNameList}
                 app_championValues={this.state.app_championValues}
                 app_championIdsToName={this.state.app_championIdsToName}

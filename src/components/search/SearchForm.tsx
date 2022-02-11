@@ -5,7 +5,6 @@ import { ChampionListData } from '../../d'
 interface SearchFormState { }
 
 interface SearchFormProps {
-    app_auth: () => boolean,
     search_submitSearch: () => void,
     app_sessionToken: string | null,
     search_voiceCommChange: (value: string) => void,

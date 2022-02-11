@@ -24,7 +24,7 @@ class ViewComment extends React.Component<ViewCommentProps, ViewCommentState> {
         }
     }
 
-    loadComments = async () => {
+    loadComments = async (): Promise<void> => {
         await fetch(`${APIURL}/comment/comments/${this.props.profileId}`, {
             method: 'GET',
             mode: 'cors',

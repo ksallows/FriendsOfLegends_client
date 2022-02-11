@@ -17,7 +17,6 @@ interface SearchState {
 }
 
 type SearchProps = {
-    app_auth: () => boolean,
     app_sessionToken: string | null,
     app_patch: string | null,
     app_championNameList: string[] | null,
@@ -94,7 +93,6 @@ class Search extends React.Component<SearchProps, SearchState> {
                 >
                     <SearchForm
                         app_sessionToken={this.props.app_sessionToken}
-                        app_auth={this.props.app_auth}
                         search_voiceCommChange={this.voiceCommChange}
                         search_rolesChange={this.rolesChange}
                         search_rankChange={this.rankChange}

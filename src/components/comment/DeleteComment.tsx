@@ -6,7 +6,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 interface DeleteCommentProps {
     app_sessionToken: string | null,
-    loadComments: () => any
+    loadComments: () => Promise<void>
     commentId: string,
     app_profileId: string | null
 }
@@ -30,7 +30,7 @@ class DeleteComment extends React.Component<DeleteCommentProps, {}> {
                 }
             })
         })
-            .then(this.props.loadComments())
+            .then(() => this.props.loadComments())
     }
 
     render() {

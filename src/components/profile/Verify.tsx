@@ -21,7 +21,8 @@ interface VerifyProps {
     app_summonerName: string | null,
     app_server: string | null,
     app_updateSummonerName: (value: string | null) => void,
-    app_updateServer: (value: string | null) => void
+    app_updateServer: (value: string | null) => void,
+    refresh: () => Promise<void>
 }
 
 class Verify extends React.Component<VerifyProps, VerifyState> {
@@ -63,7 +64,8 @@ class Verify extends React.Component<VerifyProps, VerifyState> {
             .then(result => {
                 if (result.status === 200) {
                     this.props.app_updateVerify(true)
-                    this.setState({ notification: 'Summoner verified!', notificationSuccess: true })
+                    this.setState({ notification: 'Summoner verified!', notificationSuccess: true });
+                    this.props.refresh();
                 }
                 else this.setState({ notification: 'Unable to verify. Repeat the steps and try again.', notificationSuccess: false })
             })

@@ -16,7 +16,7 @@ interface CommentBlockProps {
     body: string,
     fromSummonerName: string,
     fromProfileId: string,
-    loadComments: () => any,
+    loadComments: () => Promise<void>,
     commentId: string,
     app_sessionToken: string | null,
     app_profileId: string | null,

@@ -23,7 +23,8 @@ type RegisterState = {
 
 type RegisterProps = {
     app_sessionToken: string | null,
-    app_updateToken: (token: string) => void
+    app_updateToken: (token: string) => void,
+    app_updateProfileId: (value: string) => void
 }
 
 // eslint-disable-next-line
@@ -110,9 +111,9 @@ class Register extends React.Component<RegisterProps, RegisterState> {
             return result
         }).then(result => result.json())
             .then(result => {
-                console.log(result)
                 this.setState({ notification: result.message });
-                this.props.app_updateToken(result.sessionToken)
+                this.props.app_updateToken(result.sessionToken);
+                this.props.app_updateProfileId(result.profileId)
             })
     }
 

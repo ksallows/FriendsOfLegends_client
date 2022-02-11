@@ -12,7 +12,7 @@ interface AddCommentState {
 interface AddCommentProps {
     app_sessionToken: string | null,
     profileId?: string | null,
-    loadComments: () => any
+    loadComments: () => Promise<void>
 }
 
 class AddComment extends React.Component<AddCommentProps, AddCommentState> {

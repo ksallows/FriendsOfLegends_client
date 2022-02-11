@@ -29,7 +29,6 @@ interface EditProfileState {
 }
 
 interface EditProfileProps {
-    app_auth: () => boolean,
     app_sessionToken: string | null,
     app_verified: boolean,
     app_updateVerify: (value: boolean) => void,
@@ -159,8 +158,13 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                     <Group position='apart'>
                         <Title>Edit Profile</Title>
                         <Group>
-                            {this.props.app_verified ? <Refresh editProfile_refreshLoading={this.state.refreshLoading} editProfile_refresh={this.refresh} /> : ''}
-                            <Button variant='default' component={Link} to={`/p/${this.props.app_profileId}`}>View Profile</Button>
+                            {this.props.app_verified ?
+                                <>
+                                    <Refresh editProfile_refreshLoading={this.state.refreshLoading} editProfile_refresh={this.refresh} />
+                                    <Button variant='default' component={Link} to={`/p/${this.props.app_profileId}`}>View Profile</Button>
+                                </>
+
+                                : ''}
                         </Group>
                     </Group>
 
@@ -174,6 +178,7 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                             app_updateVerify={this.props.app_updateVerify}
                             app_verified={this.props.app_verified}
                             app_sessionToken={this.props.app_sessionToken}
+                            refresh={this.refresh}
                         />
                         :
                         <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
@@ -207,11 +212,11 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                             <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
                                 <Group position='apart'>
                                     <Title order={4}>Top Champions</Title>
-                                    {this.state.topChamps !== undefined ?
+                                    {this.state.topChamps !== null && this.state.topChamps !== undefined ?
                                         <Group>
-                                            <Avatar radius='xs' src={`${baseUrl}${this.props.app_patch}/img/champion/${this.props.app_championIdsToName[`n${this.state.topChamps[0]}`]}.png`} />
-                                            <Avatar radius='xs' src={`${baseUrl}${this.props.app_patch}/img/champion/${this.props.app_championIdsToName[`n${this.state.topChamps[1]}`]}.png`} />
-                                            <Avatar radius='xs' src={`${baseUrl}${this.props.app_patch}/img/champion/${this.props.app_championIdsToName[`n${this.state.topChamps[2]}`]}.png`} />
+                                            <Avatar radius='xs' src={`${baseUrl}${this.props.app_patch}/img/champion/${this.props.app_championIdsToName[`n${this.state.topChamps![0]}`]}.png`} />
+                                            <Avatar radius='xs' src={`${baseUrl}${this.props.app_patch}/img/champion/${this.props.app_championIdsToName[`n${this.state.topChamps![1]}`]}.png`} />
+                                            <Avatar radius='xs' src={`${baseUrl}${this.props.app_patch}/img/champion/${this.props.app_championIdsToName[`n${this.state.topChamps![2]}`]}.png`} />
                                         </Group>
                                         :
                                         ''}
