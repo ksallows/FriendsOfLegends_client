@@ -1,6 +1,6 @@
 import React from 'react';
 import APIURL from '../../helpers/environment';
-import { Button, ActionIcon } from '@mantine/core';
+import { ActionIcon } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 

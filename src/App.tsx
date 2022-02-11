@@ -27,7 +27,8 @@ interface AppValues {
 
   app_championNameList: string[] | null,
   app_championValues: ChampionListData[] | null,
-  app_championIdsToName: ChampionIdData
+  app_championIdsToName: ChampionIdData,
+  app_admin: boolean
 }
 
 class App extends React.Component<{}, AppValues> {
@@ -43,7 +44,8 @@ class App extends React.Component<{}, AppValues> {
       app_profileId: null,
       app_championNameList: null, // 1 dimensional array of all champ names    
       app_championValues: null,   // {{label: 'Aatrox', value: '266'}, ...}
-      app_championIdsToName: { n0: '' } // {n266: 'AAtrox, ...}
+      app_championIdsToName: { n0: '' }, // {n266: 'AAtrox, ...}
+      app_admin: false
     }
   }
 
@@ -109,7 +111,7 @@ class App extends React.Component<{}, AppValues> {
           }),
         }).then(result => result.json())
           .then(result => {
-            this.setState({ app_profileId: result.profileId, app_verified: result.verified, app_server: result.server, app_summonerName: result.summonerName })
+            this.setState({ app_admin: result.admin, app_profileId: result.profileId, app_verified: result.verified, app_server: result.server, app_summonerName: result.summonerName })
           })
       }
 
@@ -179,6 +181,7 @@ class App extends React.Component<{}, AppValues> {
                 app_sessionToken={this.state.app_sessionToken}
                 app_patch={this.state.app_patch}
                 app_championIdsToName={this.state.app_championIdsToName}
+                app_admin={this.state.app_admin}
               />}
             />
           </Routes>

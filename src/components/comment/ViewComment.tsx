@@ -12,7 +12,8 @@ interface ViewCommentState {
 interface ViewCommentProps {
     app_sessionToken: string | null,
     profileId?: string | null,
-    app_profileId: string | null
+    app_profileId: string | null,
+    app_admin: boolean,
 }
 
 class ViewComment extends React.Component<ViewCommentProps, ViewCommentState> {
@@ -63,6 +64,7 @@ class ViewComment extends React.Component<ViewCommentProps, ViewCommentState> {
                                 commentId={this.state.comments![index].commentId}
                                 app_sessionToken={this.props.app_sessionToken}
                                 app_profileId={this.props.app_profileId}
+                                app_admin={this.props.app_admin}
                             />
                             <Space h='xl'></Space>
                         </>
