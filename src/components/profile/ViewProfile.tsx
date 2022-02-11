@@ -10,11 +10,13 @@ import bottom from '../../assets/bottom.svg'
 import top from '../../assets/top.svg'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faDiscord } from '@fortawesome/free-brands-svg-icons'
+import ViewComment from '../comment/ViewComment'
 
 interface ViewProfileProps {
     app_sessionToken: string | null,
     app_patch: string | null,
-    app_championIdsToName: ChampionIdData
+    app_championIdsToName: ChampionIdData,
+    app_profileId: string | null
 }
 
 interface ViewProfileState {
@@ -53,7 +55,7 @@ class ViewProfile extends React.Component<ViewProfileProps, ViewProfileState> {
         let champs: JSX.Element[] = []
         if (this.state.profileData?.topChamps) {
             for (let i = 0; i < this.state.profileData.topChamps.length; i++) {
-                champs.push(<Avatar radius='xs' src={`${baseUrl}${this.props.app_patch}/img/champion/${this.props.app_championIdsToName[`n${this.state.profileData.topChamps[i]}`]}.png`} />)
+                champs.push(<Avatar key={i} radius='xs' src={`${baseUrl}${this.props.app_patch}/img/champion/${this.props.app_championIdsToName[`n${this.state.profileData.topChamps[i]}`]}.png`} />)
             }
             return champs;
         }
@@ -66,11 +68,11 @@ class ViewProfile extends React.Component<ViewProfileProps, ViewProfileState> {
         if (this.state.profileData?.roles) {
             for (let i = 0; i < this.state.profileData.roles.length; i++) {
                 switch (this.state.profileData.roles[i]) {
-                    case 'top': roles.push(<Avatar src={top} />); break;
-                    case 'mid': roles.push(<Avatar src={mid} />); break;
-                    case 'sup': roles.push(<Avatar src={support} />); break;
-                    case 'jng': roles.push(<Avatar src={jungle} />); break;
-                    case 'bot': roles.push(<Avatar src={bottom} />); break;
+                    case 'top': roles.push(<Avatar key={i} src={top} />); break;
+                    case 'mid': roles.push(<Avatar key={i} src={mid} />); break;
+                    case 'sup': roles.push(<Avatar key={i} src={support} />); break;
+                    case 'jng': roles.push(<Avatar key={i} src={jungle} />); break;
+                    case 'bot': roles.push(<Avatar key={i} src={bottom} />); break;
                 }
             }
             return roles;
@@ -82,7 +84,7 @@ class ViewProfile extends React.Component<ViewProfileProps, ViewProfileState> {
         let gameModes: JSX.Element[] = [];
         if (this.state.profileData?.gameModes) {
             for (let i = 0; i < this.state.profileData.gameModes.length; i++) {
-                gameModes.push(<Badge color='orange' variant='filled' size='md'>{this.state.profileData.gameModes[i]}</Badge>)
+                gameModes.push(<Badge key={i} color='orange' variant='filled' size='md'>{this.state.profileData.gameModes[i]}</Badge>)
             }
             return gameModes;
         }
@@ -129,14 +131,20 @@ class ViewProfile extends React.Component<ViewProfileProps, ViewProfileState> {
 
                                 </Title>
                             </Group>
-                            <Text sx={{ marginRight: '0.5rem' }}>{this.state.profileData?.discord !== undefined ? <><FontAwesomeIcon icon={faDiscord} /> {this.state.profileData?.discord}</> : ''}</Text>
+                            <Text sx={{ marginRight: '0.5rem' }}>{this.state.profileData?.discord !== null ? <><FontAwesomeIcon icon={faDiscord} /> {this.state.profileData?.discord}</> : ''}</Text>
                         </Group>
                     </Paper>
                     <Space h='xl' />
-                    <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
-                        <p>{this.state.profileData?.description}</p>
-                    </Paper>
-                    <Space h='xl' />
+
+                    {this.state.profileData?.description !== null ?
+                        <><Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
+                            <p>{this.state.profileData?.description}</p>
+                        </Paper>
+                            <Space h='xl' /></>
+                        :
+                        ''}
+
+
                     <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
                         <SimpleGrid cols={3}>
                             <Group direction='column'>
@@ -158,7 +166,7 @@ class ViewProfile extends React.Component<ViewProfileProps, ViewProfileState> {
                     <Space h='xl' />
                     <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
                         <Title order={4}>Comments</Title>
-
+                        <ViewComment app_profileId={this.props.app_profileId} profileId={this.state.profileId} app_sessionToken={this.props.app_sessionToken} />
                     </Paper>
                 </Grid.Col>
             </Grid>

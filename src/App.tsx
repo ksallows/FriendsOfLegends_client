@@ -175,6 +175,7 @@ class App extends React.Component<{}, AppValues> {
             />
             <Route path='/p/:profileId' element={
               <ViewProfile
+                app_profileId={this.state.app_profileId}
                 app_sessionToken={this.state.app_sessionToken}
                 app_patch={this.state.app_patch}
                 app_championIdsToName={this.state.app_championIdsToName}

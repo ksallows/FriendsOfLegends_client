@@ -62,3 +62,10 @@ export function rankToCSS(rank: string | undefined) {
     }
     else return ''
 }
+
+export interface Comment {
+    fromProfileId: string,
+    fromSummonerName: string,
+    body: string,
+    commentId: string
+}

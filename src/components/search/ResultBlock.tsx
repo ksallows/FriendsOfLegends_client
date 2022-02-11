@@ -32,7 +32,7 @@ class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {
     topChamps = (): JSX.Element[] => {
         let champs: JSX.Element[] = []
         for (let i = 0; i < this.props.search_result.topChamps.length; i++) {
-            champs.push(<Avatar radius='xs' src={`${baseUrl}${this.props.app_patch}/img/champion/${this.props.app_championIdsToName[`n${this.props.search_result.topChamps[i]}`]}.png`} />)
+            champs.push(<Avatar key={i} radius='xs' src={`${baseUrl}${this.props.app_patch}/img/champion/${this.props.app_championIdsToName[`n${this.props.search_result.topChamps[i]}`]}.png`} />)
         }
         return champs;
     }
@@ -42,11 +42,11 @@ class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {
         if (this.props.search_result.roles !== null) {
             for (let i = 0; i < this.props.search_result.roles.length; i++) {
                 switch (this.props.search_result.roles[i]) {
-                    case 'top': roles.push(<Avatar src={top} />); break;
-                    case 'mid': roles.push(<Avatar src={mid} />); break;
-                    case 'sup': roles.push(<Avatar src={support} />); break;
-                    case 'jng': roles.push(<Avatar src={jungle} />); break;
-                    case 'bot': roles.push(<Avatar src={bottom} />); break;
+                    case 'top': roles.push(<Avatar key={i} src={top} />); break;
+                    case 'mid': roles.push(<Avatar key={i} src={mid} />); break;
+                    case 'sup': roles.push(<Avatar key={i} src={support} />); break;
+                    case 'jng': roles.push(<Avatar key={i} src={jungle} />); break;
+                    case 'bot': roles.push(<Avatar key={i} src={bottom} />); break;
                 }
             }
             return roles;
@@ -58,7 +58,7 @@ class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {
         let gameModes: JSX.Element[] = [];
         if (this.props.search_result.gameModes !== null) {
             for (let i = 0; i < this.props.search_result.gameModes.length; i++) {
-                gameModes.push(<Badge color='orange' variant='filled' size='md'>{this.props.search_result.gameModes[i]}</Badge>)
+                gameModes.push(<Badge key={i} color='orange' variant='filled' size='md'>{this.props.search_result.gameModes[i]}</Badge>)
             }
             return gameModes;
         }
