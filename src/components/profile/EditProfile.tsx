@@ -1,6 +1,6 @@
 import APIURL from '../../helpers/environment'
 import React from 'react';
-import { Title, Grid, Space, Chips, Chip, Paper, Badge, Group, Avatar, Textarea, TextInput, SegmentedControl, Button, Center } from '@mantine/core';
+import { Title, Grid, Space, Chips, Chip, Paper, Badge, Group, Avatar, Textarea, TextInput, SegmentedControl, Button, Center, Alert } from '@mantine/core';
 import { ChampionListData, ChampionIdData, baseUrl, serversList, rankToCSS } from '../../d'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faDiscord } from '@fortawesome/free-brands-svg-icons'
@@ -13,6 +13,7 @@ import mid from '../../assets/mid.svg'
 import support from '../../assets/support.svg'
 import bottom from '../../assets/bottom.svg'
 import top from '../../assets/top.svg'
+import ResultBlock from '../search/ResultBlock';
 
 interface EditProfileState {
     gameModes: string[] | undefined,
@@ -25,7 +26,10 @@ interface EditProfileState {
     description: string | undefined,
     discord: string | undefined,
     voiceComm: boolean | null,
-    rankClass: string | undefined
+    rankClass: string | undefined,
+    loading: boolean,
+    notification?: string,
+    color?: string
 }
 
 interface EditProfileProps {
@@ -57,7 +61,8 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
             description: undefined,
             discord: undefined,
             voiceComm: null,
-            rankClass: undefined
+            rankClass: undefined,
+            loading: false
         }
     }
 
@@ -67,7 +72,7 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
 
     descriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => this.setState({ description: event.target.value })
 
-    discordChange = (event: React.ChangeEvent<HTMLInputElement>): void => this.setState({ description: event.target.value })
+    discordChange = (event: React.ChangeEvent<HTMLInputElement>): void => this.setState({ discord: event.target.value })
 
     voiceCommChange = (value: string) => this.setState({ voiceComm: value === 'null' ? null : value === 'true' ? true : false })
 
@@ -118,6 +123,7 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
     }
 
     saveProfile = async () => {
+        this.setState({ loading: true })
         await fetch(`${APIURL}/profile/update`, {
             method: 'PUT',
             mode: 'cors',
@@ -128,7 +134,7 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                     gameModes: this.state.gameModes,
                     voiceComm: this.state.voiceComm,
                     roles: this.state.roles,
-                    discord: this.state.discord,
+                    discord: this.state.discord !== '' ? this.state.discord : null,
                     description: this.state.description
                 }
             }),
@@ -137,8 +143,12 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                 'Authorization': `Bearer ${this.props.app_sessionToken}`
             })
         })
+            .then(result => {
+                if (result.status === 200) this.setState({ color: 'green' })
+                return result
+            })
             .then(result => result.json())
-            .then(result => console.log(result))
+            .then(result => this.setState({ notification: result.message, loading: false }))
             .catch(error => console.log(error))
     }
 
@@ -280,8 +290,8 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                                 </Chips>
                             </Paper>
                             <Space h='xl' />
-                            <Center><Button onClick={this.saveProfile} size='lg' color='orange'>save</Button></Center>
-
+                            <Center><Button loading={this.state.loading} onClick={this.saveProfile} size='lg' color='orange'>save</Button></Center>
+                            {this.state.notification ? <Alert sx={{ marginTop: '1rem' }} color={this.state.color} variant='filled'>{this.state.notification}</Alert> : ''}
                         </>
                         :
                         ''

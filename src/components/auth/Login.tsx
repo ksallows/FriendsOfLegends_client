@@ -23,7 +23,8 @@ type LoginState = {
 
 type LoginProps = {
     app_sessionToken: string | null,
-    app_updateToken: (token: string) => void
+    app_updateToken: (token: string) => void,
+    app_getProfileInfo: () => void
 }
 
 class Login extends React.Component<LoginProps, LoginState> {
@@ -73,7 +74,8 @@ class Login extends React.Component<LoginProps, LoginState> {
         }).then(result => result.json())
             .then(result => {
                 this.setState({ notification: result.message });
-                this.props.app_updateToken(result.sessionToken)
+                this.props.app_updateToken(result.sessionToken);
+                this.props.app_getProfileInfo();
             })
     }
 

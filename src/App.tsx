@@ -96,30 +96,32 @@ class App extends React.Component<{}, AppValues> {
           else this.setState({ app_sessionToken: null })
           return result.json()
         })
-      // then get important user info
-      if (this.state.app_sessionToken !== null) {
-        await fetch(`${APIURL}/profile/summonerInfo`, {
-          method: 'GET',
-          mode: 'cors',
-          credentials: 'include',
-          headers: new Headers({
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('Authorization')}`
-          }),
-        }).then(result => result.json())
-          .then(result => {
-            this.setState({
-              app_admin: result.admin,
-              app_profileId: result.profileId,
-              app_verified: result.verified,
-              app_server: result.server,
-              app_summonerName: result.summonerName
-            })
-          })
-      }
-
+        .then(() => this.getProfileInfo())
     }
   }
+
+  getProfileInfo = async () => {
+    //if (this.state.app_sessionToken !== null) {
+    await fetch(`${APIURL}/profile/summonerInfo`, {
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'include',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('Authorization')}`
+      }),
+    }).then(result => result.json())
+      .then(result => {
+        this.setState({
+          app_admin: result.admin,
+          app_profileId: result.profileId,
+          app_verified: result.verified,
+          app_server: result.server,
+          app_summonerName: result.summonerName
+        })
+      })
+  }
+  //  }
 
   componentDidMount = () => {
     this.checkToken()
@@ -152,7 +154,7 @@ class App extends React.Component<{}, AppValues> {
           <Nav app_sessionToken={this.state.app_sessionToken} app_clearToken={this.clearToken} />
           <Routes>
             <Route path='/register' element={<Register app_updateProfileId={this.updateProfileId} app_sessionToken={this.state.app_sessionToken} app_updateToken={this.updateToken} />} />
-            <Route path='/login' element={<Login app_sessionToken={this.state.app_sessionToken} app_updateToken={this.updateToken} />} />
+            <Route path='/login' element={<Login app_getProfileInfo={this.getProfileInfo} app_sessionToken={this.state.app_sessionToken} app_updateToken={this.updateToken} />} />
             <Route path='/' element={<Home app_sessionToken={this.state.app_sessionToken} />} />
             <Route path='/search' element={<Search
               app_championNameList={this.state.app_championNameList}
