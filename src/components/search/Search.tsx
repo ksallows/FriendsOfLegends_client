@@ -3,7 +3,7 @@ import React from 'react';
 import SearchForm from './SearchForm';
 import SearchResults from './SearchResults';
 import { Grid } from '@mantine/core';
-import { ChampionListData, ChampionIdData, Filter, Result } from '../../d'
+import { ChampionListData, ChampionIdData } from '../../d'
 
 interface SearchState {
     search_prevSearch: boolean,

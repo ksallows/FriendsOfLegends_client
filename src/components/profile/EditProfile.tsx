@@ -91,7 +91,8 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                 rank: result.rank,
                 topChamps: result.topChamps,
                 summonerIcon: result.summonerIcon,
-                level: result.level
+                level: result.level,
+                rankClass: rankToCSS(result.profile.rank)
             }))
             .then(result => this.setState({ refreshLoading: false }))
     }

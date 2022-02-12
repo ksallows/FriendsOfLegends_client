@@ -51,7 +51,7 @@ export function rankToCSS(rank: string | undefined) {
             case 'UN': return 'unranked';
             case 'IR': return 'iron';
             case 'BR': return 'bronze';
-            case 'SS': return 'silver';
+            case 'SI': return 'silver';
             case 'GO': return 'gold';
             case 'PL': return 'platinum';
             case 'DI': return 'diamond';
