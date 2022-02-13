@@ -8,12 +8,6 @@ import { Link } from 'react-router-dom';
 import Verify from './Verify'
 import Refresh from './Refresh'
 import equal from 'fast-deep-equal'
-import jungle from '../../assets/jungle.svg'
-import mid from '../../assets/mid.svg'
-import support from '../../assets/support.svg'
-import bottom from '../../assets/bottom.svg'
-import top from '../../assets/top.svg'
-import ResultBlock from '../search/ResultBlock';
 
 interface EditProfileState {
     gameModes: string[] | undefined,
@@ -204,6 +198,7 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                                         {this.props.app_summonerName}
                                         {Object.values(serversList).map(v => {
                                             if (v.value === this.props.app_server) return (<Badge key={v.value} sx={{ marginLeft: '0.5rem' }} radius='xs' className={v.label} variant='filled'>{v.label}</Badge>)
+                                            return null;
                                         })}
                                         {this.state.rank !== undefined ?
                                             <Badge radius='xs' sx={{ marginLeft: '0.5rem' }} variant='filled' className={`${this.state.rankClass}`}>{this.state.rank}</Badge>

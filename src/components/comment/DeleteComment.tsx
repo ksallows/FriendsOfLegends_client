@@ -12,9 +12,6 @@ interface DeleteCommentProps {
 }
 
 class DeleteComment extends React.Component<DeleteCommentProps, {}> {
-    constructor(props: DeleteCommentProps) {
-        super(props);
-    }
 
     deleteComment = async () => {
         await fetch(`${APIURL}/comment/delete`, {

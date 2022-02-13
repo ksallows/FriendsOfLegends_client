@@ -9,9 +9,7 @@ interface RefreshProps {
 }
 
 class Refresh extends React.Component<RefreshProps, {}> {
-    constructor(props: RefreshProps) {
-        super(props);
-    }
+
     render() {
         return (
             <Button loading={this.props.editProfile_refreshLoading} onClick={this.props.editProfile_refresh} color='orange' leftIcon={<FontAwesomeIcon icon={faSync} />}> Refresh</Button>

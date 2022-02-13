@@ -9,9 +9,6 @@ interface HomeProps {
 }
 
 class Home extends React.Component<HomeProps, {}> {
-    constructor(props: HomeProps) {
-        super(props)
-    }
 
     render() {
         return (
