@@ -1,5 +1,4 @@
 import React from 'react';
-import APIURL from '../../helpers/environment'
 import { Button } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSync } from '@fortawesome/free-solid-svg-icons'

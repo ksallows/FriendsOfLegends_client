@@ -48,6 +48,7 @@ class Search extends React.Component<SearchProps, SearchState> {
                 else if (rank === 'MASTER')
                     newRankArray.push('MASTER', 'GRANDMASTER', 'CHALLENGER')
                 else newRankArray.push('UNRANKED')
+                return null
             })
         }
         await fetch(`${APIURL}/profile/find`, {

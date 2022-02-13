@@ -126,6 +126,7 @@ class ViewProfile extends React.Component<ViewProfileProps, ViewProfileState> {
 
                                     {Object.values(serversList).map(v => {
                                         if (v.value === this.state.profileData?.server) return (<Badge key={v.value} sx={{ marginLeft: '0.5rem' }} radius='xs' className={v.label} variant='filled'>{v.label}</Badge>)
+                                        return null
                                     })}
 
                                     <Badge radius='xs' sx={{ marginLeft: '0.5rem' }} variant='filled' className={`${this.state.rankClass}`}>{this.state.profileData?.rank}</Badge>

@@ -4,7 +4,6 @@ import { Title, TextInput, Button, Alert, NativeSelect, Group, Badge, Paper, Gri
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { serversList } from '../../d'
-import { isNull } from 'util';
 
 interface VerifyState {
     verificationCode: string,
