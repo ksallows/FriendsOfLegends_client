@@ -10,6 +10,7 @@ import Search from './components/search/Search';
 import EditProfile from './components/profile/EditProfile';
 import ViewProfile from './components/profile/ViewProfile';
 import Footer from './components/Footer';
+import AdminPanel from './components/admin/AdminPanel';
 import './App.css';
 
 // TODO when you first log in, profileInfo isn't loaded in
@@ -151,7 +152,7 @@ class App extends React.Component<{}, AppValues> {
     return (
       <>
         <Router>
-          <Nav app_sessionToken={this.state.app_sessionToken} app_clearToken={this.clearToken} />
+          <Nav app_admin={this.state.app_admin} app_sessionToken={this.state.app_sessionToken} app_clearToken={this.clearToken} />
           <Routes>
             <Route path='/register' element={<Register app_updateProfileId={this.updateProfileId} app_sessionToken={this.state.app_sessionToken} app_updateToken={this.updateToken} />} />
             <Route path='/login' element={<Login app_getProfileInfo={this.getProfileInfo} app_sessionToken={this.state.app_sessionToken} app_updateToken={this.updateToken} />} />
@@ -187,6 +188,7 @@ class App extends React.Component<{}, AppValues> {
                 app_admin={this.state.app_admin}
               />}
             />
+            <Route path='admin' element={<AdminPanel app_sessionToken={this.state.app_sessionToken} />} />
           </Routes>
         </Router>
         <Footer />

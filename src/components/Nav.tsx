@@ -9,7 +9,8 @@ interface NavState {
 
 interface NavProps {
     app_sessionToken: string | null,
-    app_clearToken: () => void
+    app_clearToken: () => void,
+    app_admin: boolean | null
 }
 
 class Nav extends React.Component<NavProps, NavState> {
@@ -31,7 +32,10 @@ class Nav extends React.Component<NavProps, NavState> {
                             <Button size='md' variant='gradient' component={Link} to='/search' gradient={{ from: 'orange', to: 'yellow', deg: 105 }}>Find Friends</Button>
                             <Button color='gray' size='md' component={Link} to='/editprofile'>Profile</Button>
                         </Group>
-                        <Button component={Link} to='/' variant='subtle' color='gray' size='md' onClick={this.props.app_clearToken}>Log Out</Button>
+                        <Group>
+                            {this.props.app_admin ? <Button component={Link} to='/admin' variant='subtle' color='red' size='md'>Admin</Button> : ''}
+                            <Button component={Link} to='/' variant='subtle' color='gray' size='md' onClick={this.props.app_clearToken}>Log Out</Button>
+                        </Group>
                     </Group>
 
                     :
