@@ -27,16 +27,31 @@ const SearchResults = ({ search_results, app_patch, app_championIdsToName, searc
                     </Paper>
                     :
                     <>
-                        {search_results !== null && search_results.length > 10 ? <Pagination total={search_results.length / 10} page={activePage} onChange={setPage} /> : ''}
+                        {search_results !== null && search_results.matches.length > 4 ?
+                            <>
+                                <Pagination color='orange' total={Math.ceil(search_results.matches.length / 4)} page={activePage} onChange={setPage} />
+                                <Space h='md' />
+                            </>
+                            :
+                            ''
+                        }
                         {search_results !== null ?
                             Object.keys(search_results.matches).map((key, index) => (
                                 <>
-                                    <ResultBlock
-                                        key={index}
-                                        app_championIdsToName={app_championIdsToName}
-                                        app_patch={app_patch}
-                                        search_result={search_results.matches[index]} />
-                                    <Space h='xl'></Space>
+                                    {index < (activePage * 4) && index > ((activePage - 1) * 4 - 1) ?
+                                        <>
+                                            index: {index}
+                                            <ResultBlock
+                                                key={key}
+                                                app_championIdsToName={app_championIdsToName}
+                                                app_patch={app_patch}
+                                                search_result={search_results.matches[index]} />
+                                            <Space h='xl'></Space>
+                                        </>
+                                        :
+                                        ''
+                                    }
+
                                 </>
                             ))
                             :
