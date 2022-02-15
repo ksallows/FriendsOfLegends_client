@@ -27,9 +27,9 @@ const SearchResults = ({ search_results, app_patch, app_championIdsToName, searc
                     </Paper>
                     :
                     <>
-                        {search_results !== null && search_results.matches.length > 4 ?
+                        {search_results !== null && search_results.matches.length > 10 ?
                             <>
-                                <Pagination color='orange' total={Math.ceil(search_results.matches.length / 4)} page={activePage} onChange={setPage} />
+                                <Pagination color='orange' total={Math.ceil(search_results.matches.length / 10)} page={activePage} onChange={setPage} />
                                 <Space h='md' />
                             </>
                             :
@@ -38,7 +38,7 @@ const SearchResults = ({ search_results, app_patch, app_championIdsToName, searc
                         {search_results !== null ?
                             Object.keys(search_results.matches).map((key, index) => (
                                 <>
-                                    {index < (activePage * 4) && index > ((activePage - 1) * 4 - 1) ?
+                                    {index < (activePage * 10) && index > ((activePage - 1) * 10 - 1) ?
                                         <>
                                             <ResultBlock
                                                 key={key}
