@@ -46,7 +46,7 @@ class ViewComment extends React.Component<ViewCommentProps, ViewCommentState> {
     render() {
         return (
             <>
-                {this.props.app_profileId !== this.props.profileId ?
+                {this.props.app_profileId !== this.props.profileId && this.props.app_sessionToken !== null ?
                     <AddComment loadComments={this.loadComments} profileId={this.props.profileId} app_sessionToken={this.props.app_sessionToken} />
                     :
                     ''
