@@ -40,7 +40,6 @@ const SearchResults = ({ search_results, app_patch, app_championIdsToName, searc
                                 <>
                                     {index < (activePage * 4) && index > ((activePage - 1) * 4 - 1) ?
                                         <>
-                                            index: {index}
                                             <ResultBlock
                                                 key={key}
                                                 app_championIdsToName={app_championIdsToName}
