@@ -102,6 +102,7 @@ class App extends React.Component<{}, AppValues> {
   }
 
   getProfileInfo = async () => {
+    console.log('getProfileInfo was called')
     //if (this.state.app_sessionToken !== null) {
     await fetch(`${APIURL}/profile/summonerInfo`, {
       method: 'GET',
@@ -120,6 +121,7 @@ class App extends React.Component<{}, AppValues> {
           app_server: result.server,
           app_summonerName: result.summonerName
         })
+        console.log('getProfileInfo finished')
       })
   }
   //  }
