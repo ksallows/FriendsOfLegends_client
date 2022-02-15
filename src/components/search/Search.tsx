@@ -13,7 +13,7 @@ interface SearchState {
     search_champions: string[] | undefined,
     search_gameModes: string[] | undefined,
     search_results: any | null,
-
+    search_status: string
 }
 
 type SearchProps = {
@@ -35,6 +35,7 @@ class Search extends React.Component<SearchProps, SearchState> {
             search_champions: [],
             search_gameModes: [],
             search_results: null,
+            search_status: 'initial'
         }
     }
 
@@ -70,7 +71,12 @@ class Search extends React.Component<SearchProps, SearchState> {
             })
         })
             .then(result => result.json())
-            .then(result => this.setState({ search_results: result }))
+            .then(result => {
+                if (Object.keys(result).includes('matches'))
+                    this.setState({ search_results: result, search_status: 'ok' })
+                else
+                    this.setState({ search_status: 'no results' })
+            })
     }
 
     voiceCommChange = (value: string) => this.setState({ search_voiceComm: value === 'null' ? null : value === 'true' ? true : false })
@@ -116,15 +122,14 @@ class Search extends React.Component<SearchProps, SearchState> {
                     lg={6}
                     xl={8}
                 >
-                    {this.state.search_results !== null ?
-                        <SearchResults
-                            app_patch={this.props.app_patch}
-                            search_results={this.state.search_results}
-                            app_championIdsToName={this.props.app_championIdsToName}
-                        />
-                        :
-                        <></>
-                    }
+
+                    <SearchResults
+                        app_patch={this.props.app_patch}
+                        search_results={this.state.search_results}
+                        app_championIdsToName={this.props.app_championIdsToName}
+                        search_status={this.state.search_status}
+                    />
+
                 </Grid.Col>
             </Grid>
         )

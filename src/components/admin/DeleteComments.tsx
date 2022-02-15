@@ -1,5 +1,5 @@
 import React from 'react';
-import { Title, TextInput, PasswordInput, Space, Group, Button, Divider, Alert } from '@mantine/core';
+import { Title, TextInput, Space, Group, Button, Alert, Text } from '@mantine/core';
 import APIURL from '../../helpers/environment'
 
 interface DeleteCommentsState {
@@ -48,6 +48,7 @@ class DeleteComments extends React.Component<DeleteCommentsProps, DeleteComments
             <>
                 <Space h='md' />
                 <Title order={4}>Delete all user comments by Profile Id</Title>
+                <Text>This deletes all the comments this user has made</Text>
                 <Space h='md' />
                 <Group grow>
                     <TextInput value={this.state.profileId} onChange={this.profileIdChange} placeholder='profile id' />

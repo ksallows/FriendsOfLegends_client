@@ -42,16 +42,16 @@ class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {
         if (this.props.search_result.roles !== null) {
             for (let i = 0; i < this.props.search_result.roles.length; i++) {
                 switch (this.props.search_result.roles[i]) {
-                    case 'top': roles.push(<Avatar key={i} src={top} />); break;
-                    case 'mid': roles.push(<Avatar key={i} src={mid} />); break;
-                    case 'sup': roles.push(<Avatar key={i} src={support} />); break;
-                    case 'jng': roles.push(<Avatar key={i} src={jungle} />); break;
-                    case 'bot': roles.push(<Avatar key={i} src={bottom} />); break;
+                    case 'top': roles.push(<Tooltip withArrow color='orange' label='top'><Avatar key={i} src={top} /></Tooltip>); break;
+                    case 'mid': roles.push(<Tooltip withArrow color='orange' label='mid'><Avatar key={i} src={mid} /></Tooltip>); break;
+                    case 'sup': roles.push(<Tooltip withArrow color='orange' label='support'><Avatar key={i} src={support} /></Tooltip>); break;
+                    case 'jng': roles.push(<Tooltip withArrow color='orange' label='jungle'><Avatar key={i} src={jungle} /></Tooltip>); break;
+                    case 'bot': roles.push(<Tooltip withArrow color='orange' label='bot'><Avatar key={i} src={bottom} /></Tooltip>); break;
                 }
             }
             return roles;
         }
-        else return <Avatar src={all} />
+        else return <Tooltip withArrow color='orange' label='not specified'><Avatar src={all} /></Tooltip>
     }
 
     gameModes = () => {
