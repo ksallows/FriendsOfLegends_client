@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { Tabs, Grid, Paper } from '@mantine/core';
 import ResetPassword from './ResetPassword';
+import DeleteComments from './DeleteComments';
 
 interface AdminPanelProps {
     app_sessionToken: string | null
 }
 
 function AdminPanel({ app_sessionToken }: AdminPanelProps) {
-    const [activeTab, setActiveTab] = useState(1);
+    const [activeTab, setActiveTab] = useState(0);
 
     return (
         <Grid gutter={0} sx={{ marginTop: '2rem' }}>
@@ -15,7 +16,7 @@ function AdminPanel({ app_sessionToken }: AdminPanelProps) {
                 <Paper sx={{ backgroundColor: '#1f2023', marginBottom: '2rem' }} padding='md' shadow='sm' withBorder>
                     <Tabs color='orange' active={activeTab} onTabChange={setActiveTab}>
                         <Tabs.Tab label="Reset Password"><ResetPassword app_sessionToken={app_sessionToken} /></Tabs.Tab>
-                        <Tabs.Tab label="Delete Comments">Second tab content</Tabs.Tab>
+                        <Tabs.Tab label="Delete Comments"><DeleteComments app_sessionToken={app_sessionToken} /></Tabs.Tab>
                     </Tabs>
                 </Paper>
             </Grid.Col>
