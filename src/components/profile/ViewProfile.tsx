@@ -11,6 +11,7 @@ import top from '../../assets/top.svg'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faDiscord } from '@fortawesome/free-brands-svg-icons'
 import ViewComment from '../comment/ViewComment'
+import Rating from '../Rating'
 
 interface ViewProfileProps {
     app_sessionToken: string | null,
@@ -115,6 +116,10 @@ class ViewProfile extends React.Component<ViewProfileProps, ViewProfileState> {
                     <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
                         <Group position='apart'>
                             <Group>
+                                <Rating
+                                    app_sessionToken={this.props.app_sessionToken}
+                                    profileId={this.state.profileId}
+                                />
                                 <Avatar
                                     size='lg'
                                     radius='xl'

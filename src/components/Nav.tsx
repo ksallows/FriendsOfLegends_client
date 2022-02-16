@@ -30,15 +30,15 @@ class Nav extends React.Component<NavProps, NavState> {
     }
 
     loggedInMenu = [
-        <Menu.Item color='orange' component={Link} to='/search'>Find Friends</Menu.Item>,
-        <Menu.Item component={Link} to='/editprofile'>Profile</Menu.Item>,
+        <Menu.Item key='search' color='orange' component={Link} to='/search'>Find Friends</Menu.Item>,
+        <Menu.Item key='profile' component={Link} to='/editprofile'>Profile</Menu.Item>,
         <Divider />,
-        <Menu.Item component={Link} to='/' onClick={this.props.app_clearToken}>Log Out</Menu.Item>
+        <Menu.Item key='logout' component={Link} to='/' onClick={this.props.app_clearToken}>Log Out</Menu.Item>
     ]
 
     notLoggedInMenu = [
-        <Menu.Item color='orange' component={Link} to='/register'>Sign Up</Menu.Item>,
-        <Menu.Item component={Link} to='/login'>Log In</Menu.Item>
+        <Menu.Item key='signup' color='orange' component={Link} to='/register'>Sign Up</Menu.Item>,
+        <Menu.Item key='login' component={Link} to='/login'>Log In</Menu.Item>
     ]
 
     render() {
