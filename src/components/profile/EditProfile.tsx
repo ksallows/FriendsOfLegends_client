@@ -80,14 +80,20 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                 'Authorization': `Bearer ${this.props.app_sessionToken}`
             })
         })
-            .then(result => result.json())
-            .then(result => this.setState({
-                rank: result.rank,
-                topChamps: result.topChamps,
-                summonerIcon: result.summonerIcon,
-                level: result.level,
-                rankClass: rankToCSS(result.profile.rank)
-            }))
+            .then(result => {
+                console.log('json triggered')
+                return result.json()
+            })
+            .then(result => {
+                console.log('set state triggered')
+                this.setState({
+                    rank: result.rank,
+                    topChamps: result.topChamps,
+                    summonerIcon: result.summonerIcon,
+                    level: result.level,
+                    rankClass: rankToCSS(result.rank)
+                })
+            })
             .then(result => this.setState({ refreshLoading: false }))
     }
 
