@@ -151,46 +151,49 @@ class App extends React.Component<{}, AppValues> {
   render() {
     return (
       <>
-        <Router>
-          <Nav app_admin={this.state.app_admin} app_sessionToken={this.state.app_sessionToken} app_clearToken={this.clearToken} />
-          <Routes>
-            <Route path='/register' element={<Register app_updateProfileId={this.updateProfileId} app_sessionToken={this.state.app_sessionToken} app_updateToken={this.updateToken} />} />
-            <Route path='/login' element={<Login app_getProfileInfo={this.getProfileInfo} app_sessionToken={this.state.app_sessionToken} app_updateToken={this.updateToken} />} />
-            <Route path='/' element={<Home app_sessionToken={this.state.app_sessionToken} />} />
-            <Route path='/search' element={<Search
-              app_championNameList={this.state.app_championNameList}
-              app_championValues={this.state.app_championValues}
-              app_patch={this.state.app_patch}
-              app_sessionToken={this.state.app_sessionToken}
-              app_championIdsToName={this.state.app_championIdsToName} />} />
-            <Route path='/editprofile'
-              element={<EditProfile
-                app_patch={this.state.app_patch}
-                app_profileId={this.state.app_profileId}
-                app_server={this.state.app_server}
-                app_updateSummonerName={this.updateSummonerName}
-                app_updateServer={this.updateServer}
-                app_summonerName={this.state.app_summonerName}
-                app_updateVerify={this.updateVerify}
-                app_verified={this.state.app_verified}
-                app_sessionToken={this.state.app_sessionToken}
+        <div id='footer-helper'>
+          <Router>
+            <Nav app_admin={this.state.app_admin} app_sessionToken={this.state.app_sessionToken} app_clearToken={this.clearToken} />
+            <Routes>
+              <Route path='/register' element={<Register app_updateProfileId={this.updateProfileId} app_sessionToken={this.state.app_sessionToken} app_updateToken={this.updateToken} />} />
+              <Route path='/login' element={<Login app_getProfileInfo={this.getProfileInfo} app_sessionToken={this.state.app_sessionToken} app_updateToken={this.updateToken} />} />
+              <Route path='/' element={<Home app_sessionToken={this.state.app_sessionToken} />} />
+              <Route path='/search' element={<Search
                 app_championNameList={this.state.app_championNameList}
                 app_championValues={this.state.app_championValues}
-                app_championIdsToName={this.state.app_championIdsToName}
-              />}
-            />
-            <Route path='/p/:profileId' element={
-              <ViewProfile
-                app_profileId={this.state.app_profileId}
-                app_sessionToken={this.state.app_sessionToken}
                 app_patch={this.state.app_patch}
-                app_championIdsToName={this.state.app_championIdsToName}
-                app_admin={this.state.app_admin}
-              />}
-            />
-            <Route path='admin' element={<AdminPanel app_sessionToken={this.state.app_sessionToken} />} />
-          </Routes>
-        </Router>
+                app_sessionToken={this.state.app_sessionToken}
+                app_championIdsToName={this.state.app_championIdsToName} />} />
+              <Route path='/editprofile'
+                element={<EditProfile
+                  app_patch={this.state.app_patch}
+                  app_profileId={this.state.app_profileId}
+                  app_server={this.state.app_server}
+                  app_updateSummonerName={this.updateSummonerName}
+                  app_updateServer={this.updateServer}
+                  app_summonerName={this.state.app_summonerName}
+                  app_updateVerify={this.updateVerify}
+                  app_verified={this.state.app_verified}
+                  app_sessionToken={this.state.app_sessionToken}
+                  app_championNameList={this.state.app_championNameList}
+                  app_championValues={this.state.app_championValues}
+                  app_championIdsToName={this.state.app_championIdsToName}
+                />}
+              />
+              <Route path='/p/:profileId' element={
+                <ViewProfile
+                  app_profileId={this.state.app_profileId}
+                  app_sessionToken={this.state.app_sessionToken}
+                  app_patch={this.state.app_patch}
+                  app_championIdsToName={this.state.app_championIdsToName}
+                  app_admin={this.state.app_admin}
+                />}
+              />
+              <Route path='admin' element={<AdminPanel app_sessionToken={this.state.app_sessionToken} />} />
+            </Routes>
+          </Router>
+
+        </div>
         <Footer />
         <div id='cover'></div>
         <div id='gradient'></div>

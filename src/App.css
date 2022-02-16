@@ -71,3 +71,7 @@ body {
 
 .white {color:white !important}
 .hidden {display:none;}
+
+#footer-helper { min-height: calc(100vh - 90px)}
+
+#footer {height:70px;}

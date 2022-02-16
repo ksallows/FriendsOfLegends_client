@@ -37,7 +37,7 @@ class Nav extends React.Component<NavProps, NavState> {
     ]
 
     notLoggedInMenu = [
-        <Menu.Item component={Link} to='/register'>Sign Up</Menu.Item>,
+        <Menu.Item color='orange' component={Link} to='/register'>Sign Up</Menu.Item>,
         <Menu.Item component={Link} to='/login'>Log In</Menu.Item>
     ]
 
@@ -54,7 +54,7 @@ class Nav extends React.Component<NavProps, NavState> {
 
                 </MediaQuery>
 
-                <MediaQuery styles={{ display: 'none' }} smallerThan={'lg'}>
+                <MediaQuery styles={{ display: 'none' }} smallerThan={'md'}>
                     {this.props.app_sessionToken ?
                         <Group position='apart'>
                             <Group>
@@ -79,7 +79,7 @@ class Nav extends React.Component<NavProps, NavState> {
                     }
                 </MediaQuery>
 
-            </Header>
+            </Header >
         )
     }
 }
