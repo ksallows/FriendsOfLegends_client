@@ -42,7 +42,8 @@ export const filters: Filter = {
     Khazix: 'Kha\'Zix',
     AurelionSol: 'Aurelion Sol',
     TahmKench: 'Tahm Kench',
-    Kogmaw: 'Kog\'Maw'
+    Kogmaw: 'Kog\'Maw',
+    Renata: 'Renata Glasc'
 }
 
 export function rankToCSS(rank: string | undefined) {
