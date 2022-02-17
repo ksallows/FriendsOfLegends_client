@@ -67,19 +67,19 @@ class Rating extends React.Component<RatingProps, RatingState> {
     render() {
         return (
             <Group spacing='xs' position='center' direction='column'>
-                <ActionIcon variant='light' color={this.state.upvote ? 'orange' : 'gray'} size='xs' onClick={() => {
+                {this.props.app_sessionToken ? <ActionIcon variant='light' color={this.state.upvote ? 'orange' : 'gray'} size='xs' onClick={() => {
                     this.setState({ currentFunction: 'upvote' }, this.sendRating)
                 }}>
                     <FontAwesomeIcon icon={faArrowUp} />
-                </ActionIcon>
+                </ActionIcon> : ''}
                 <Text align='center'>
                     {this.state.rating}
                 </Text>
-                <ActionIcon variant='light' color={this.state.downvote ? 'orange' : 'gray'} size='xs' onClick={() => {
+                {this.props.app_sessionToken ? <ActionIcon variant='light' color={this.state.downvote ? 'orange' : 'gray'} size='xs' onClick={() => {
                     this.setState({ currentFunction: 'downvote' }, this.sendRating)
                 }}>
                     <FontAwesomeIcon icon={faArrowDown} />
-                </ActionIcon>
+                </ActionIcon> : ''}
             </Group>
         )
     }
