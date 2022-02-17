@@ -18,7 +18,8 @@ interface ViewProfileProps {
     app_patch: string | null,
     app_championIdsToName: ChampionIdData,
     app_profileId: string | null,
-    app_admin: boolean
+    app_admin: boolean,
+    app_verified: boolean,
 }
 
 interface ViewProfileState {
@@ -173,7 +174,7 @@ class ViewProfile extends React.Component<ViewProfileProps, ViewProfileState> {
                     <Space h='xl' />
                     <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
                         <Title order={4}>Comments</Title>
-                        <ViewComment app_admin={this.props.app_admin} app_profileId={this.props.app_profileId} profileId={this.state.profileId} app_sessionToken={this.props.app_sessionToken} />
+                        <ViewComment app_verified={this.props.app_verified} app_admin={this.props.app_admin} app_profileId={this.props.app_profileId} profileId={this.state.profileId} app_sessionToken={this.props.app_sessionToken} />
                     </Paper>
                 </Grid.Col>
             </Grid>

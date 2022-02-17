@@ -14,6 +14,7 @@ interface ViewCommentProps {
     profileId?: string | null,
     app_profileId: string | null,
     app_admin: boolean,
+    app_verified: boolean,
 }
 
 class ViewComment extends React.Component<ViewCommentProps, ViewCommentState> {
@@ -46,7 +47,7 @@ class ViewComment extends React.Component<ViewCommentProps, ViewCommentState> {
     render() {
         return (
             <>
-                {this.props.app_profileId !== this.props.profileId && this.props.app_sessionToken !== null ?
+                {this.props.app_profileId !== this.props.profileId && this.props.app_sessionToken !== null && this.props.app_verified ?
                     <AddComment loadComments={this.loadComments} profileId={this.props.profileId} app_sessionToken={this.props.app_sessionToken} />
                     :
                     ''

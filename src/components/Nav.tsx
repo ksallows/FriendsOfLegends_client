@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Header, Button, Group, Image, Menu, MediaQuery, Text, Divider, Burger } from '@mantine/core';
+import { Header, Button, Group, Image, Menu, MediaQuery, Divider, Burger } from '@mantine/core';
 import logo from '../assets/logo.svg'
 
 interface NavState {
