@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faDiscord } from '@fortawesome/free-brands-svg-icons'
 import ViewComment from '../comment/ViewComment'
 import Rating from '../Rating'
+import equal from 'fast-deep-equal'
 
 interface ViewProfileProps {
     app_sessionToken: string | null,
@@ -20,6 +21,7 @@ interface ViewProfileProps {
     app_profileId: string | null,
     app_admin: boolean,
     app_verified: boolean,
+    path: string
 }
 
 interface ViewProfileState {
@@ -94,20 +96,26 @@ class ViewProfile extends React.Component<ViewProfileProps, ViewProfileState> {
         else return <Badge color='orange' variant='filled' size='md'>any</Badge>
     }
 
-    componentDidMount = async () => {
-        setTimeout(async () => {
-            await fetch(`${APIURL}/profile/p/${this.state.profileId}`, {
-                method: 'GET',
-                mode: 'cors',
-                headers: new Headers({
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.props.app_sessionToken}`
-                })
+    getData = async () => {
+        await fetch(`${APIURL}/profile/p/${this.state.profileId}`, {
+            method: 'GET',
+            mode: 'cors',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.props.app_sessionToken}`
             })
-                .then(result => result.json())
-                .then(result => { this.setState({ profileData: result.profile, rankClass: rankToCSS(result.profile.rank) }) })
-        }, 500)
+        })
+            .then(result => result.json())
+            .then(result => { this.setState({ profileData: result.profile, rankClass: rankToCSS(result.profile.rank) }) })
+    }
 
+    componentDidMount = async () => {
+        setTimeout(async () => this.getData(), 500)
+    }
+
+    componentDidUpdate(prevProps: ViewProfileProps) {
+        if (!equal(this.props.path, prevProps.path))
+            this.getData()
     }
 
     render() {

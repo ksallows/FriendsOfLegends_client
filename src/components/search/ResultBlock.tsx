@@ -32,7 +32,7 @@ class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {
     topChamps = (): JSX.Element[] => {
         let champs: JSX.Element[] = []
         for (let i = 0; i < this.props.search_result.topChamps.length; i++) {
-            champs.push(<Tooltip withArrow color='orange' label={`${this.props.app_championIdsToName[`n${this.props.search_result.topChamps[i]}`]}.png`}><Avatar key={i} radius='xs' src={`${baseUrl}${this.props.app_patch}/img/champion/${this.props.app_championIdsToName[`n${this.props.search_result.topChamps[i]}`]}.png`} /></Tooltip>)
+            champs.push(<Tooltip withArrow color='orange' label={this.props.app_championIdsToName[`n${this.props.search_result.topChamps[i]}`]}><Avatar key={i} radius='xs' src={`${baseUrl}${this.props.app_patch}/img/champion/${this.props.app_championIdsToName[`n${this.props.search_result.topChamps[i]}`]}.png`} /></Tooltip>)
         }
         return champs;
     }

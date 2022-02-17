@@ -27,3 +27,7 @@ Katie Sallows
 - profiles get rank and top champions from the Riot API, and can be refreshed by the user
 
 - users can comment on other's profiles
+
+- admin users can reset user's passwords via profileId or accountId
+
+- admin users can delete all of a user's comments

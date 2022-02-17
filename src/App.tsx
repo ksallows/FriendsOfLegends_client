@@ -182,6 +182,8 @@ class App extends React.Component<{}, AppValues> {
               />
               <Route path='/p/:profileId' element={
                 <ViewProfile
+                  key={window.location.pathname}
+                  path={window.location.pathname}
                   app_verified={this.state.app_verified}
                   app_profileId={this.state.app_profileId}
                   app_sessionToken={this.state.app_sessionToken}
