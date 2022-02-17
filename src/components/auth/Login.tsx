@@ -55,7 +55,8 @@ class Login extends React.Component<LoginProps, LoginState> {
 
     passwordChange = (event: React.ChangeEvent<HTMLInputElement>) => this.setState({ password: event.target.value })
 
-    loginSubmit = async (event: React.MouseEvent<HTMLElement>) => {
+    loginSubmit = async (event: React.SyntheticEvent) => {
+        event.preventDefault();
         await fetch(`${APIURL}/account/login`, {
             method: 'POST',
             mode: 'cors',
@@ -87,33 +88,35 @@ class Login extends React.Component<LoginProps, LoginState> {
                         <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
                             <Title order={2}>Log In</Title>
                             <Space h='md' />
-                            <TextInput
-                                icon={<FontAwesomeIcon icon={faAt} />}
-                                value={this.state.email}
-                                onChange={this.emailChange}
-                                label='email'
-                                error={this.state.emailError}
-                                type='email'
-                            />
-                            <Space h='md' />
-                            <PasswordInput
-                                icon={<FontAwesomeIcon icon={faLock} />}
-                                value={this.state.password}
-                                onChange={this.passwordChange}
-                                label='password'
-                                error={this.state.passwordError}
-                                type='password'
-                            />
-                            <Space h='md' />
-                            <Center sx={{ textAlign: 'center', mb: 2 }}>
-                                <Button
-                                    color='orange'
-                                    onClick={this.loginSubmit}
-                                    disabled={this.state.email && this.state.password ? false : true}
-                                >
-                                    Submit
-                                </Button>
-                            </Center>
+                            <form onSubmit={this.loginSubmit}>
+                                <TextInput
+                                    icon={<FontAwesomeIcon icon={faAt} />}
+                                    value={this.state.email}
+                                    onChange={this.emailChange}
+                                    label='email'
+                                    error={this.state.emailError}
+                                    type='email'
+                                />
+                                <Space h='md' />
+                                <PasswordInput
+                                    icon={<FontAwesomeIcon icon={faLock} />}
+                                    value={this.state.password}
+                                    onChange={this.passwordChange}
+                                    label='password'
+                                    error={this.state.passwordError}
+
+                                />
+                                <Space h='md' />
+                                <Center sx={{ textAlign: 'center', mb: 2 }}>
+                                    <Button
+                                        color='orange'
+                                        type='submit'
+                                        disabled={this.state.email && this.state.password ? false : true}
+                                    >
+                                        Submit
+                                    </Button>
+                                </Center>
+                            </form>
                             {this.state.notification && <Alert sx={{ marginTop: 20 }} variant='filled' color={this.state.notificationSuccess ? 'green' : 'red'}>{this.state.notification}</Alert>}
                         </Paper>
                     </Grid.Col>

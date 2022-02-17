@@ -18,7 +18,7 @@ type RegisterState = {
     passwordCheckStarted: boolean,
     passwordCheckError: string,
     notification: string,
-    notificationSuccess: boolean
+    notificationSuccess: boolean,
 }
 
 type RegisterProps = {
@@ -52,7 +52,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
             passwordCheckError: '',
 
             notification: '',
-            notificationSuccess: false
+            notificationSuccess: false,
         }
     }
 
@@ -93,7 +93,8 @@ class Register extends React.Component<RegisterProps, RegisterState> {
             })
     }
 
-    registerSubmit = async (event: React.MouseEvent<HTMLElement>) => {
+    registerSubmit = async (event: React.SyntheticEvent) => {
+        event.preventDefault();
         await fetch(`${APIURL}/account/register`, {
             method: 'POST',
             mode: 'cors',
@@ -132,42 +133,45 @@ class Register extends React.Component<RegisterProps, RegisterState> {
                     <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
                         <Title order={2}>Sign Up</Title>
                         <Space h='md' />
-                        <TextInput
-                            icon={<FontAwesomeIcon icon={faAt} />}
-                            value={this.state.email}
-                            onChange={this.emailChange}
-                            label='email'
-                            error={this.state.emailError}
-                            type='email'
-                        />
-                        <Space h='md' />
-                        <PasswordInput
-                            icon={<FontAwesomeIcon icon={faLock} />}
-                            value={this.state.password}
-                            onChange={this.passwordChange}
-                            label='password'
-                            error={this.state.passwordError}
-                            type='password'
-                        />
-                        <Space h='md' />
-                        <PasswordInput
-                            icon={<FontAwesomeIcon icon={faLock} />}
-                            value={this.state.passwordCheck}
-                            onChange={this.passwordCheckChange}
-                            label='re-type password'
-                            error={this.state.passwordCheckError}
-                            type='password'
-                        />
-                        <Space h='md' />
-                        <Center sx={{ textAlign: 'center', mb: 2 }}>
-                            <Button
-                                color='orange'
-                                onClick={this.registerSubmit}
-                                disabled={this.state.emailIsValid && this.state.passwordCheckIsValid && this.state.passwordIsValid ? false : true}
-                            >
-                                Submit
-                            </Button>
-                        </Center>
+                        <form onSubmit={this.registerSubmit}>
+                            <TextInput
+                                icon={<FontAwesomeIcon icon={faAt} />}
+                                value={this.state.email}
+                                onChange={this.emailChange}
+                                label='email'
+                                error={this.state.emailError}
+                                type='email'
+                            />
+                            <Space h='md' />
+                            <PasswordInput
+                                icon={<FontAwesomeIcon icon={faLock} />}
+                                value={this.state.password}
+                                onChange={this.passwordChange}
+                                label='password'
+                                error={this.state.passwordError}
+
+
+                            />
+                            <Space h='md' />
+                            <PasswordInput
+                                icon={<FontAwesomeIcon icon={faLock} />}
+                                value={this.state.passwordCheck}
+                                onChange={this.passwordCheckChange}
+                                label='re-type password'
+                                error={this.state.passwordCheckError}
+
+                            />
+                            <Space h='md' />
+                            <Center sx={{ textAlign: 'center', mb: 2 }}>
+                                <Button
+                                    color='orange'
+                                    type='submit'
+                                    disabled={this.state.emailIsValid && this.state.passwordCheckIsValid && this.state.passwordIsValid ? false : true}
+                                >
+                                    Submit
+                                </Button>
+                            </Center>
+                        </form>
                         {this.state.notification && <Alert sx={{ marginTop: 20 }} variant='filled' color={this.state.notificationSuccess ? 'green' : 'red'}>{this.state.notification}</Alert>}
                     </Paper>
                 </Grid.Col>
