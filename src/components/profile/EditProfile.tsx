@@ -108,17 +108,21 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
                 })
             })
                 .then(result => result.json())
-                .then(result => this.setState({
-                    roles: result.profile.roles,
-                    gameModes: result.profile.gameModes,
-                    rank: result.profile.rank,
-                    summonerIcon: result.profile.summonerIcon,
-                    topChamps: result.profile.topChamps,
-                    level: result.profile.level,
-                    description: result.profile.description,
-                    rankClass: rankToCSS(result.profile.rank),
-                    discord: result.profile.discord
-                }))
+                .then(result => {
+                    if (result.profile !== null) {
+                        this.setState({
+                            roles: result.profile.roles,
+                            gameModes: result.profile.gameModes,
+                            rank: result.profile.rank,
+                            summonerIcon: result.profile.summonerIcon,
+                            topChamps: result.profile.topChamps,
+                            level: result.profile.level,
+                            description: result.profile.description,
+                            rankClass: rankToCSS(result.profile.rank),
+                            discord: result.profile.discord
+                        })
+                    }
+                })
                 .catch(error => console.log(error))
         }
     }
