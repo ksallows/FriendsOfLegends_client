@@ -31,3 +31,13 @@ Katie Sallows
 - admin users can reset user's passwords via profileId or accountId
 
 - admin users can delete all of a user's comments
+
+## Screenshots
+
+![Landing](https://raw.githubusercontent.com/ksallows/FriendsOfLegends_client/main/src/assets/screenshots/1_home.png)
+
+![Search](https://raw.githubusercontent.com/ksallows/FriendsOfLegends_client/main/src/assets/screenshots/2_search.png)
+
+![Edit_Profile](https://raw.githubusercontent.com/ksallows/FriendsOfLegends_client/main/src/assets/screenshots/3_editProfile.png)
+
+![View_Profile](https://github.com/ksallows/FriendsOfLegends_client/blob/main/src/assets/screenshots/3_viewProfile.png)
