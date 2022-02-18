@@ -1,6 +1,6 @@
 import React from 'react';
 import { SegmentedControl, Title, Space, Chips, Chip, MultiSelect, Button, Center, Paper, MediaQuery, Transition } from '@mantine/core';
-import { ChampionListData } from '../../d'
+import { ChampionListData } from '../../d';
 
 interface SearchFormState {
     collapse: boolean
