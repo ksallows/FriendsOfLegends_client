@@ -15,6 +15,7 @@ interface ViewCommentProps {
     app_profileId: string | null,
     app_admin: boolean,
     app_verified: boolean,
+    setPath: (path: string) => void
 }
 
 class ViewComment extends React.Component<ViewCommentProps, ViewCommentState> {
@@ -57,7 +58,7 @@ class ViewComment extends React.Component<ViewCommentProps, ViewCommentState> {
                         <>
                             {index === 0 ? <Space h='xl'></Space> : ''}
                             <CommentBlock
-                                key={index}
+                                key={`comment-${index}`}
                                 loadComments={this.loadComments}
                                 body={this.state.comments![index].body}
                                 fromSummonerName={this.state.comments![index].fromSummonerName}
@@ -66,6 +67,7 @@ class ViewComment extends React.Component<ViewCommentProps, ViewCommentState> {
                                 app_sessionToken={this.props.app_sessionToken}
                                 app_profileId={this.props.app_profileId}
                                 app_admin={this.props.app_admin}
+                                setPath={this.props.setPath}
                             />
                             <Space h='xl'></Space>
                         </>

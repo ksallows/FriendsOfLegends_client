@@ -20,7 +20,8 @@ interface CommentBlockProps {
     commentId: string,
     app_sessionToken: string | null,
     app_profileId: string | null,
-    app_admin: boolean
+    app_admin: boolean,
+    setPath: (path: string) => void
 }
 
 class CommentBlock extends React.Component<CommentBlockProps, CommentBlockState> {
@@ -70,7 +71,8 @@ class CommentBlock extends React.Component<CommentBlockProps, CommentBlockState>
         return (
             <Paper sx={{ backgroundColor: '#222326' }} padding='md' shadow='sm' withBorder>
                 <Group position='apart'>
-                    <Title order={5}><Link className='white' to={`/p/${this.props.fromProfileId}`}>{this.props.fromSummonerName}</Link></Title>
+                    <Button component={Link} to={`/p/${this.props.fromProfileId}`} variant='subtle' color='gray' size='md' onClick={() => this.props.setPath(this.props.fromProfileId)}>{this.props.fromSummonerName}</Button>
+
                     {this.props.app_admin || this.props.app_profileId === this.props.fromProfileId ?
                         <Group >
                             <DeleteComment app_profileId={this.props.app_profileId} app_sessionToken={this.props.app_sessionToken} loadComments={this.props.loadComments} commentId={this.props.commentId} />

@@ -21,13 +21,13 @@ interface ViewProfileProps {
     app_profileId: string | null,
     app_admin: boolean,
     app_verified: boolean,
-    path: string
 }
 
 interface ViewProfileState {
     profileId: string | undefined,
     profileData: Data | undefined,
-    rankClass: string | undefined
+    rankClass: string | undefined,
+    path: string
 }
 
 interface Data {
@@ -52,9 +52,12 @@ class ViewProfile extends React.Component<ViewProfileProps, ViewProfileState> {
         this.state = {
             profileId: window.location.pathname.slice(-36),
             profileData: undefined,
-            rankClass: undefined
+            rankClass: undefined,
+            path: window.location.pathname.slice(-36)
         }
     }
+
+    setPath = (path: string): void => this.setState({ path: path })
 
     topChamps = (): JSX.Element[] | false => {
         let champs: JSX.Element[] = []
@@ -97,24 +100,27 @@ class ViewProfile extends React.Component<ViewProfileProps, ViewProfileState> {
     }
 
     getData = async () => {
-        await fetch(`${APIURL}/profile/p/${this.state.profileId}`, {
-            method: 'GET',
-            mode: 'cors',
-            headers: new Headers({
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.props.app_sessionToken}`
+        this.setState({ profileId: window.location.pathname.slice(-36) }, async () => {
+            await fetch(`${APIURL}/profile/p/${this.state.profileId}`, {
+                method: 'GET',
+                mode: 'cors',
+                headers: new Headers({
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${this.props.app_sessionToken}`
+                })
             })
+                .then(result => result.json())
+                .then(result => { this.setState({ profileData: result.profile, rankClass: rankToCSS(result.profile.rank) }) })
         })
-            .then(result => result.json())
-            .then(result => { this.setState({ profileData: result.profile, rankClass: rankToCSS(result.profile.rank) }) })
+
     }
 
     componentDidMount = async () => {
         setTimeout(async () => this.getData(), 500)
     }
 
-    componentDidUpdate(prevProps: ViewProfileProps) {
-        if (!equal(this.props.path, prevProps.path))
+    componentDidUpdate(prevProps: any, prevState: any) {
+        if (this.state.path !== prevState.path)
             this.getData()
     }
 
@@ -126,6 +132,7 @@ class ViewProfile extends React.Component<ViewProfileProps, ViewProfileState> {
                         <Group position='apart'>
                             <Group>
                                 <Rating
+                                    key={this.state.profileId}
                                     app_sessionToken={this.props.app_sessionToken}
                                     profileId={this.state.profileId}
                                 />
@@ -182,7 +189,15 @@ class ViewProfile extends React.Component<ViewProfileProps, ViewProfileState> {
                     <Space h='xl' />
                     <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
                         <Title order={4}>Comments</Title>
-                        <ViewComment app_verified={this.props.app_verified} app_admin={this.props.app_admin} app_profileId={this.props.app_profileId} profileId={this.state.profileId} app_sessionToken={this.props.app_sessionToken} />
+                        <ViewComment
+                            key={this.state.profileId}
+                            app_verified={this.props.app_verified}
+                            app_admin={this.props.app_admin}
+                            app_profileId={this.props.app_profileId}
+                            profileId={this.state.profileId}
+                            app_sessionToken={this.props.app_sessionToken}
+                            setPath={this.setPath}
+                        />
                     </Paper>
                 </Grid.Col>
             </Grid>
