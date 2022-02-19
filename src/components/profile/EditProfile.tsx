@@ -81,11 +81,9 @@ class EditProfile extends React.Component<EditProfileProps, EditProfileState> {
             })
         })
             .then(result => {
-                console.log('json triggered')
                 return result.json()
             })
             .then(result => {
-                console.log('set state triggered')
                 this.setState({
                     rank: result.rank,
                     topChamps: result.topChamps,

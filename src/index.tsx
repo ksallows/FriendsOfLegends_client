@@ -7,7 +7,7 @@ import { MantineProvider } from '@mantine/core'
 
 ReactDOM.render(
   <React.StrictMode>
-    <MantineProvider theme={{ colorScheme: 'dark' }} withGlobalStyles>
+    <MantineProvider theme={{ colorScheme: 'dark', fontFamily: 'Roboto' }} withGlobalStyles>
       <App />
     </MantineProvider>
 

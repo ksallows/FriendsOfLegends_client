@@ -171,15 +171,15 @@ class ViewProfile extends React.Component<ViewProfileProps, ViewProfileState> {
                     <Paper sx={{ backgroundColor: '#1f2023' }} padding='md' shadow='sm' withBorder>
                         <SimpleGrid cols={3}>
                             <Group direction='column'>
-                                <Title order={4}>TOP CHAMPS</Title>
+                                <Title order={4}>Top Champs</Title>
                                 <Group>{this.topChamps()}</Group>
                             </Group>
                             <Group direction='column'>
-                                <Title order={4}>ROLES</Title>
+                                <Title order={4}>Roles</Title>
                                 <Group>{this.roles()}</Group>
                             </Group>
                             <Group direction='column'>
-                                <Title order={4}>GAME MODES</Title>
+                                <Title order={4}>Game Modes</Title>
                                 <Group>
                                     {this.gameModes()}
                                 </Group>

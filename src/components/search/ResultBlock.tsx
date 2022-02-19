@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper, Title, Space, Avatar, Group, Badge, SimpleGrid, Tooltip } from '@mantine/core';
+import { Paper, Title, Space, Avatar, Group, Badge, SimpleGrid, Tooltip, Button } from '@mantine/core';
 import { Result, ChampionIdData, baseUrl, rankToCSS } from '../../d'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMicrophone, faMicrophoneSlash } from '@fortawesome/free-solid-svg-icons'
@@ -78,7 +78,9 @@ class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {
                         radius='xl'
                         src={`${baseUrl}${this.props.app_patch}/img/profileicon/${this.props.search_result.summonerIcon}.png`} alt='its me'
                     />
-                    <Title order={3}><Link className='white' to={`/p/${this.props.search_result.profileId}`}>{this.props.search_result.summonerName}</Link></Title>
+
+                    <Tooltip withArrow color='orange' label='go to profile'><Button compact component={Link} to={`/p/${this.props.search_result.profileId}`} variant='light' color='orange' size='lg'>{this.props.search_result.summonerName}</Button></Tooltip>
+
                     <Badge variant='filled' className={`${this.state.rankClass}`}>{this.props.search_result.rank}</Badge>
                     {this.props.search_result.voiceComm === null ? '' :
                         this.props.search_result.voiceComm === true ? <Tooltip withArrow color='orange' label='wants to voice chat'><FontAwesomeIcon size='lg' icon={faMicrophone} color="green" /></Tooltip> :
@@ -88,15 +90,15 @@ class ResultBlock extends React.Component<ResultBlockProps, ResultBlockState> {
                 <Space h='xl' />
                 <SimpleGrid cols={3}>
                     <Group direction='column'>
-                        <Title order={4}>TOP CHAMPS</Title>
+                        <Title order={4}>Top Champs</Title>
                         <Group>{this.topChamps()}</Group>
                     </Group>
                     <Group direction='column'>
-                        <Title order={4}>ROLES</Title>
+                        <Title order={4}>Roles</Title>
                         <Group>{this.roles()}</Group>
                     </Group>
                     <Group direction='column'>
-                        <Title order={4}>GAME MODES</Title>
+                        <Title order={4}>Game Modes</Title>
                         <Group>
                             {this.gameModes()}
                         </Group>
