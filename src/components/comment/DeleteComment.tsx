@@ -15,7 +15,7 @@ class DeleteComment extends React.Component<DeleteCommentProps, {}> {
 
     deleteComment = async () => {
         await fetch(`${APIURL}/comment/delete`, {
-            method: 'POST',
+            method: 'DELETE',
             mode: 'cors',
             headers: new Headers({
                 'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ class DeleteComment extends React.Component<DeleteCommentProps, {}> {
 
     render() {
         return (
-            <ActionIcon variant='filled' color='red'><FontAwesomeIcon icon={faTrash} /></ActionIcon>
+            <ActionIcon onClick={this.deleteComment} variant='filled' color='red'><FontAwesomeIcon icon={faTrash} /></ActionIcon>
         )
     }
 }
