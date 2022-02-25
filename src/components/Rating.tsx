@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import APIURL from '../helpers/environment'
 import { Group, ActionIcon, Text } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -9,80 +9,66 @@ interface RatingProps {
     profileId: string | undefined,
 }
 
-interface RatingState {
-    upvote?: boolean,
-    downvote?: boolean,
-    rating?: number,
-    currentFunction: string
-}
+const Rating = ({ app_sessionToken, profileId }: RatingProps) => {
+    const [upvote, setUpvote] = useState(false);
+    const [downvote, setDownvote] = useState(false);
+    const [rating, setRating] = useState(0);
+    const [currentFunction, setCurrentFunction] = useState('');
 
-class Rating extends React.Component<RatingProps, RatingState> {
-    constructor(props: RatingProps) {
-        super(props);
-        this.state = {
-            upvote: false,
-            downvote: false,
-            rating: 0,
-            currentFunction: ''
-        }
-    }
-
-    getRating = async () => {
-        await fetch(`${APIURL}/rating/ratings/${this.props.profileId}`, {
+    const getRating = async () => {
+        await fetch(`${APIURL}/rating/ratings/${profileId}`, {
             method: 'GET',
             mode: 'cors',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.props.app_sessionToken}`
+                'Authorization': `Bearer ${app_sessionToken}`
             })
         })
             .then(result => result.json())
-            .then(result => this.setState({
-                upvote: result.upvote,
-                downvote: result.downvote,
-                rating: result.rating
-            }))
+            .then(result => {
+                setRating(result.rating);
+                setUpvote(result.upvote);
+                setDownvote(result.downvote);
+            })
     }
 
-    sendRating = async () => {
+    const sendRating = async () => {
         await fetch(`${APIURL}/rating/rate`, {
             method: 'PUT',
             mode: 'cors',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.props.app_sessionToken}`
+                'Authorization': `Bearer ${app_sessionToken}`
             }),
             body: JSON.stringify({
-                rating: this.state.currentFunction,
-                forProfileId: this.props.profileId
+                rating: currentFunction,
+                forProfileId: profileId
             })
         })
-            .then(this.getRating)
+            .then(getRating)
     }
 
-    componentDidMount = () => {
-        setTimeout(this.getRating, 500)
+    const componentDidMount = () => {
+        setTimeout(getRating, 500)
     }
 
-    render() {
-        return (
-            <Group spacing='xs' position='center' direction='column'>
-                {this.props.app_sessionToken ? <ActionIcon variant='light' color={this.state.upvote ? 'orange' : 'gray'} size='xs' onClick={() => {
-                    this.setState({ currentFunction: 'upvote' }, this.sendRating)
-                }}>
-                    <FontAwesomeIcon icon={faArrowUp} />
-                </ActionIcon> : ''}
-                <Text align='center'>
-                    {this.state.rating}
-                </Text>
-                {this.props.app_sessionToken ? <ActionIcon variant='light' color={this.state.downvote ? 'orange' : 'gray'} size='xs' onClick={() => {
-                    this.setState({ currentFunction: 'downvote' }, this.sendRating)
-                }}>
-                    <FontAwesomeIcon icon={faArrowDown} />
-                </ActionIcon> : ''}
-            </Group>
-        )
-    }
+    return (
+        <Group spacing='xs' position='center' direction='column'>
+            {app_sessionToken ? <ActionIcon variant='light' color={upvote ? 'orange' : 'gray'} size='xs' onClick={() => {
+                setCurrentFunction('upvote'), sendRating
+            }}>
+                <FontAwesomeIcon icon={faArrowUp} />
+            </ActionIcon> : ''}
+            <Text align='center'>
+                {rating}
+            </Text>
+            {app_sessionToken ? <ActionIcon variant='light' color={downvote ? 'orange' : 'gray'} size='xs' onClick={() => {
+                setCurrentFunction('downvote'), sendRating
+            }}>
+                <FontAwesomeIcon icon={faArrowDown} />
+            </ActionIcon> : ''}
+        </Group>
+    )
 }
 
 export default Rating;
