@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import APIURL from '../helpers/environment'
 import { Group, ActionIcon, Text } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -48,14 +48,22 @@ const Rating = ({ app_sessionToken, profileId }: RatingProps) => {
             .then(getRating)
     }
 
-    const componentDidMount = () => {
-        setTimeout(getRating, 500)
-    }
+    useEffect(() => {
+        if (currentFunction !== '') {
+            sendRating();
+            setCurrentFunction('');
+        }
+    }, [currentFunction])
+
+    useEffect(() => {
+        if (profileId !== undefined && app_sessionToken !== null)
+            setTimeout(getRating, 200);
+    }, [app_sessionToken, profileId, currentFunction])
 
     return (
         <Group spacing='xs' position='center' direction='column'>
             {app_sessionToken ? <ActionIcon variant='light' color={upvote ? 'orange' : 'gray'} size='xs' onClick={() => {
-                setCurrentFunction('upvote'), sendRating
+                setCurrentFunction('upvote');
             }}>
                 <FontAwesomeIcon icon={faArrowUp} />
             </ActionIcon> : ''}
@@ -63,7 +71,7 @@ const Rating = ({ app_sessionToken, profileId }: RatingProps) => {
                 {rating}
             </Text>
             {app_sessionToken ? <ActionIcon variant='light' color={downvote ? 'orange' : 'gray'} size='xs' onClick={() => {
-                setCurrentFunction('downvote'), sendRating
+                setCurrentFunction('downvote');
             }}>
                 <FontAwesomeIcon icon={faArrowDown} />
             </ActionIcon> : ''}
