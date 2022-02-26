@@ -144,7 +144,7 @@ class App extends React.Component<{}, AppValues> {
               this.setState({ app_championValues: champData, app_championIdsToName: champIds })
             })
         }
-      }, 1000)
+      }, 500)
     }
   }
 
